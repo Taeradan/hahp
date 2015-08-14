@@ -9,11 +9,15 @@ rootName = "Super objectif"
 rootPrefMatrix :: Matrix Double
 rootPrefMatrix = fromLists [  [1.0, 1.0] , [1.0, 1.0] ]
 
-rootLeafs :: [AHPLeave]
-rootLeafs = [ AHPLeave ( "Indicateur 1", True  ), AHPLeave ( "Indicateur 2", False ) ]
+leave1 :: AHPNode
+leave1 = AHPLeave "Indicateur 1" True
 
-sampleAHPConfig = AHPTree ( rootName
-                          , rootPrefMatrix
-                          , rootLeafs
-                          )
+leave2 :: AHPNode
+leave2 = AHPLeave "Indicateur 2" False
+
+rootNodes :: AHPNodes
+rootNodes = [ leave1, leave2 ]
+
+sampleAHPConfig :: AHPNode
+sampleAHPConfig = AHPTree rootName rootPrefMatrix rootNodes
 
