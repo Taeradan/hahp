@@ -12,7 +12,7 @@ type PreferenceMatrix = Matrix Double
 type PriorityVector = Vector Double
 
 data AHPNode = AHPTree { name :: String
-                       , preferenceMatrix :: Matrix Double
+                       , preferenceMatrix :: PreferenceMatrix
                        , children :: AHPNodes
                        }
              | AHPLeave { name :: String

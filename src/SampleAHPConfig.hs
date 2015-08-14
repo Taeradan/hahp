@@ -6,7 +6,7 @@ import Data.Matrix
 rootName :: String
 rootName = "Super objectif"
 
-rootPrefMatrix :: Matrix Double
+rootPrefMatrix :: PreferenceMatrix
 rootPrefMatrix = fromLists [  [1.0, 1.0] , [1.0, 1.0] ]
 
 leave1 :: AHPNode
