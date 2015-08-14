@@ -1,5 +1,6 @@
 module Main where
 
+import Configuration
 import SampleAHPConfig
 
 main = do
@@ -11,9 +12,16 @@ main = do
     print valeursRI
     putStrLn "Exemple de configuration :"
     print sampleAHPConfig
+    putStrLn "La configuration est elle valide ?"
+    if (isAHPNodeValid sampleAHPConfig)
+        then putStrLn "configuration correcte"
+        else putStrLn "configuration invalide"
     putStrLn "|"
     putStrLn "|-"
     putStrLn "--- Fin"
+
+isAHPNodeValid :: AHPNode -> Bool
+isAHPNodeValid ahpNode = False
 
 -- |Random Index estimation function taken from : 
 -- "Consistency in the AHP : A new approach"
