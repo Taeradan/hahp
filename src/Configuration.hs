@@ -1,4 +1,7 @@
-module Configuration where
+module Configuration
+    (
+        AHPNode
+    ) where
 
 import Data.Matrix
 
