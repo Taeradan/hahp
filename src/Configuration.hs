@@ -1,7 +1,7 @@
 module Configuration where
 
-import Data.Matrix
-import Data.Vector
+import Data.Packed.Matrix
+import Data.Packed.Vector
 
 type AHPConfiguration = AHPNode
 

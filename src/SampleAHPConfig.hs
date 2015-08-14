@@ -1,7 +1,7 @@
 module SampleAHPConfig where
     
 import Configuration
-import Data.Matrix
+import Data.Packed.Matrix
 
 rootName :: String
 rootName = "Super objectif"
