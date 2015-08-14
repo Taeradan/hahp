@@ -18,6 +18,13 @@ main = do
         then putStrLn "configuration correcte"
         else putStrLn "configuration invalide"
     putStrLn "|"
+    putStrLn "Exemple de configuration Cortex :"
+    print sampleAHPConfig2
+    putStrLn "La configuration est elle valide ?"
+    if (isAHPConfigurationValid sampleAHPConfig2)
+        then putStrLn "configuration correcte"
+        else putStrLn "configuration invalide"
+    putStrLn "|"
     putStrLn "|-"
     putStrLn "--- Fin"
 

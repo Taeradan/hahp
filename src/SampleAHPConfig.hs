@@ -24,7 +24,7 @@ sampleAHPConfig = AHPTree rootName rootPrefMatrix rootNodes
 
 sampleAHPConfig2 :: AHPConfiguration
 sampleAHPConfig2 = AHPTree
-                        "Devenir le maître du monde, Minus & Cortex"
+                        "Devenir le maitre du monde, Minus & Cortex"
                         ( fromLists [ [ 1.00, 3.00, 5.00 ],
                                       [ 0.33, 1.00, 9.00 ],
                                       [ 0.11, 0.20, 1.00 ]
