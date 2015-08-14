@@ -28,4 +28,7 @@ isAHPNodeValid ahpNode = False
 -- José Antonio ALONSO and Teresa LAMATA,
 -- IJUFKBS 2006
 randomIndex :: Double -> Double
-randomIndex matrixSize = ((0.00149) * (matrixSize^3)) + ((-0.05121) * (matrixSize^2)) + (0.59150 * matrixSize) - 0.79124
+randomIndex matrixSize = ((  0.00149) * (matrixSize^3))
+                        + (- 0.05121) * (matrixSize^2)
+                        + (  0.59150  * (matrixSize))
+                        + (- 0.79124)
