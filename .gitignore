@@ -16,4 +16,5 @@ cabal.sandbox.config
 *.hp
 
 *~
+*.swo
 *.swp
