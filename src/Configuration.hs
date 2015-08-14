@@ -21,3 +21,9 @@ data AHPNode = AHPTree { name :: String
              | AHPNode
              deriving (Show)
 
+isAHPConfigurationValid :: AHPConfiguration -> Bool
+isAHPConfigurationValid = isAHPNodeValid
+
+isAHPNodeValid :: AHPNode -> Bool
+isAHPNodeValid ahpNode = False
+
