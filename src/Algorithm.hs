@@ -1,6 +1,8 @@
 module Algorithm where
 
 import Configuration
+import Numeric.LinearAlgebra.Algorithms
+
 
 -- |Random Index estimation function taken from : 
 -- "Consistency in the AHP : A new approach"
@@ -11,4 +13,6 @@ randomIndex matrixSize = ((  0.00149) * (matrixSize^3))
                         + (- 0.05121) * (matrixSize^2)
                         + (  0.59150  * (matrixSize))
                         + (- 0.79124)
+
+
 
