@@ -11,17 +11,18 @@ main = do
     putStrLn "Valeurs de Random Index selon Alonso & Lamata 2006 :"
     let valeursRI = map randomIndex [1..15]
     print valeursRI
+    putStrLn ""
     putStrLn "Exemple de configuration :"
     print sampleAHPConfig
     putStrLn "La configuration est elle valide ?"
-    if (isAHPConfigurationValid sampleAHPConfig)
+    if isAHPTreeValid sampleAHPConfig
         then putStrLn "configuration correcte"
         else putStrLn "configuration invalide"
     putStrLn "|"
     putStrLn "Exemple de configuration Cortex :"
     print sampleAHPConfig2
     putStrLn "La configuration est elle valide ?"
-    if (isAHPConfigurationValid sampleAHPConfig2)
+    if isAHPTreeValid sampleAHPConfig2
         then putStrLn "configuration correcte"
         else putStrLn "configuration invalide"
     putStrLn "|"

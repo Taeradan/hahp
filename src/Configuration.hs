@@ -1,7 +1,6 @@
 module Configuration where
 
-import Data.Packed.Matrix
-import Data.Packed.Vector
+import Numeric.LinearAlgebra.HMatrix
 
 data AHPTree = AHPTree { name :: String
                        , preferenceMatrix :: PreferenceMatrix
@@ -16,10 +15,3 @@ data AHPTree = AHPTree { name :: String
 type PreferenceMatrix = Matrix Double
 
 type PriorityVector = Vector Double
-
-isAHPConfigurationValid :: AHPTree -> Bool
-isAHPConfigurationValid = isAHPTreeValid
-
-isAHPTreeValid :: AHPTree -> Bool
-isAHPTreeValid ahpNode = False
-

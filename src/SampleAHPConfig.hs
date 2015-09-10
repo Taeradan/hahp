@@ -1,5 +1,5 @@
 module SampleAHPConfig where
-    
+
 import Configuration
 import Data.Packed.Matrix
 
@@ -31,11 +31,8 @@ sampleAHPConfig2 = AHPTree
                                     ]
                         )
                         Nothing
-                        (
-                            [
-                                AHPLeave "Puissance" True
-                                , AHPLeave "Carisme" True
-                                , AHPLeave "Capital" True
-                            ]
-                        )
-
+                        [
+                            AHPLeave "Puissance" True
+                            , AHPLeave "Carisme" True
+                            , AHPLeave "Capital" True
+                        ]
