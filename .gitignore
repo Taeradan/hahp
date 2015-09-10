@@ -18,3 +18,5 @@ cabal.sandbox.config
 *~
 *.swo
 *.swp
+
+SourceGraph
