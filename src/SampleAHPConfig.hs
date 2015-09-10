@@ -9,20 +9,20 @@ rootName = "Super objectif"
 rootPrefMatrix :: PreferenceMatrix
 rootPrefMatrix = fromLists [  [1.0, 1.0] , [1.0, 1.0] ]
 
-leave1 :: AHPNode
+leave1 :: AHPTree
 leave1 = AHPLeave "Indicateur 1" True
 
-leave2 :: AHPNode
+leave2 :: AHPTree
 leave2 = AHPLeave "Indicateur 2" False
 
-rootNodes :: AHPNodes
+rootNodes :: [AHPTree]
 rootNodes = [ leave1, leave2 ]
 
-sampleAHPConfig :: AHPNode
-sampleAHPConfig = AHPTree rootName rootPrefMatrix rootNodes
+sampleAHPConfig :: AHPTree
+sampleAHPConfig = AHPTree rootName rootPrefMatrix Nothing rootNodes
 
 
-sampleAHPConfig2 :: AHPConfiguration
+sampleAHPConfig2 :: AHPTree
 sampleAHPConfig2 = AHPTree
                         "Devenir le maitre du monde, Minus & Cortex"
                         ( fromLists [ [ 1.00, 3.00, 5.00 ],
@@ -30,6 +30,7 @@ sampleAHPConfig2 = AHPTree
                                       [ 0.11, 0.20, 1.00 ]
                                     ]
                         )
+                        Nothing
                         (
                             [
                                 AHPLeave "Puissance" True

@@ -3,27 +3,23 @@ module Configuration where
 import Data.Packed.Matrix
 import Data.Packed.Vector
 
-type AHPConfiguration = AHPNode
-
-type AHPNodes = [AHPNode]
+data AHPTree = AHPTree { name :: String
+                       , preferenceMatrix :: PreferenceMatrix
+                       , priorityVector :: Maybe PriorityVector
+                       , children :: [AHPTree]
+                       }
+             | AHPLeave { name :: String
+                        , maximize :: Bool
+                        }
+             deriving (Show)
 
 type PreferenceMatrix = Matrix Double
 
 type PriorityVector = Vector Double
 
-data AHPNode = AHPTree { name :: String
-                       , preferenceMatrix :: PreferenceMatrix
-                       , children :: AHPNodes
-                       }
-             | AHPLeave { name :: String
-                        , maximize :: Bool
-                        }
-             | AHPNode
-             deriving (Show)
+isAHPConfigurationValid :: AHPTree -> Bool
+isAHPConfigurationValid = isAHPTreeValid
 
-isAHPConfigurationValid :: AHPConfiguration -> Bool
-isAHPConfigurationValid = isAHPNodeValid
-
-isAHPNodeValid :: AHPNode -> Bool
-isAHPNodeValid ahpNode = False
+isAHPTreeValid :: AHPTree -> Bool
+isAHPTreeValid ahpNode = False
 
