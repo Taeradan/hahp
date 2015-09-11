@@ -3,12 +3,18 @@ module Main where
 import Algorithm
 import Configuration
 import SampleAHPConfig
+import Data.Time
+import System.Environment
+
 
 main = do
-    putStrLn "---"
-    putStrLn "|- Début du programme"
-    putStrLn "|"
-    putStrLn "Valeurs de Random Index selon Alonso & Lamata 2006 :"
+    time <- getCurrentTime
+    putStrLn "% Test de la librairie HAHP"
+    putStrLn "% JP P, Y D"
+    putStrLn $ "% " ++ showGregorian(utctDay time)
+    putStrLn ""
+    putStrLn "* Valeurs de Random Index selon Alonso & Lamata 2006"
+    putStrLn ""
     let valeursRI = map randomIndex [1..15]
     print valeursRI
     putStrLn ""
