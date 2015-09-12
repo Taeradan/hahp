@@ -13,25 +13,28 @@ main = do
     putStrLn "% JP P, Y D"
     putStrLn $ "% " ++ showGregorian(utctDay time)
     putStrLn ""
-    putStrLn "* Valeurs de Random Index selon Alonso & Lamata 2006"
+    putStrLn "# Valeurs de Random Index selon Alonso & Lamata 2006"
     putStrLn ""
     let valeursRI = map randomIndex [1..15]
     print valeursRI
     putStrLn ""
-    putStrLn "Exemple de configuration :"
-    print sampleAHPConfig
-    putStrLn "La configuration est elle valide ?"
-    if isAHPTreeValid sampleAHPConfig
-        then putStrLn "configuration correcte"
-        else putStrLn "configuration invalide"
-    putStrLn "|"
-    putStrLn "Exemple de configuration Cortex :"
-    print sampleAHPConfig2
-    putStrLn "La configuration est elle valide ?"
-    if isAHPTreeValid sampleAHPConfig2
-        then putStrLn "configuration correcte"
-        else putStrLn "configuration invalide"
-    putStrLn "|"
-    putStrLn "|-"
-    putStrLn "--- Fin"
+    printConfigurationSummary sampleAHPConfig
+    printConfigurationSummary sampleAHPConfig2
 
+printConfigurationSummary :: AHPTree -> IO ()
+printConfigurationSummary ahpTree = do
+    putStrLn "# Exemple de configuration"
+    putStrLn ""
+    putStrLn "## Aperçu de la configuration"
+    putStrLn ""
+    putStrLn "\\begin{verbatim}"
+    print ahpTree
+    putStrLn "\\end{verbatim}"
+    putStrLn ""
+    putStrLn "## La configuration est elle valide ?"
+    putStrLn ""
+    putStrLn $ "critère de cohérence = " ++ show (matrixConsistency (preferenceMatrix ahpTree))
+    if isAHPTreeValid ahpTree
+        then putStrLn "configuration correcte"
+        else putStrLn "configuration invalide"
+    putStrLn ""
