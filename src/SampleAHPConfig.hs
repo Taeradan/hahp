@@ -9,14 +9,14 @@ rootName = "Super objectif"
 rootPrefMatrix :: PreferenceMatrix
 rootPrefMatrix = fromLists [  [1.0, 1.0] , [1.0, 1.0] ]
 
-leave1 :: AHPTree
-leave1 = AHPLeave "Indicateur 1" True
+leaf1 :: AHPTree
+leaf1 = AHPLeaf "Indicateur 1" True
 
-leave2 :: AHPTree
-leave2 = AHPLeave "Indicateur 2" False
+leaf2 :: AHPTree
+leaf2 = AHPLeaf "Indicateur 2" False
 
 rootNodes :: [AHPTree]
-rootNodes = [ leave1, leave2 ]
+rootNodes = [ leaf1, leaf2 ]
 
 sampleAHPConfig :: AHPTree
 sampleAHPConfig = AHPTree rootName rootPrefMatrix Nothing rootNodes
@@ -32,7 +32,7 @@ sampleAHPConfig2 = AHPTree
                         )
                         Nothing
                         [
-                            AHPLeave "Puissance" True
-                            , AHPLeave "Carisme" True
-                            , AHPLeave "Capital" True
+                            AHPLeaf "Puissance" True
+                            , AHPLeaf "Carisme" True
+                            , AHPLeaf "Capital" True
                         ]

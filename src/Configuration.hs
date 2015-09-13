@@ -7,7 +7,7 @@ data AHPTree = AHPTree { name :: String
                        , priorityVector :: Maybe PriorityVector
                        , children :: [AHPTree]
                        }
-             | AHPLeave { name :: String
+             | AHPLeaf { name :: String
                         , maximize :: Bool
                         }
              deriving (Show)
