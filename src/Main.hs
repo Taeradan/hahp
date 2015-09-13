@@ -27,9 +27,7 @@ printConfigurationSummary ahpTree = do
     putStrLn ""
     putStrLn "## Aperçu de la configuration"
     putStrLn ""
-    putStrLn "\\begin{verbatim}"
-    print ahpTree
-    putStrLn "\\end{verbatim}"
+    putStrLn $ showAhpTree ahpTree
     putStrLn ""
     putStrLn "## La configuration est elle valide ?"
     putStrLn ""
