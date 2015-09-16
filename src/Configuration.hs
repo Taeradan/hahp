@@ -23,19 +23,20 @@ showAhpTree = showAhpSubTree 0
 
 showAhpSubTree :: Int -> AHPTree -> String
 showAhpSubTree level (AHPTree name prefMatrix prioVector children) =
-    intercalate (variableTabs  level)
-    [ ""
-    , "* Tree : " ++ name ++ "\n"
-    , show prefMatrix ++ "\n"
+    concat
+    [ tabs ++ "* Tree : " ++ name ++ "\n"
+    , showMatrix level prefMatrix ++ "\n"
     , maybe "" show prioVector ++ "\n"
     , concatMap (showAhpSubTree (level + 1)) children
     ]
+        where tabs = variableTabs level
 showAhpSubTree level (AHPLeaf name maximize) =
-    intercalate (variableTabs level)
-    [ ""
-    , "* Leaf : " ++ name ++ "\n"
-    , (if maximize then "maximize" else "minimize") ++ "\n"
+    concat
+    [ tabs ++ "* Leaf : " ++ name ++ "\n"
+    , tabs ++ "  " ++ (if maximize then "maximize" else "minimize") ++ "\n"
     ]
+        where tabs = variableTabs level
+
 
 variableTabs :: Int -> String
 variableTabs level = replicate level '\t'
