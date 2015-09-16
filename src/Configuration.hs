@@ -2,6 +2,7 @@ module Configuration where
 
 import Data.List
 import Numeric.LinearAlgebra.HMatrix
+import Text.Printf
 
 data AHPTree = AHPTree { name :: String
                        , preferenceMatrix :: PreferenceMatrix
@@ -38,3 +39,10 @@ showAhpSubTree level (AHPLeaf name maximize) =
 
 variableTabs :: Int -> String
 variableTabs level = replicate level '\t'
+
+showMatrix :: Int -> PreferenceMatrix -> String
+showMatrix level matrix = concatMap showMatrixLine lists
+    where lists = toLists matrix
+          showMatrixLine line = variableTabs level ++ "  | " ++
+                                concatMap (\x -> printf "%.2f" x ++ " ") line ++
+                                "|\n"
