@@ -26,7 +26,7 @@ showAhpSubTree level (AHPTree name prefMatrix prioVector children) =
     concat
     [ tabs ++ "* Tree : " ++ name ++ "\n"
     , showMatrix level prefMatrix ++ "\n"
-    , maybe "" show prioVector ++ "\n"
+    , maybe "" (\ x -> show x ++ "\n") prioVector
     , concatMap (showAhpSubTree (level + 1)) children
     ]
         where tabs = variableTabs level
