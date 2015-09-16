@@ -33,6 +33,6 @@ printConfigurationSummary ahpTree = do
     putStrLn ""
     putStrLn $ "critère de cohérence = " ++ show (matrixConsistency (preferenceMatrix ahpTree))
     if isAHPTreeValid ahpTree
-        then putStrLn "configuration correcte"
-        else putStrLn "configuration invalide"
+        then putStrLn "-> configuration correcte"
+        else putStrLn "-> configuration invalide"
     putStrLn ""
