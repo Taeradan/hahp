@@ -31,8 +31,15 @@ sampleAHPConfig2 = AHPTree
                                     ]
                         )
                         Nothing
-                        [
-                            AHPLeaf "Puissance" True
-                            , AHPLeaf "Carisme" True
-                            , AHPLeaf "Capital" True
+                        [ AHPLeaf "Puissance" True
+                        , AHPTree
+                            "Carisme"
+                            ( (2><2) [ 1.0, 2
+                                     , 0.5, 1.0 ]
+                            )
+                            Nothing
+                            [ AHPLeaf "Timidité" False
+                            , AHPLeaf "Tenue" True
+                            ]
+                        , AHPLeaf "Capital" True
                         ]
