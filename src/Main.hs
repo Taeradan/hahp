@@ -23,7 +23,7 @@ main = do
 
 printConfigurationSummary :: AHPTree -> IO ()
 printConfigurationSummary ahpTree = do
-    putStrLn "# Exemple de configuration"
+    putStrLn $ "# Configuration \"" ++ (name ahpTree) ++ "\""
     putStrLn ""
     putStrLn "## Aperçu de la configuration"
     putStrLn ""
