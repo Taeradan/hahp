@@ -23,7 +23,7 @@ main = do
 
 printConfigurationSummary :: AHPTree -> IO ()
 printConfigurationSummary ahpTree = do
-    putStrLn "# Exemple de configuration"
+    putStrLn $ "# Configuration \"" ++ (name ahpTree) ++ "\""
     putStrLn ""
     putStrLn "## Aperçu de la configuration"
     putStrLn ""
@@ -33,6 +33,6 @@ printConfigurationSummary ahpTree = do
     putStrLn ""
     putStrLn $ "critère de cohérence = " ++ show (matrixConsistency (preferenceMatrix ahpTree))
     if isAHPTreeValid ahpTree
-        then putStrLn "configuration correcte"
-        else putStrLn "configuration invalide"
+        then putStrLn "-> configuration correcte"
+        else putStrLn "-> configuration invalide"
     putStrLn ""
