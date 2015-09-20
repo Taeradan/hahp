@@ -18,11 +18,13 @@ main = do
     let valeursRI = map randomIndex [1..15]
     print valeursRI
     putStrLn ""
-    putStrLn $ showConfigurationSummary sampleAHPConfig
-    putStrLn $ showConfigurationSummary sampleAHPConfig2
+    let processedConfig1 = initAHP sampleAHPConfig
+    let processedConfig2 = initAHP sampleAHPConfig2
+    putStrLn $ showConfigurationSummary processedConfig1
+    putStrLn $ showConfigurationSummary processedConfig2
 
-showConfigurationSummary :: AHPTree -> String
-showConfigurationSummary ahpTree = concat
+showConfigurationSummary :: (AHPTree, Bool) -> String
+showConfigurationSummary (ahpTree, validation) = concat
     [ "# Configuration \"" ++ name ahpTree ++ "\"\n"
     , "\n"
     , "## Aperçu de la configuration\n"
@@ -31,8 +33,7 @@ showConfigurationSummary ahpTree = concat
     , "\n"
     , "## La configuration est elle valide ?\n"
     , "\n"
-    , "critère de cohérence = " ++ show (matrixConsistency (preferenceMatrix ahpTree)) ++ "\n"
-    , if isAHPTreeValid ahpTree
+    , if validation
         then "-> configuration correcte\n"
         else "-> configuration invalide\n"
     , "\n"

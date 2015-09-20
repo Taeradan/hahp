@@ -1,9 +1,15 @@
 module Algorithm where
 
 import           Configuration
+import           Data.Maybe
 import           Numeric.LinearAlgebra.Algorithms
 import           Numeric.LinearAlgebra.HMatrix
 
+
+initAHP :: AHPTree -> (AHPTree, Bool)
+initAHP ahpTree = (newAHPTree, isTreeValid)
+    where isTreeValid = isAHPTreeValid newAHPTree
+          newAHPTree = computeTreeConsistency ahpTree
 
 -- |Random Index estimation function taken from :
 -- "Consistency in the AHP : A new approach"
