@@ -25,9 +25,9 @@ sampleAHPConfig = AHPTree rootName rootPrefMatrix Nothing Nothing Nothing rootNo
 sampleAHPConfig2 :: AHPTree
 sampleAHPConfig2 = AHPTree
                         "Devenir le maitre du monde, Minus & Cortex"
-                        ( fromLists [ [ 1.00, 3.00, 5.00 ],
-                                      [ 0.33, 1.00, 9.00 ],
-                                      [ 0.11, 0.20, 1.00 ]
+                        ( fromLists [ [ 1.00, 1.00, 1.00 ],
+                                      [ 1.00, 1.00, 1.00 ],
+                                      [ 1.00, 1.00, 1.00 ]
                                     ]
                         )
                         Nothing
@@ -36,14 +36,17 @@ sampleAHPConfig2 = AHPTree
                         [ AHPLeaf "Puissance" True Nothing
                         , AHPTree
                             "Carisme"
-                            ( (2><2) [ 1.0, 2
-                                     , 0.5, 1.0 ]
+                            ( (3><3) [ 1.00, 3.00, 5.00
+                                     , 0.33, 1.00, 9.00
+                                     , 0.11, 0.20, 1.00
+                                     ]
                             )
                             Nothing
                             Nothing
                             Nothing
                             [ AHPLeaf "Timidité" False Nothing
                             , AHPLeaf "Tenue" True Nothing
+                            , AHPLeaf "Taille de la *" True Nothing
                             ]
                         , AHPLeaf "Capital" True Nothing
                         ]
