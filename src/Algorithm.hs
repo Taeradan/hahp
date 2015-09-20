@@ -19,7 +19,7 @@ isAHPTreeValid :: AHPTree -> Bool
 isAHPTreeValid (AHPTree name prefMatrix prioVector children) =
     isMatrixConsistent prefMatrix consistencyThreshold
     && areChildrenValid
-        where areChildrenValid = and $ map isAHPTreeValid children
+        where areChildrenValid = all isAHPTreeValid children
 isAHPTreeValid _ = True 
 
 

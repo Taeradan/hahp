@@ -23,7 +23,7 @@ main = do
 
 showConfigurationSummary :: AHPTree -> String
 showConfigurationSummary ahpTree = concat
-    [ "# Configuration \"" ++ (name ahpTree) ++ "\"\n"
+    [ "# Configuration \"" ++ name ahpTree ++ "\"\n"
     , "\n"
     , "## Aperçu de la configuration\n"
     , "\n"
