@@ -19,7 +19,7 @@ data AHPTree = AHPTree { name                 :: String
 
 type PreferenceMatrix = Matrix Double
 
-type PriorityVector = Vector Double
+type PriorityVector = Matrix Double
 
 showAhpTree :: AHPTree -> String
 showAhpTree = showAhpSubTree 0
