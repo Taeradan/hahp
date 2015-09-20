@@ -18,21 +18,22 @@ main = do
     let valeursRI = map randomIndex [1..15]
     print valeursRI
     putStrLn ""
-    printConfigurationSummary sampleAHPConfig
-    printConfigurationSummary sampleAHPConfig2
+    putStrLn $ showConfigurationSummary sampleAHPConfig
+    putStrLn $ showConfigurationSummary sampleAHPConfig2
 
-printConfigurationSummary :: AHPTree -> IO ()
-printConfigurationSummary ahpTree = do
-    putStrLn $ "# Configuration \"" ++ (name ahpTree) ++ "\""
-    putStrLn ""
-    putStrLn "## Aperçu de la configuration"
-    putStrLn ""
-    putStrLn $ showAhpTree ahpTree
-    putStrLn ""
-    putStrLn "## La configuration est elle valide ?"
-    putStrLn ""
-    putStrLn $ "critère de cohérence = " ++ show (matrixConsistency (preferenceMatrix ahpTree))
-    if isAHPTreeValid ahpTree
-        then putStrLn "-> configuration correcte"
-        else putStrLn "-> configuration invalide"
-    putStrLn ""
+showConfigurationSummary :: AHPTree -> String
+showConfigurationSummary ahpTree = concat
+    [ "# Configuration \"" ++ (name ahpTree) ++ "\"\n"
+    , "\n"
+    , "## Aperçu de la configuration\n"
+    , "\n"
+    , showAhpTree ahpTree ++ "\n"
+    , "\n"
+    , "## La configuration est elle valide ?\n"
+    , "\n"
+    , "critère de cohérence = " ++ show (matrixConsistency (preferenceMatrix ahpTree)) ++ "\n"
+    , if isAHPTreeValid ahpTree
+        then "-> configuration correcte\n"
+        else "-> configuration invalide\n"
+    , "\n"
+    ]
