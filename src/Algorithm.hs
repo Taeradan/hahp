@@ -9,7 +9,7 @@ import           Numeric.LinearAlgebra.HMatrix
 initAHP :: AHPTree -> (AHPTree, Bool)
 initAHP ahpTree = (newAHPTree, isTreeValid)
     where isTreeValid = isAHPTreeValid newAHPTree
-          newAHPTree = computePriorityVector (computeTreeConsistency ahpTree)
+          newAHPTree = computeTreePriorityVectors (computeTreeConsistencies ahpTree)
 
 -- |Random Index estimation function taken from :
 -- "Consistency in the AHP : A new approach"
@@ -24,60 +24,59 @@ randomIndex matrixSize = ( 0.00149 * (matrixSize^3))
 
 -- trick : http://stackoverflow.com/a/7897595
 -- trick2 : https://wiki.haskell.org/Default_values_in_records
-computeTreeConsistency :: AHPTree -> AHPTree
-computeTreeConsistency ahpTree =
+computeTreeConsistencies :: AHPTree -> AHPTree
+computeTreeConsistencies ahpTree =
     case ahpTree of
-         (AHPTree _ prefMatrix _ _ _ children) -> ahpTree 
-            { consistencyValue = Just $ matrixConsistency prefMatrix
-            , children = map computeTreeConsistency children
+         (AHPTree _ prefMat _ _ _ children) -> ahpTree 
+            { consistencyValue = Just $ matrixConsistency prefMat
+            , children = map computeTreeConsistencies children
             }
          AHPLeaf {} -> ahpTree
 
-computePriorityVector :: AHPTree -> AHPTree
-computePriorityVector ahpTree =
+computeTreePriorityVectors :: AHPTree -> AHPTree
+computeTreePriorityVectors ahpTree =
     case ahpTree of
-         (AHPTree _ prefMatrix _ _ _ children) -> ahpTree 
-            { childrenPriority = Just $ priorityVector prefMatrix
-            , children = map computePriorityVector children
+         (AHPTree _ prefMat _ _ _ children) -> ahpTree 
+            { childrenPriority = Just $ priorityVector prefMat
+            , children = map computeTreePriorityVectors children
             }
          AHPLeaf {} -> ahpTree
 
 priorityVector :: PreferenceMatrix -> PriorityVector
 priorityVector prefMat = 
-    priorityVectorRecursive prefMat prefMat (priorityVectorCalculus prefMat) 
+    priorityVectorRefining prefMat prefMat (priorityVectorBase prefMat) 
 
-priorityVectorRecursive :: PreferenceMatrix -> PreferenceMatrix -> PriorityVector -> PriorityVector
-priorityVectorRecursive origPrefMat powPrefMat oldPrioVect = 
+priorityVectorRefining :: PreferenceMatrix -> PreferenceMatrix -> PriorityVector -> PriorityVector
+priorityVectorRefining origPrefMat powPrefMat oldPrioVect = 
     if compareMatrixItems newPrioVect oldPrioVect threshold
         then newPrioVect
-        else priorityVectorRecursive origPrefMat (powPrefMat <> origPrefMat) newPrioVect
-    where newPrioVect = priorityVectorCalculus powPrefMat
+        else priorityVectorRefining origPrefMat (powPrefMat <> origPrefMat) newPrioVect
+    where newPrioVect = priorityVectorBase powPrefMat
           threshold = 1.11e-16
           matrixSize = fromIntegral $ rows origPrefMat
 
-compareMatrixItems :: PreferenceMatrix -> PreferenceMatrix -> Double -> Bool
+compareMatrixItems :: (Matrix Double) -> (Matrix Double) -> Double -> Bool
 compareMatrixItems matrixA matrixB threshold =
     all (\(x,y) -> abs(x - y) < threshold ) list
         where list = zip (toList $ flatten matrixA) (toList $ flatten matrixB)
 
-priorityVectorCalculus :: PreferenceMatrix -> PriorityVector
-priorityVectorCalculus preferenceMatrix = newPriorityVector
-    where newPriorityVector = numerator <> inv denominator
-          numerator = preferenceMatrix <> eT
-          denominator = e <> preferenceMatrix <> eT
+priorityVectorBase :: PreferenceMatrix -> PriorityVector
+priorityVectorBase prefMat = numerator <> inv denominator
+    where numerator = prefMat <> eT
+          denominator = e <> prefMat <> eT
           e = (1 >< matrixSize )[1, 1..]
           eT = (matrixSize >< 1 )[1, 1..]
-          matrixSize = fromIntegral $ rows preferenceMatrix
+          matrixSize = fromIntegral $ rows prefMat
 
 matrixConsistency :: PreferenceMatrix -> Double
-matrixConsistency preferenceMatrix = consistencyIndicator / randomIndexValue
+matrixConsistency prefMat = consistencyIndicator / randomIndexValue
     where randomIndexValue = randomIndex matrixSize
           consistencyIndicator = (lambdaMax - matrixSize) / (matrixSize - 1)
-          lambdaMax = maxEigenValue preferenceMatrix
-          matrixSize = fromIntegral $ rows preferenceMatrix
+          lambdaMax = maxEigenValue prefMat
+          matrixSize = fromIntegral $ rows prefMat
 
 maxEigenValue :: PreferenceMatrix -> Double
-maxEigenValue preferenceMatrix = realPart $ maxElement $ eigenvalues preferenceMatrix
+maxEigenValue prefMat = realPart $ maxElement $ eigenvalues prefMat
 
 
 isAHPTreeValid :: AHPTree -> Bool
