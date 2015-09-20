@@ -36,9 +36,9 @@ sampleAHPConfig2 = AHPTree
                         [ AHPLeaf "Puissance" True Nothing
                         , AHPTree
                             "Carisme"
-                            ( (3><3) [ 1.00, 3.00, 5.00
-                                     , 0.33, 1.00, 9.00
-                                     , 0.11, 0.20, 1.00
+                            ( (3><3) [ 1,   3,   5
+                                     , 1/3, 1,   9
+                                     , 1/5, 1/9, 1
                                      ]
                             )
                             Nothing
