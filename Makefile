@@ -1,5 +1,9 @@
 run:
 	cabal run
+
+hlint:
+	hlint src/*.hs
+
 pdf:
 	cabal install
 	HAHP > out.md
