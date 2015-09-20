@@ -25,9 +25,10 @@ showAhpTree :: AHPTree -> String
 showAhpTree = showAhpSubTree 0
 
 showAhpSubTree :: Int -> AHPTree -> String
-showAhpSubTree level (AHPTree name prefMatrix _ childrenPriority _ children) =
+showAhpSubTree level (AHPTree name prefMatrix consistency childrenPriority _ children) =
     concat
     [ tabs ++ "* Tree : " ++ name ++ "\n"
+    , tabs ++ "  critère de cohérence = " ++ (maybe "N/A" show consistency) ++ "\n"
     , showMatrix level prefMatrix ++ "\n"
     , maybe "" (\ x -> show x ++ "\n") childrenPriority
     , concatMap (showAhpSubTree (level + 1)) children
