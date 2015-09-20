@@ -28,12 +28,12 @@ showAhpSubTree :: Int -> AHPTree -> String
 showAhpSubTree level (AHPTree name prefMatrix consistency childrenPriority _ children) =
     concat
     [ tabs ++ "* Tree : " ++ name ++ "\n"
-    , tabs ++ "  critère de cohérence = " ++ maybe "N/A" show consistency ++ "\n"
-    , tabs ++ "  vecteur de priorité = " ++ maybe "N/A" (\ x -> show x ++ "\n") childrenPriority ++ "\n"
     , tabs ++ "  matrice de préférence :\n"
-    , showMatrix level prefMatrix ++ "\n"
+    , showMatrix level prefMatrix
+    , tabs ++ "  critère de cohérence = " ++ maybe "N/A" show consistency ++ "\n"
+    , tabs ++ "  vecteur de priorité :\n"
+    , maybe "N/A" (showMatrix level) childrenPriority ++ "\n"
     , concatMap (showAhpSubTree (level + 1)) children
-    , "\n"
     ]
         where tabs = variableTabs level
 showAhpSubTree level (AHPLeaf name maximize _) =
@@ -47,9 +47,9 @@ showAhpSubTree level (AHPLeaf name maximize _) =
 variableTabs :: Int -> String
 variableTabs level = replicate level '\t'
 
-showMatrix :: Int -> PreferenceMatrix -> String
+showMatrix :: Int -> (Matrix Double) -> String
 showMatrix level matrix = concatMap showMatrixLine lists
     where lists = toLists matrix
           showMatrixLine line = variableTabs level ++ "  | " ++
-                                concatMap (\x -> printf "%.2f" x ++ " ") line ++
+                                concatMap (\x -> printf "%.4f" x ++ " ") line ++
                                 "|\n"

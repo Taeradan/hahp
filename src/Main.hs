@@ -36,5 +36,4 @@ showConfigurationSummary (ahpTree, validation) = concat
     , if validation
         then "-> configuration correcte\n"
         else "-> configuration invalide\n"
-    , "\n"
     ]
