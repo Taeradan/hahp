@@ -37,7 +37,7 @@ computePriorityVector :: AHPTree -> AHPTree
 computePriorityVector ahpTree =
     case ahpTree of
          (AHPTree _ prefMatrix _ _ _ children) -> ahpTree 
-            { childrenPriority = Just $ priorityVectorCalculus prefMatrix
+            { childrenPriority = Just $ priorityVector prefMatrix
             , children = map computePriorityVector children
             }
          AHPLeaf {} -> ahpTree
