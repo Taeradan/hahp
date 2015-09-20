@@ -15,21 +15,16 @@ randomIndex matrixSize = ( 0.00149 * (matrixSize^3))
                         + (  0.59150  * matrixSize)
                         + (- 0.79124)
 
-isAHPTreeValid :: AHPTree -> Bool
-isAHPTreeValid (AHPTree _ prefMatrix _ _ _ children) =
-    isMatrixConsistent prefMatrix consistencyThreshold
-    && areChildrenValid
-        where areChildrenValid = all isAHPTreeValid children
-isAHPTreeValid _ = True
 
-
-consistencyThreshold = 0.1
-
-isMatrixConsistent :: PreferenceMatrix -> Double -> Bool
-isMatrixConsistent preferenceMatrix threshold
-    | check < threshold = True
-    | otherwise = False
-        where check = matrixConsistency preferenceMatrix
+-- trick : http://stackoverflow.com/a/7897595
+computeTreeConsistency :: AHPTree -> AHPTree
+computeTreeConsistency ahpTree =
+    case ahpTree of
+         (AHPTree _ prefMatrix _ _ _ children) -> ahpTree 
+            { consistencyValue = Just $ matrixConsistency prefMatrix
+            , children = map computeTreeConsistency children
+            }
+         AHPLeaf {} -> ahpTree
 
 matrixConsistency :: PreferenceMatrix -> Double
 matrixConsistency preferenceMatrix = consistencyIndicator / randomIndexValue
@@ -37,3 +32,19 @@ matrixConsistency preferenceMatrix = consistencyIndicator / randomIndexValue
           consistencyIndicator = (maxEigenValue - matrixSize) / (matrixSize - 1)
           maxEigenValue = realPart $ maxElement $ eigenvalues preferenceMatrix
           matrixSize = fromIntegral $ rows preferenceMatrix
+
+isAHPTreeValid :: AHPTree -> Bool
+isAHPTreeValid (AHPTree _ _ consistency _ _ children) =
+    isMatrixConsistent (fromJust consistency) consistencyThreshold
+    && areChildrenValid
+        where areChildrenValid = all isAHPTreeValid children
+
+isAHPTreeValid AHPLeaf {} = True
+
+consistencyThreshold = 0.1
+
+isMatrixConsistent :: Double ->  Double -> Bool
+isMatrixConsistent consistency threshold
+    | consistency < threshold = True
+    | otherwise = False
+
