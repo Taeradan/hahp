@@ -1,15 +1,15 @@
 module Configuration where
 
-import Data.List
-import Numeric.LinearAlgebra.HMatrix
-import Text.Printf
+import           Data.List
+import           Numeric.LinearAlgebra.HMatrix
+import           Text.Printf
 
-data AHPTree = AHPTree { name :: String
+data AHPTree = AHPTree { name             :: String
                        , preferenceMatrix :: PreferenceMatrix
-                       , priorityVector :: Maybe PriorityVector
-                       , children :: [AHPTree]
+                       , priorityVector   :: Maybe PriorityVector
+                       , children         :: [AHPTree]
                        }
-             | AHPLeaf { name :: String
+             | AHPLeaf { name      :: String
                         , maximize :: Bool
                         }
              deriving (Show)

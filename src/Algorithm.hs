@@ -1,11 +1,11 @@
 module Algorithm where
 
-import Configuration
-import Numeric.LinearAlgebra.Algorithms
-import Numeric.LinearAlgebra.HMatrix
+import           Configuration
+import           Numeric.LinearAlgebra.Algorithms
+import           Numeric.LinearAlgebra.HMatrix
 
 
--- |Random Index estimation function taken from : 
+-- |Random Index estimation function taken from :
 -- "Consistency in the AHP : A new approach"
 -- José Antonio ALONSO and Teresa LAMATA,
 -- IJUFKBS 2006
@@ -20,7 +20,7 @@ isAHPTreeValid (AHPTree name prefMatrix prioVector children) =
     isMatrixConsistent prefMatrix consistencyThreshold
     && areChildrenValid
         where areChildrenValid = all isAHPTreeValid children
-isAHPTreeValid _ = True 
+isAHPTreeValid _ = True
 
 
 consistencyThreshold = 0.1

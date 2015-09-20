@@ -1,10 +1,10 @@
 module Main where
 
-import Algorithm
-import Configuration
-import SampleAHPConfig
-import Data.Time
-import System.Environment
+import           Algorithm
+import           Configuration
+import           Data.Time
+import           SampleAHPConfig
+import           System.Environment
 
 
 main = do
