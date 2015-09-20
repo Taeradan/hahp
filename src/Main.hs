@@ -6,7 +6,7 @@ import           Data.Time
 import           SampleAHPConfig
 import           System.Environment
 
-
+main :: IO ()
 main = do
     time <- getCurrentTime
     putStrLn "% Test de la librairie HAHP"

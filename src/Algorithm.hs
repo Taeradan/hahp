@@ -23,6 +23,7 @@ randomIndex matrixSize = ( 0.00149 * (matrixSize^3))
 
 
 -- trick : http://stackoverflow.com/a/7897595
+-- trick2 : https://wiki.haskell.org/Default_values_in_records
 computeTreeConsistency :: AHPTree -> AHPTree
 computeTreeConsistency ahpTree =
     case ahpTree of

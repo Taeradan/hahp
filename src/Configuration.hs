@@ -29,9 +29,11 @@ showAhpSubTree level (AHPTree name prefMatrix consistency childrenPriority _ chi
     concat
     [ tabs ++ "* Tree : " ++ name ++ "\n"
     , tabs ++ "  critère de cohérence = " ++ maybe "N/A" show consistency ++ "\n"
+    , tabs ++ "  vecteur de priorité = " ++ maybe "N/A" (\ x -> show x ++ "\n") childrenPriority ++ "\n"
+    , tabs ++ "  matrice de préférence :\n"
     , showMatrix level prefMatrix ++ "\n"
-    , maybe "" (\ x -> show x ++ "\n") childrenPriority
     , concatMap (showAhpSubTree (level + 1)) children
+    , "\n"
     ]
         where tabs = variableTabs level
 showAhpSubTree level (AHPLeaf name maximize _) =
