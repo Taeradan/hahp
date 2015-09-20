@@ -10,16 +10,16 @@ rootPrefMatrix :: PreferenceMatrix
 rootPrefMatrix = fromLists [  [1.0, 1.0] , [1.0, 1.0] ]
 
 leaf1 :: AHPTree
-leaf1 = AHPLeaf "Indicateur 1" True
+leaf1 = AHPLeaf "Indicateur 1" True Nothing
 
 leaf2 :: AHPTree
-leaf2 = AHPLeaf "Indicateur 2" False
+leaf2 = AHPLeaf "Indicateur 2" False Nothing
 
 rootNodes :: [AHPTree]
 rootNodes = [ leaf1, leaf2 ]
 
 sampleAHPConfig :: AHPTree
-sampleAHPConfig = AHPTree rootName rootPrefMatrix Nothing rootNodes
+sampleAHPConfig = AHPTree rootName rootPrefMatrix Nothing Nothing Nothing rootNodes
 
 
 sampleAHPConfig2 :: AHPTree
@@ -31,15 +31,19 @@ sampleAHPConfig2 = AHPTree
                                     ]
                         )
                         Nothing
-                        [ AHPLeaf "Puissance" True
+                        Nothing
+                        Nothing
+                        [ AHPLeaf "Puissance" True Nothing
                         , AHPTree
                             "Carisme"
                             ( (2><2) [ 1.0, 2
                                      , 0.5, 1.0 ]
                             )
                             Nothing
-                            [ AHPLeaf "Timidité" False
-                            , AHPLeaf "Tenue" True
+                            Nothing
+                            Nothing
+                            [ AHPLeaf "Timidité" False Nothing
+                            , AHPLeaf "Tenue" True Nothing
                             ]
-                        , AHPLeaf "Capital" True
+                        , AHPLeaf "Capital" True Nothing
                         ]

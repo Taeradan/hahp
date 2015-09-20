@@ -16,7 +16,7 @@ randomIndex matrixSize = ( 0.00149 * (matrixSize^3))
                         + (- 0.79124)
 
 isAHPTreeValid :: AHPTree -> Bool
-isAHPTreeValid (AHPTree name prefMatrix prioVector children) =
+isAHPTreeValid (AHPTree _ prefMatrix _ _ _ children) =
     isMatrixConsistent prefMatrix consistencyThreshold
     && areChildrenValid
         where areChildrenValid = all isAHPTreeValid children

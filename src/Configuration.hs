@@ -4,13 +4,16 @@ import           Data.List
 import           Numeric.LinearAlgebra.HMatrix
 import           Text.Printf
 
-data AHPTree = AHPTree { name             :: String
-                       , preferenceMatrix :: PreferenceMatrix
-                       , priorityVector   :: Maybe PriorityVector
-                       , children         :: [AHPTree]
+data AHPTree = AHPTree { name                 :: String
+                       , preferenceMatrix     :: PreferenceMatrix
+                       , consistencyValue     :: Maybe Double
+                       , childrenPriority     :: Maybe PriorityVector
+                       , alternativesPriority :: Maybe PriorityVector
+                       , children             :: [AHPTree]
                        }
-             | AHPLeaf { name      :: String
-                        , maximize :: Bool
+             | AHPLeaf { name                  :: String
+                        , maximize             :: Bool
+                        , alternativesPriority :: Maybe PriorityVector
                         }
              deriving (Show)
 
@@ -22,15 +25,15 @@ showAhpTree :: AHPTree -> String
 showAhpTree = showAhpSubTree 0
 
 showAhpSubTree :: Int -> AHPTree -> String
-showAhpSubTree level (AHPTree name prefMatrix prioVector children) =
+showAhpSubTree level (AHPTree name prefMatrix _ childrenPriority _ children) =
     concat
     [ tabs ++ "* Tree : " ++ name ++ "\n"
     , showMatrix level prefMatrix ++ "\n"
-    , maybe "" (\ x -> show x ++ "\n") prioVector
+    , maybe "" (\ x -> show x ++ "\n") childrenPriority
     , concatMap (showAhpSubTree (level + 1)) children
     ]
         where tabs = variableTabs level
-showAhpSubTree level (AHPLeaf name maximize) =
+showAhpSubTree level (AHPLeaf name maximize _) =
     concat
     [ tabs ++ "* Leaf : " ++ name ++ "\n"
     , tabs ++ "  " ++ (if maximize then "maximize" else "minimize") ++ "\n"
