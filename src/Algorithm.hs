@@ -11,12 +11,19 @@ initAHP ahpTree = (newAHPTree, isTreeValid)
     where isTreeValid = isAHPTreeValid newAHPTree
           newAHPTree = computeTreePriorityVectors (computeTreeConsistencies ahpTree)
 
+randomIndex :: Double -> Double
+randomIndex = randomIndexSaaty
+
+randomIndexSaaty :: Double -> Double
+randomIndexSaaty matrixSize = saatyTable !! ((round matrixSize) - 1)
+    where saatyTable = [0.00, 0.00, 0.58, 0.90, 1.12, 1.24, 1.32, 1.41, 1.45, 1.49, 1.51, 1.48, 1.56, 1.57, 1.59]
+
 -- |Random Index estimation function taken from :
 -- "Consistency in the AHP : A new approach"
 -- José Antonio ALONSO and Teresa LAMATA,
 -- IJUFKBS 2006
-randomIndex :: Double -> Double
-randomIndex matrixSize = ( 0.00149 * (matrixSize^3))
+randomIndexCalculated :: Double -> Double
+randomIndexCalculated matrixSize = ( 0.00149 * (matrixSize^3))
                         + (- 0.05121) * (matrixSize^2)
                         + (  0.59150  * matrixSize)
                         + (- 0.79124)
