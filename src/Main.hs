@@ -20,8 +20,10 @@ main = do
     putStrLn ""
     let processedConfig1 = initAHP sampleAHPConfig
     let processedConfig2 = initAHP sampleAHPConfig2
+    let processedConfig3 = initAHP sampleAHPConfig3
     putStrLn $ showConfigurationSummary processedConfig1
     putStrLn $ showConfigurationSummary processedConfig2
+    putStrLn $ showConfigurationSummary processedConfig3
 
 showConfigurationSummary :: (AHPTree, Bool) -> String
 showConfigurationSummary (ahpTree, validation) = concat

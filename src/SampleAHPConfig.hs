@@ -50,3 +50,21 @@ sampleAHPConfig2 = AHPTree
                             ]
                         , AHPLeaf "Capital" True Nothing
                         ]
+
+sampleAHPConfig3 :: AHPTree
+sampleAHPConfig3 = AHPTree 
+                       "Testing the Priority vectors computation"
+                       ( (4><4) [ 1,   1/5, 1,   3
+                                , 5,   1,   3,   5
+                                , 1,   1/3, 1,   3
+                                , 1/3, 1/5, 1/3, 1
+                                ]
+                       )
+                       Nothing
+                       Nothing
+                       Nothing
+                       [ AHPLeaf "d" True Nothing
+                       , AHPLeaf "Tp" True Nothing
+                       , AHPLeaf "Tf" True Nothing
+                       , AHPLeaf "Id" True Nothing
+                       ]
