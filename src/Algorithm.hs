@@ -9,7 +9,7 @@ import           Numeric.LinearAlgebra.HMatrix
 initAHP :: AHPTree -> (AHPTree, Bool)
 initAHP ahpTree = (newAHPTree, isTreeValid)
     where isTreeValid = isAHPTreeValid newAHPTree
-          newAHPTree = computeTreePriorityVectors (computeTreeConsistencies ahpTree)
+          newAHPTree = computeTreePriorityVectors . computeTreeConsistencies $ ahpTree
 
 randomIndex :: Double -> Double
 randomIndex = randomIndexSaaty
@@ -64,7 +64,7 @@ priorityVectorRefining origPrefMat powPrefMat oldPrioVect =
 compareMatrixItems :: Matrix Double -> Matrix Double -> Double -> Bool
 compareMatrixItems matrixA matrixB threshold =
     all (\(x,y) -> abs(x - y) < threshold ) list
-        where list = zip (toList $ flatten matrixA) (toList $ flatten matrixB)
+        where list = zip (toList . flatten $ matrixA) (toList . flatten $ matrixB)
 
 priorityVectorBase :: PreferenceMatrix -> PriorityVector
 priorityVectorBase prefMat = numerator <> inv denominator
@@ -72,17 +72,17 @@ priorityVectorBase prefMat = numerator <> inv denominator
           denominator = e <> prefMat <> eT
           e = (1 >< matrixSize )[1, 1..]
           eT = (matrixSize >< 1 )[1, 1..]
-          matrixSize = fromIntegral $ rows prefMat
+          matrixSize = fromIntegral . rows $ prefMat
 
 matrixConsistency :: PreferenceMatrix -> Double
 matrixConsistency prefMat = consistencyIndicator / randomIndexValue
     where randomIndexValue = randomIndex matrixSize
           consistencyIndicator = (lambdaMax - matrixSize) / (matrixSize - 1)
           lambdaMax = maxEigenValue prefMat
-          matrixSize = fromIntegral $ rows prefMat
+          matrixSize = fromIntegral . rows $ prefMat
 
 maxEigenValue :: PreferenceMatrix -> Double
-maxEigenValue prefMat = realPart $ maxElement $ eigenvalues prefMat
+maxEigenValue prefMat = realPart . maxElement . eigenvalues $ prefMat
 
 
 isAHPTreeValid :: AHPTree -> Bool
