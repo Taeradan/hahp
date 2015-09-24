@@ -1,11 +1,10 @@
 module Main where
 
 import           Algorithm
-import           Configuration
+import           Algorithm.Consistency
 import           Data.Time
 import           Reporting
 import           SampleAHPConfig
-import           System.Environment
 
 main :: IO ()
 main = do
@@ -16,7 +15,7 @@ main = do
     putStrLn ""
     putStrLn "# Valeurs de Random Index selon Alonso & Lamata 2006"
     putStrLn ""
-    let valeursRI = map randomIndex [1..15]
+    let valeursRI = map randomIndexCalculated [1..15]
     print valeursRI
     putStrLn ""
     let configs = [sampleAHPConfig, sampleAHPConfig2, sampleAHPConfig3]

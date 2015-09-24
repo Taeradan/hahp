@@ -21,7 +21,6 @@ rootNodes = [ leaf1, leaf2 ]
 sampleAHPConfig :: AHPTree
 sampleAHPConfig = AHPTree rootName rootPrefMatrix Nothing Nothing Nothing rootNodes
 
-
 sampleAHPConfig2 :: AHPTree
 sampleAHPConfig2 = AHPTree
                         "Devenir le maitre du monde, Minus & Cortex"
