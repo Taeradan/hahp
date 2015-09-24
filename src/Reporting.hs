@@ -14,39 +14,37 @@ reportHeader title author time = unlines
     ]
 
 showConfigurationSummary :: (AHPTree, Bool) -> String
-showConfigurationSummary (ahpTree, validation) = concat
-    [ "# Configuration \"" ++ name ahpTree ++ "\"\n"
-    , "\n"
-    , "## Aperçu de la configuration\n"
-    , "\n"
-    , showAhpTree ahpTree ++ "\n"
-    , "\n"
-    , "## La configuration est elle valide ?\n"
-    , "\n"
+showConfigurationSummary (ahpTree, validation) = unlines
+    [ "# Configuration \"" ++ name ahpTree ++ "\""
+    , ""
+    , "## Aperçu de la configuration"
+    , ""
+    , showAhpTree ahpTree
+    , ""
+    , "## La configuration est elle valide ?"
+    , ""
     , if validation
-        then "-> configuration correcte\n"
-        else "-> configuration invalide\n"
+        then "-> configuration correcte"
+        else "-> configuration invalide"
     ]
 
 showAhpTree :: AHPTree -> String
 showAhpTree = showAhpSubTree 0
 
 showAhpSubTree :: Int -> AHPTree -> String
-showAhpSubTree level (AHPTree name prefMatrix consistency childrenPriority _ children) =
-    concat
-    [ tabs ++ "* Tree : " ++ name ++ "\n"
-    , tabs ++ "  matrice de préférence :\n"
+showAhpSubTree level (AHPTree name prefMatrix consistency childrenPriority _ children) = unlines
+    [ tabs ++ "* Tree : " ++ name
+    , tabs ++ "  matrice de préférence :"
     , showMatrix level prefMatrix
-    , tabs ++ "  critère de cohérence = " ++ maybe "N/A" show consistency ++ "\n"
-    , tabs ++ "  vecteur de priorité :\n"
-    , maybe "N/A" (showMatrix level) childrenPriority ++ "\n"
+    , tabs ++ "  critère de cohérence = " ++ maybe "N/A" show consistency
+    , tabs ++ "  vecteur de priorité :"
+    , maybe "N/A" (showMatrix level) childrenPriority
     , concatMap (showAhpSubTree (level + 1)) children
     ]
         where tabs = variableTabs level
-showAhpSubTree level (AHPLeaf name maximize _) =
-    concat
-    [ tabs ++ "* Leaf : " ++ name ++ "\n"
-    , tabs ++ "  " ++ (if maximize then "maximize" else "minimize") ++ "\n"
+showAhpSubTree level (AHPLeaf name maximize _) = unlines
+    [ tabs ++ "* Leaf : " ++ name
+    , tabs ++ "  " ++ (if maximize then "maximize" else "minimize")
     ]
         where tabs = variableTabs level
 
