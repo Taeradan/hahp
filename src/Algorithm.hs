@@ -60,7 +60,6 @@ priorityVectorRefining origPrefMat powPrefMat oldPrioVect =
         else priorityVectorRefining origPrefMat (powPrefMat <> origPrefMat) newPrioVect
     where newPrioVect = priorityVectorBase powPrefMat
           threshold = 1.11e-16
-          matrixSize = fromIntegral $ rows origPrefMat
 
 compareMatrixItems :: Matrix Double -> Matrix Double -> Double -> Bool
 compareMatrixItems matrixA matrixB threshold =
