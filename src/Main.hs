@@ -19,9 +19,5 @@ main = do
     let valeursRI = map randomIndex [1..15]
     print valeursRI
     putStrLn ""
-    let processedConfig1 = initAHP sampleAHPConfig
-    let processedConfig2 = initAHP sampleAHPConfig2
-    let processedConfig3 = initAHP sampleAHPConfig3
-    putStrLn $ showConfigurationSummary processedConfig1
-    putStrLn $ showConfigurationSummary processedConfig2
-    putStrLn $ showConfigurationSummary processedConfig3
+    let configs = [sampleAHPConfig, sampleAHPConfig2, sampleAHPConfig3]
+    mapM_ (putStrLn . showConfigurationSummary . initAHP) configs
