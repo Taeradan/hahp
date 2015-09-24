@@ -52,7 +52,7 @@ sampleAHPConfig2 = AHPTree
                         ]
 
 sampleAHPConfig3 :: AHPTree
-sampleAHPConfig3 = AHPTree 
+sampleAHPConfig3 = AHPTree
                        "Testing the Priority vectors computation"
                        ( (4><4) [ 1,   1/5, 1,   3
                                 , 5,   1,   3,   5

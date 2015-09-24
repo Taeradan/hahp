@@ -34,7 +34,7 @@ randomIndexCalculated matrixSize = ( 0.00149 * (matrixSize^3))
 computeTreeConsistencies :: AHPTree -> AHPTree
 computeTreeConsistencies ahpTree =
     case ahpTree of
-         (AHPTree _ prefMat _ _ _ children) -> ahpTree 
+         (AHPTree _ prefMat _ _ _ children) -> ahpTree
             { consistencyValue = Just $ matrixConsistency prefMat
             , children = map computeTreeConsistencies children
             }
@@ -43,18 +43,18 @@ computeTreeConsistencies ahpTree =
 computeTreePriorityVectors :: AHPTree -> AHPTree
 computeTreePriorityVectors ahpTree =
     case ahpTree of
-         (AHPTree _ prefMat _ _ _ children) -> ahpTree 
+         (AHPTree _ prefMat _ _ _ children) -> ahpTree
             { childrenPriority = Just $ priorityVector prefMat
             , children = map computeTreePriorityVectors children
             }
          AHPLeaf {} -> ahpTree
 
 priorityVector :: PreferenceMatrix -> PriorityVector
-priorityVector prefMat = 
-    priorityVectorRefining prefMat prefMat (priorityVectorBase prefMat) 
+priorityVector prefMat =
+    priorityVectorRefining prefMat prefMat (priorityVectorBase prefMat)
 
 priorityVectorRefining :: PreferenceMatrix -> PreferenceMatrix -> PriorityVector -> PriorityVector
-priorityVectorRefining origPrefMat powPrefMat oldPrioVect = 
+priorityVectorRefining origPrefMat powPrefMat oldPrioVect =
     if compareMatrixItems newPrioVect oldPrioVect threshold
         then newPrioVect
         else priorityVectorRefining origPrefMat (powPrefMat <> origPrefMat) newPrioVect
