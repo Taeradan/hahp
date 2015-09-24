@@ -50,7 +50,7 @@ showAhpSubTree level (AHPLeaf name maximize _) =
     ]
         where tabs = variableTabs level
 
-showMatrix :: Int -> (Matrix Double) -> String
+showMatrix :: Int -> Matrix Double -> String
 showMatrix level matrix = concatMap showMatrixLine lists
     where lists = toLists matrix
           showMatrixLine line = variableTabs level ++ "  | " ++

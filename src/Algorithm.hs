@@ -15,7 +15,7 @@ randomIndex :: Double -> Double
 randomIndex = randomIndexSaaty
 
 randomIndexSaaty :: Double -> Double
-randomIndexSaaty matrixSize = saatyTable !! ((round matrixSize) - 1)
+randomIndexSaaty matrixSize = saatyTable !! (round matrixSize - 1)
     where saatyTable = [0.00, 0.00, 0.58, 0.90, 1.12, 1.24, 1.32, 1.41, 1.45, 1.49, 1.51, 1.48, 1.56, 1.57, 1.59]
 
 -- |Random Index estimation function taken from :
@@ -62,7 +62,7 @@ priorityVectorRefining origPrefMat powPrefMat oldPrioVect =
           threshold = 1.11e-16
           matrixSize = fromIntegral $ rows origPrefMat
 
-compareMatrixItems :: (Matrix Double) -> (Matrix Double) -> Double -> Bool
+compareMatrixItems :: Matrix Double -> Matrix Double -> Double -> Bool
 compareMatrixItems matrixA matrixB threshold =
     all (\(x,y) -> abs(x - y) < threshold ) list
         where list = zip (toList $ flatten matrixA) (toList $ flatten matrixB)
