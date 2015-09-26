@@ -21,6 +21,7 @@ rootNodes = [ leaf1, leaf2 ]
 sampleAHPConfig :: AHPTree
 sampleAHPConfig = AHPTree rootName rootPrefMatrix Nothing Nothing Nothing rootNodes
 
+-- | Exemple pour "devenir maitre du monde"
 sampleAHPConfig2 :: AHPTree
 sampleAHPConfig2 = AHPTree
                         "Devenir le maitre du monde, Minus & Cortex"
@@ -50,6 +51,7 @@ sampleAHPConfig2 = AHPTree
                         , AHPLeaf "Capital" True Nothing
                         ]
 
+-- | Example provenant de Ounnar 1999
 sampleAHPConfig3 :: AHPTree
 sampleAHPConfig3 = AHPTree
                        "Testing the Priority vectors computation"
