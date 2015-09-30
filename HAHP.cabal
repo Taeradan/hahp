@@ -19,6 +19,6 @@ executable HAHP
   main-is:             Main.hs
   -- other-modules:       
   -- other-extensions:    
-  build-depends:       base >=4.7, hmatrix, time 
+  build-depends:       base >=4.7, containers, hmatrix, time
   hs-source-dirs:      src
   default-language:    Haskell2010

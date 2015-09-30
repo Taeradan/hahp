@@ -1,5 +1,6 @@
 module Configuration where
 
+import           Data.Map (Map)
 import           Numeric.LinearAlgebra.HMatrix
 
 data AHPTree = AHPTree { name                 :: String
@@ -18,3 +19,10 @@ data AHPTree = AHPTree { name                 :: String
 type PreferenceMatrix = Matrix Double
 
 type PriorityVector = Matrix Double
+
+data Alternative = Alternative { altName :: String
+                               , indValues :: IndicatorValues
+                               }
+
+type IndicatorValues = Map String Double
+
