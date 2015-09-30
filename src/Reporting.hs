@@ -14,6 +14,21 @@ reportHeader title author time = unlines
     , "% " ++ showGregorian(utctDay time)
     ]
 
+showConfigurationSummary :: (AHPTree, Bool) -> String
+showConfigurationSummary (ahpTree, validation) = unlines
+    [ "# Configuration \"" ++ name ahpTree ++ "\""
+    , ""
+    , "## Aperçu de la configuration"
+    , ""
+    , showAhpTree ahpTree
+    , ""
+    , "## La configuration est elle valide ?"
+    , ""
+    , if validation
+        then "-> configuration correcte"
+        else "-> configuration invalide"
+    ]
+
 showAlternatives :: [Alternative] -> String
 showAlternatives alts = unlines
     [ "## Valeur des alternatives"
@@ -40,20 +55,6 @@ showIndicatorValue :: Int -> (String, Double) -> String
 showIndicatorValue level (key, value) = tabs ++ "* " ++ key ++ " = " ++ show value
     where tabs = variableTabs (level + 1)
 
-showConfigurationSummary :: (AHPTree, Bool) -> String
-showConfigurationSummary (ahpTree, validation) = unlines
-    [ "# Configuration \"" ++ name ahpTree ++ "\""
-    , ""
-    , "## Aperçu de la configuration"
-    , ""
-    , showAhpTree ahpTree
-    , ""
-    , "## La configuration est elle valide ?"
-    , ""
-    , if validation
-        then "-> configuration correcte"
-        else "-> configuration invalide"
-    ]
 
 showAhpTree :: AHPTree -> String
 showAhpTree = showAhpSubTree 0

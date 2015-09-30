@@ -25,4 +25,3 @@ data Alternative = Alternative { altName :: String
                                }
 
 type IndicatorValues = Map String Double
-
