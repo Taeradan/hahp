@@ -20,3 +20,5 @@ main = do
     putStrLn ""
     let configs = [sampleAHPConfig, sampleAHPConfig2, sampleAHPConfig3]
     mapM_ (putStrLn . showConfigurationSummary . initAHP) configs
+    putStrLn ""
+    putStrLn $ showAlternatives sampleAlternatives3

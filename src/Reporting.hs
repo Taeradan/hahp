@@ -2,6 +2,7 @@ module Reporting where
 
 import           Configuration
 import           Data.List
+import qualified Data.Map as M
 import           Data.Time
 import           Numeric.LinearAlgebra.HMatrix
 import           Text.Printf
@@ -12,6 +13,32 @@ reportHeader title author time = unlines
     , "% " ++ author
     , "% " ++ showGregorian(utctDay time)
     ]
+
+showAlternatives :: [Alternative] -> String
+showAlternatives alts = unlines
+    [ "## Valeur des alternatives"
+    , ""
+    , concatMap (showAlternative 1) alts
+    ]
+
+showAlternative :: Int -> Alternative -> String
+showAlternative level a = unlines
+    [ tabs ++ "* " ++ altName a
+    , tabs ++ "  " ++ (showIndicatorValues level (indValues a))
+    ]
+    where tabs = variableTabs level
+
+-- TODO: ajouter les indicateurs
+showIndicatorValues :: Int -> IndicatorValues -> String
+showIndicatorValues level values = unlines
+    [ tabs ++ "valeurs des indicateurs :"
+    , unlines $ map (showIndicatorValue level) (M.toList values)
+    ]
+    where tabs = variableTabs (level)
+
+showIndicatorValue :: Int -> (String, Double) -> String
+showIndicatorValue level (key, value) = tabs ++ "* " ++ key ++ " = " ++ show value
+    where tabs = variableTabs (level + 1)
 
 showConfigurationSummary :: (AHPTree, Bool) -> String
 showConfigurationSummary (ahpTree, validation) = unlines
