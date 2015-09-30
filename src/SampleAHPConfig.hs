@@ -1,6 +1,7 @@
 module SampleAHPConfig where
 
 import           Configuration
+import           Data.Map
 import           Data.Packed.Matrix
 
 rootName :: String
@@ -69,3 +70,15 @@ sampleAHPConfig3 = AHPTree
                        , AHPLeaf "Tf" True Nothing
                        , AHPLeaf "Id" True Nothing
                        ]
+
+sampleIndicatorValues3 :: IndicatorValues
+sampleIndicatorValues3 = insert "d" 1
+                    . insert "Tp" 10
+                    . insert "Tf" 100
+                    . insert "Id" 1000
+                        $ empty
+
+sampleAlternatives3 :: [Alternative]
+sampleAlternatives3 = [ Alternative "alternative A" sampleIndicatorValues3
+                      , Alternative "alternative B" sampleIndicatorValues3
+                      ]
