@@ -6,11 +6,11 @@ import           Numeric.LinearAlgebra.HMatrix
 computeTreePriorityVectors :: AHPTree -> AHPTree
 computeTreePriorityVectors ahpTree =
     case ahpTree of
-         (AHPTree _ prefMat _ _ _ children) -> ahpTree
+        (AHPTree _ prefMat _ _ _ children) -> ahpTree
             { childrenPriority = Just $ priorityVector prefMat
             , children = map computeTreePriorityVectors children
             }
-         AHPLeaf {} -> ahpTree
+        AHPLeaf {} -> ahpTree
 
 priorityVector :: PreferenceMatrix -> PriorityVector
 priorityVector prefMat =

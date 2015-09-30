@@ -4,12 +4,13 @@ import           Configuration
 import           Data.Maybe
 
 isAHPTreeValid :: AHPTree -> Bool
-isAHPTreeValid (AHPTree _ _ consistency _ _ children) =
-    isMatrixConsistent (fromJust consistency) consistencyThreshold
-    && areChildrenValid
-        where areChildrenValid = all isAHPTreeValid children
-
-isAHPTreeValid AHPLeaf {} = True
+isAHPTreeValid ahpTree =
+    case ahpTree of
+        (AHPTree _ _ consistency _ _ children) ->
+            isMatrixConsistent (fromJust consistency) consistencyThreshold
+            && areChildrenValid
+            where areChildrenValid = all isAHPTreeValid children
+        AHPLeaf {} -> True
 
 consistencyThreshold = 0.1
 

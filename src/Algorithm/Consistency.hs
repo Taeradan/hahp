@@ -8,11 +8,11 @@ import           Numeric.LinearAlgebra.HMatrix
 computeTreeConsistencies :: AHPTree -> AHPTree
 computeTreeConsistencies ahpTree =
     case ahpTree of
-         (AHPTree _ prefMat _ _ _ children) -> ahpTree
+        (AHPTree _ prefMat _ _ _ children) -> ahpTree
             { consistencyValue = Just $ matrixConsistency prefMat
             , children = map computeTreeConsistencies children
             }
-         AHPLeaf {} -> ahpTree
+        AHPLeaf {} -> ahpTree
 
 matrixConsistency :: PreferenceMatrix -> Double
 matrixConsistency prefMat = consistencyIndicator / randomIndexValue
