@@ -28,7 +28,9 @@ maxEigenValue :: PreferenceMatrix -> Double
 maxEigenValue prefMat = realPart . maxElement . eigenvalues $ prefMat
 
 randomIndex :: Double -> Double
-randomIndex = randomIndexSaaty
+randomIndex size
+    | size <= 15 = randomIndexSaaty size
+    | otherwise = randomIndexCalculated size
 
 randomIndexSaaty :: Double -> Double
 randomIndexSaaty matrixSize = saatyTable !! (round matrixSize - 1)
