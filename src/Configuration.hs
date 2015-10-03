@@ -25,5 +25,6 @@ type PriorityVector = Matrix Double
 data Alternative = Alternative { altName :: String
                                , indValues :: IndicatorValues
                                }
+                 deriving (Show)
 
 type IndicatorValues = Map IndicatorName Double
