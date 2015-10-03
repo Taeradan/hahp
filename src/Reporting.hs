@@ -2,19 +2,29 @@ module Reporting where
 
 import           Configuration
 import           Data.List
-import qualified Data.Map as M
+import qualified Data.Map                      as M
 import           Data.Time
 import           Numeric.LinearAlgebra.HMatrix
 import           Text.Printf
 
-reportHeader :: String -> String -> UTCTime -> String
+-- * Report making
+
+-- | Given a title, an author and a timestamp, builds a Pandoc Markdown document header
+reportHeader :: String  -- ^ Report title
+             -> String  -- ^ Report author
+             -> UTCTime -- ^ Report timestamp
+             -> String  -- ^ Report header
+
 reportHeader title author time = unlines
     [ "% " ++ title
     , "% " ++ author
     , "% " ++ showGregorian(utctDay time)
     ]
 
-showConfigurationSummary :: (AHPTree, Bool) -> String
+-- | Print an AHP tree and some additional information about it
+showConfigurationSummary :: (AHPTree, Bool) -- ^ AHP tree and the result of its validation
+                         -> String          -- ^ Report about the AHP tree
+
 showConfigurationSummary (ahpTree, validation) = unlines
     [ "# Configuration \"" ++ name ahpTree ++ "\""
     , ""
@@ -29,6 +39,8 @@ showConfigurationSummary (ahpTree, validation) = unlines
         else "-> configuration invalide"
     ]
 
+-- * Alternatives printing
+
 showAlternatives :: [Alternative] -> String
 showAlternatives alts = unlines
     [ "## Valeur des alternatives"
@@ -41,20 +53,20 @@ showAlternative level a = unlines
     [ tabs ++ "* " ++ altName a
     , tabs ++ "  " ++ (showIndicatorValues level (indValues a))
     ]
-    where tabs = variableTabs level
+        where tabs = variableTabs level
 
--- TODO: ajouter les indicateurs
 showIndicatorValues :: Int -> IndicatorValues -> String
 showIndicatorValues level values = unlines
     [ tabs ++ "valeurs des indicateurs :"
     , unlines $ map (showIndicatorValue level) (M.toList values)
     ]
-    where tabs = variableTabs (level)
+        where tabs = variableTabs (level)
 
 showIndicatorValue :: Int -> (String, Double) -> String
 showIndicatorValue level (key, value) = tabs ++ "* " ++ key ++ " = " ++ show value
     where tabs = variableTabs (level + 1)
 
+-- * AHP tree printing
 
 showAhpTree :: AHPTree -> String
 showAhpTree = showAhpSubTree 0
@@ -70,6 +82,7 @@ showAhpSubTree level (AHPTree name prefMatrix consistency childrenPriority _ chi
     , concatMap (showAhpSubTree (level + 1)) children
     ]
         where tabs = variableTabs level
+
 showAhpSubTree level (AHPLeaf name maximize _) = unlines
     [ tabs ++ "* Leaf : " ++ name
     , tabs ++ "  " ++ (if maximize then "maximize" else "minimize")
