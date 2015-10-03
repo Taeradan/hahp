@@ -10,11 +10,13 @@ data AHPTree = AHPTree { name                 :: String
                        , alternativesPriority :: Maybe PriorityVector
                        , children             :: [AHPTree]
                        }
-             | AHPLeaf { name                  :: String
+             | AHPLeaf { name                  :: IndicatorName
                         , maximize             :: Bool
                         , alternativesPriority :: Maybe PriorityVector
                         }
              deriving (Show)
+
+type IndicatorName = String
 
 type PreferenceMatrix = Matrix Double
 
@@ -24,4 +26,4 @@ data Alternative = Alternative { altName :: String
                                , indValues :: IndicatorValues
                                }
 
-type IndicatorValues = Map String Double
+type IndicatorValues = Map IndicatorName Double
