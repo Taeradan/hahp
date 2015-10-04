@@ -11,7 +11,7 @@ computeTreeAlternativesPriorities :: [Alternative] -> AHPTree -> AHPTree
 computeTreeAlternativesPriorities alts ahpTree = 
     case ahpTree of
         (AHPTree _ _ _ _ _ children) -> ahpTreeWithChildren
-            { alternativesPriority = Just . (trace $ "###### agregatePriorities de " ++ name ahpTree) .agregatePriorities $ ahpTree
+            { alternativesPriority = Just . (trace $ "###### agregatePriorities de " ++ name ahpTree) . agregatePriorities $ ahpTree
             }
             where ahpTreeWithChildren = ahpTree {
                 children = map (computeTreeAlternativesPriorities alts) children 
