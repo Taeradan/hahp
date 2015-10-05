@@ -72,20 +72,24 @@ showAhpTree :: AHPTree -> String
 showAhpTree = showAhpSubTree 0
 
 showAhpSubTree :: Int -> AHPTree -> String
-showAhpSubTree level (AHPTree name prefMatrix consistency childrenPriority _ children) = unlines
+showAhpSubTree level (AHPTree name prefMatrix consistency childrenPriority alternativesPriority children) = unlines
     [ tabs ++ "* Tree : " ++ name
     , tabs ++ "  matrice de préférence :"
     , showMatrix level prefMatrix
     , tabs ++ "  critère de cohérence = " ++ maybe "N/A" show consistency
     , tabs ++ "  vecteur de priorité :"
     , maybe "N/A" (showMatrix level) childrenPriority
+    , tabs ++ "  priorité entre alternatives :"
+    , maybe "N/A" (showMatrix level) alternativesPriority
     , concatMap (showAhpSubTree (level + 1)) children
     ]
         where tabs = variableTabs level
 
-showAhpSubTree level (AHPLeaf name maximize _) = unlines
+showAhpSubTree level (AHPLeaf name maximize alternativesPriority) = unlines
     [ tabs ++ "* Leaf : " ++ name
     , tabs ++ "  " ++ (if maximize then "maximize" else "minimize")
+    , tabs ++ "  priorité entre alternatives :"
+    , maybe "N/A" (showMatrix level) alternativesPriority
     ]
         where tabs = variableTabs level
 
