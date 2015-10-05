@@ -18,6 +18,8 @@ computeTreeAlternativesPriorities alts ahpTree =
             { alternativesPriority = Just $ computeAlternativesPriority alts name
             }
 
+-- * Helper function.
+
 agregateTreeAlternativesPriorities :: AHPTree -> AHPTree
 agregateTreeAlternativesPriorities ahpTree = ahpTree {
 	--alternativesPriority = Just . trace ( "###### agregatePriorities de " ++ showAhpTree ahpTreeWithChildren) . agregatePriorities $ ahpTreeWithChildren
@@ -28,6 +30,8 @@ computeChildrenTreeAlternativesPriorities :: [Alternative] -> AHPTree -> AHPTree
 computeChildrenTreeAlternativesPriorities alts ahpTree = ahpTree {
         children = map (computeTreeAlternativesPriorities alts) (children ahpTree)
     }
+
+-- * Computation function
 
 agregatePriorities :: AHPTree -> PriorityVector
 agregatePriorities ahpTree = catChildVectors <> childPriorities
@@ -54,6 +58,8 @@ divideMaximize (x,y) = x / y
 
 divideMinimize :: (Double, Double) -> Double
 divideMinimize (x,y) = y / x
+
+-- * Extract data from data stuctures
 
 selectIndValue :: IndicatorName -> Alternative -> Double
 selectIndValue name value = selectIndValue' name (M.toList . indValues $ value)
