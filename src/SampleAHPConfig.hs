@@ -78,7 +78,14 @@ sampleIndicatorValues3 = insert "d" 1
                     . insert "Id" 1000
                         $ empty
 
+sampleIndicatorValues3' :: IndicatorValues
+sampleIndicatorValues3' = insert "d" 2
+                    . insert "Tp" 20
+                    . insert "Tf" 200
+                    . insert "Id" 2000
+                        $ empty
+
 sampleAlternatives3 :: [Alternative]
 sampleAlternatives3 = [ Alternative "alternative A" sampleIndicatorValues3
-                      , Alternative "alternative B" sampleIndicatorValues3
+                      , Alternative "alternative B" sampleIndicatorValues3'
                       ]
