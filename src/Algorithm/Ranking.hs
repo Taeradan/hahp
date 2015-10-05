@@ -3,6 +3,7 @@ module Algorithm.Ranking where
 import           Algorithm.PriorityVector
 import           Configuration
 import           Data.List
+import qualified Data.Map                      as M
 import           Data.Maybe
 import           Debug.Trace
 import           Numeric.LinearAlgebra.HMatrix
@@ -30,4 +31,20 @@ agregatePriorities ahpTree = catChildVectors <> childPriorities
           childPriorities = fromJust . childrenPriority $ ahpTree
 
 computeAlternativesPriority :: [Alternative] -> IndicatorName -> PriorityVector
-computeAlternativesPriority alts name = (length alts >< 1)[1, 1..]
+computeAlternativesPriority alts name = result
+    where pairwiseAlternatives =  buildAlternativePairwiseMatrix name alts alts
+          result = priorityVector . (trace ("Affichage matrice Alt x Alt pour " ++ name ++ show pairwiseAlternatives)) $ pairwiseAlternatives
+
+
+-- TODO : implements Minimize or Maximize option
+buildAlternativePairwiseMatrix :: IndicatorName -> [Alternative] -> [Alternative] -> Matrix Double
+buildAlternativePairwiseMatrix name altsA altsB = (length altsA >< length altsB)cartesianProduct
+        where valsA = map (selectIndValue name) altsA
+	      valsB = map (selectIndValue name) altsB
+	      cartesianProduct = [(x/y) | x <- valsA, y <- valsB]
+
+selectIndValue :: IndicatorName -> Alternative -> Double
+selectIndValue name value = selectIndValue' name (M.toList . indValues $ value)
+
+selectIndValue' :: IndicatorName -> [(IndicatorName, Double)] -> Double
+selectIndValue' name values = fromJust (lookup name values)
