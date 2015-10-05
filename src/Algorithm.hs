@@ -16,9 +16,10 @@ initAHP ahpTree = (newAHPTree, isTreeValid)
           newAHPTree = computeTreePriorityVectors . computeTreeConsistencies $ ahpTree
 
 rankAlternatives :: [Alternative] -> AHPTree -> [Alternative]
-rankAlternatives alts ahpTree = map fst . sortOn' snd $ zip alts ranks
+rankAlternatives alts ahpTree = sortedRankedAlternatives
     where ranks = concat . toLists . fromJust $ alternativesPriority rankedAhpTree
           rankedAhpTree = computeTreeAlternativesPriorities alts ahpTree
+          sortedRankedAlternatives = map fst . sortOn' snd $ zip alts ranks
 
 -- | Sort a list by comparing the results of a key function applied to each
 -- element.  @sortOn f@ is equivalent to @sortBy . comparing f@, but has the
