@@ -2,6 +2,7 @@ module Main where
 
 import           Algorithm
 import           Algorithm.Consistency
+import           Algorithm.Ranking
 import           Data.Time
 import           Reporting
 import           SampleAHPConfig
@@ -23,6 +24,8 @@ main = do
     let (initSampleAHPConfig3, validationSampleAHPConfig3) = initAHP sampleAHPConfig3
         ranking = rankAlternatives sampleAlternatives3 initSampleAHPConfig3
     --putStrLn . showConfigurationSummary $ (initSampleAHPConfig3, validationSampleAHPConfig3)
+	completeTreeConfig3 = computeTreeAlternativesPriorities sampleAlternatives3 initSampleAHPConfig3
+    putStrLn . showConfigurationSummary $ (completeTreeConfig3, validationSampleAHPConfig3)
     print ranking
     putStrLn ""
     putStrLn $ showAlternatives sampleAlternatives3
