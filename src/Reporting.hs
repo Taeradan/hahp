@@ -78,9 +78,9 @@ showAhpSubTree level (AHPTree name prefMatrix consistency childrenPriority alter
     , showMatrix level prefMatrix
     , tabs ++ "  critère de cohérence = " ++ maybe "N/A" show consistency
     , tabs ++ "  vecteur de priorité :"
-    , maybe "N/A" (showMatrix level) childrenPriority
+    , maybe "N/A" (showMatrix (level + 1)) childrenPriority
     , tabs ++ "  priorité entre alternatives :"
-    , maybe "N/A" (showMatrix level) alternativesPriority
+    , maybe "N/A" (showMatrix (level + 1)) alternativesPriority
     , concatMap (showAhpSubTree (level + 1)) children
     ]
         where tabs = variableTabs level
