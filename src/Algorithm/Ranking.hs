@@ -12,17 +12,22 @@ import           Reporting
 computeTreeAlternativesPriorities :: [Alternative] -> AHPTree -> AHPTree
 computeTreeAlternativesPriorities alts ahpTree =
     case ahpTree of
-        (AHPTree _ _ _ _ _ children) -> ahpTreeWithChildren
-            --{ alternativesPriority = Just . trace ( "###### agregatePriorities de " ++ showAhpTree ahpTreeWithChildren) . agregatePriorities $ ahpTreeWithChildren
-            { alternativesPriority = Just . agregatePriorities $ ahpTreeWithChildren
-            }
-            where ahpTreeWithChildren = ahpTree {
-                children = map (computeTreeAlternativesPriorities alts) children
-                }
+        (AHPTree _ _ _ _ _ children) -> agregateTreeAlternativesPriorities . computeChildrenTreeAlternativesPriorities alts $ ahpTree
 --        AHPLeaf {} -> ahpTree
         AHPLeaf {name = name} -> ahpTree
             { alternativesPriority = Just $ computeAlternativesPriority alts name
             }
+
+agregateTreeAlternativesPriorities :: AHPTree -> AHPTree
+agregateTreeAlternativesPriorities ahpTree = ahpTree {
+	--alternativesPriority = Just . trace ( "###### agregatePriorities de " ++ showAhpTree ahpTreeWithChildren) . agregatePriorities $ ahpTreeWithChildren
+        alternativesPriority = Just . agregatePriorities $ ahpTree
+    }
+
+computeChildrenTreeAlternativesPriorities :: [Alternative] -> AHPTree -> AHPTree
+computeChildrenTreeAlternativesPriorities alts ahpTree = ahpTree {
+        children = map (computeTreeAlternativesPriorities alts) (children ahpTree)
+    }
 
 agregatePriorities :: AHPTree -> PriorityVector
 agregatePriorities ahpTree = catChildVectors <> childPriorities
@@ -34,7 +39,6 @@ computeAlternativesPriority :: [Alternative] -> IndicatorName -> PriorityVector
 computeAlternativesPriority alts name = (trace ("Affichage vecteur priorite pour " ++ name ++ show result)) $ result
     where pairwiseAlternatives =  buildAlternativePairwiseMatrix name alts alts
           result = priorityVector . (trace ("Affichage matrice Alt x Alt pour " ++ name ++ show pairwiseAlternatives)) $ pairwiseAlternatives
-
 
 -- TODO : implements Minimize or Maximize option
 buildAlternativePairwiseMatrix :: IndicatorName -> [Alternative] -> [Alternative] -> Matrix Double
@@ -50,8 +54,6 @@ divideMaximize (x,y) = x / y
 
 divideMinimize :: (Double, Double) -> Double
 divideMinimize (x,y) = y / x
-
-
 
 selectIndValue :: IndicatorName -> Alternative -> Double
 selectIndValue name value = selectIndValue' name (M.toList . indValues $ value)
