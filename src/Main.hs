@@ -19,6 +19,9 @@ main = do
     print valeursRI
     putStrLn ""
     let configs = [sampleAHPConfig, sampleAHPConfig2, sampleAHPConfig3]
-    mapM_ (putStrLn . showConfigurationSummary . initAHP) configs
+    --mapM_ (putStrLn . showConfigurationSummary . initAHP) configs
+    let (initSampleAHPConfig3, _) = initAHP sampleAHPConfig3
+        toto = rankAlternatives sampleAlternatives3 initSampleAHPConfig3
+    putStrLn $ show toto
     putStrLn ""
     putStrLn $ showAlternatives sampleAlternatives3
