@@ -26,6 +26,4 @@ main = do
     --putStrLn . showConfigurationSummary $ (initSampleAHPConfig3, validationSampleAHPConfig3)
 	completeTreeConfig3 = computeTreeAlternativesPriorities sampleAlternatives3 initSampleAHPConfig3
     putStrLn . showConfigurationSummary $ (completeTreeConfig3, validationSampleAHPConfig3)
-    print ranking
-    putStrLn ""
-    putStrLn $ showAlternatives sampleAlternatives3
+    putStr $ showAlternatives ranking
