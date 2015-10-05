@@ -38,10 +38,20 @@ computeAlternativesPriority alts name = (trace ("Affichage vecteur priorite pour
 
 -- TODO : implements Minimize or Maximize option
 buildAlternativePairwiseMatrix :: IndicatorName -> [Alternative] -> [Alternative] -> Matrix Double
-buildAlternativePairwiseMatrix name altsA altsB = (length altsA >< length altsB)cartesianProduct
+buildAlternativePairwiseMatrix name altsA altsB = (length altsA >< length altsB)matrix
         where valsA = map (selectIndValue name) altsA
 	      valsB = map (selectIndValue name) altsB
-	      cartesianProduct = [(x/y) | x <- valsA, y <- valsB]
+	      cartesianProduct = [(x,y) | x <- valsA, y <- valsB]
+              --matrix = map divideMinimize cartesianProduct
+              matrix = map divideMaximize cartesianProduct
+
+divideMaximize :: (Double, Double) -> Double
+divideMaximize (x,y) = x / y
+
+divideMinimize :: (Double, Double) -> Double
+divideMinimize (x,y) = y / x
+
+
 
 selectIndValue :: IndicatorName -> Alternative -> Double
 selectIndValue name value = selectIndValue' name (M.toList . indValues $ value)
