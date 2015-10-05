@@ -29,4 +29,4 @@ agregatePriorities ahpTree = catChildVectors <> childPriorities
           childPriorities = fromJust . childrenPriority $ ahpTree
 
 computeAlternativesPriority :: [Alternative] -> IndicatorName -> PriorityVector
-computeAlternativesPriority alts name = (1 >< (length alts) )[1, 1..]
+computeAlternativesPriority alts name = (length alts >< 1)[1, 1..]
