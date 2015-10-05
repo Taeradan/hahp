@@ -22,6 +22,6 @@ main = do
     --mapM_ (putStrLn . showConfigurationSummary . initAHP) configs
     let (initSampleAHPConfig3, _) = initAHP sampleAHPConfig3
         toto = rankAlternatives sampleAlternatives3 initSampleAHPConfig3
-    putStrLn $ show toto
+    print toto
     putStrLn ""
     putStrLn $ showAlternatives sampleAlternatives3

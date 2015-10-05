@@ -15,9 +15,7 @@ initAHP ahpTree = (newAHPTree, isTreeValid)
           newAHPTree = computeTreePriorityVectors . computeTreeConsistencies $ ahpTree
 
 rankAlternatives :: [Alternative] -> AHPTree -> [Alternative]
-rankAlternatives alts ahpTree = map fst sortedAltsRanks
+rankAlternatives alts ahpTree = map fst . sortOn snd $ zip alts ranks
     where ranks = concat . toLists . fromJust $ alternativesPriority rankedAhpTree
-          altsRanks = zip alts ranks
-          sortedAltsRanks = sortOn snd altsRanks
           rankedAhpTree = computeTreeAlternativesPriorities alts ahpTree
 

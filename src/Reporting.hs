@@ -51,7 +51,7 @@ showAlternatives alts = unlines
 showAlternative :: Int -> Alternative -> String
 showAlternative level a = unlines
     [ tabs ++ "* " ++ altName a
-    , tabs ++ "  " ++ (showIndicatorValues level (indValues a))
+    , tabs ++ "  " ++ showIndicatorValues level (indValues a)
     ]
         where tabs = variableTabs level
 
@@ -60,7 +60,7 @@ showIndicatorValues level values = unlines
     [ tabs ++ "valeurs des indicateurs :"
     , unlines $ map (showIndicatorValue level) (M.toList values)
     ]
-        where tabs = variableTabs (level)
+        where tabs = variableTabs level
 
 showIndicatorValue :: Int -> (String, Double) -> String
 showIndicatorValue level (key, value) = tabs ++ "* " ++ key ++ " = " ++ show value

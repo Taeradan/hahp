@@ -9,13 +9,13 @@ import           Numeric.LinearAlgebra.HMatrix
 import           Reporting
 
 computeTreeAlternativesPriorities :: [Alternative] -> AHPTree -> AHPTree
-computeTreeAlternativesPriorities alts ahpTree = 
+computeTreeAlternativesPriorities alts ahpTree =
     case ahpTree of
         (AHPTree _ _ _ _ _ children) -> ahpTreeWithChildren
-            { alternativesPriority = Just . (trace $ "###### agregatePriorities de " ++ showAhpTree ahpTreeWithChildren) . agregatePriorities $ ahpTreeWithChildren
+            { alternativesPriority = Just . trace ( "###### agregatePriorities de " ++ showAhpTree ahpTreeWithChildren) . agregatePriorities $ ahpTreeWithChildren
             }
             where ahpTreeWithChildren = ahpTree {
-                children = map (computeTreeAlternativesPriorities alts) children 
+                children = map (computeTreeAlternativesPriorities alts) children
                 }
 --        AHPLeaf {} -> ahpTree
         AHPLeaf {name = name} -> ahpTree
