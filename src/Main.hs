@@ -5,7 +5,9 @@ import           Algorithm.Consistency
 import           Algorithm.Ranking
 import           Data.Time
 import           Reporting
-import           SampleAHPConfig
+import           SampleAHP.Config1
+import           SampleAHP.Config2
+import           SampleAHP.Config3
 
 main :: IO ()
 main = do
