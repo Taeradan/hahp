@@ -31,7 +31,7 @@ agregatePriorities ahpTree = catChildVectors <> childPriorities
           childPriorities = fromJust . childrenPriority $ ahpTree
 
 computeAlternativesPriority :: [Alternative] -> IndicatorName -> PriorityVector
-computeAlternativesPriority alts name = result
+computeAlternativesPriority alts name = (trace ("Affichage vecteur priorite pour " ++ name ++ show result)) $ result
     where pairwiseAlternatives =  buildAlternativePairwiseMatrix name alts alts
           result = priorityVector . (trace ("Affichage matrice Alt x Alt pour " ++ name ++ show pairwiseAlternatives)) $ pairwiseAlternatives
 
