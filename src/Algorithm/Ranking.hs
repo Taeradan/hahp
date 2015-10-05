@@ -40,9 +40,11 @@ agregatePriorities ahpTree = catChildVectors <> childPriorities
           childPriorities = fromJust . childrenPriority $ ahpTree
 
 computeAlternativesPriority :: [Alternative] -> IndicatorName -> PriorityVector
-computeAlternativesPriority alts name = (trace ("Affichage vecteur priorite pour " ++ name ++ show result)) $ result
+--computeAlternativesPriority alts name = (trace ("Affichage vecteur priorite pour " ++ name ++ show result)) $ result
+computeAlternativesPriority alts name = result
     where pairwiseAlternatives =  buildAlternativePairwiseMatrix name alts alts
-          result = priorityVector . (trace ("Affichage matrice Alt x Alt pour " ++ name ++ show pairwiseAlternatives)) $ pairwiseAlternatives
+          --result = priorityVector . (trace ("Affichage matrice Alt x Alt pour " ++ name ++ show pairwiseAlternatives)) $ pairwiseAlternatives
+          result = priorityVector pairwiseAlternatives
 
 -- TODO : implements Minimize or Maximize option
 buildAlternativePairwiseMatrix :: IndicatorName -> [Alternative] -> [Alternative] -> Matrix Double
