@@ -10,6 +10,12 @@ import           Data.Maybe
 import           Data.Ord                      ( comparing )
 import           Numeric.LinearAlgebra.HMatrix
 
+
+simpleAHP :: AHPTree -> [Alternative] -> (AHPTree, [Alternative], Bool)
+simpleAHP ahpTree alts = (completeTree, ranking, validation)
+	where (initializedTree, validation) = initAHP ahpTree
+              (completeTree, ranking) = rankAlternatives alts initializedTree
+
 initAHP :: AHPTree -> (AHPTree, Bool)
 initAHP ahpTree = (newAHPTree, isTreeValid)
     where isTreeValid = isAHPTreeValid newAHPTree
