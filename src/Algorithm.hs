@@ -10,16 +10,22 @@ import           Data.Maybe
 import           Data.Ord                      ( comparing )
 import           Numeric.LinearAlgebra.HMatrix
 
-
+-- |This function is a quick way to rank a set of alternatives with AHP algorithm.
+-- This function call everithing required to configure an execute AHP process.
+-- If something goes wrong, an error is raised.
 simpleAHP :: AHPTree -> [Alternative] -> (AHPTree, [Alternative], Bool)
 simpleAHP ahpTree alts = (completeTree, ranking, validation)
 	where (initializedTree, validation) = initAHP ahpTree
               (completeTree, ranking) = rankAlternatives alts initializedTree
 
+-- * Part 1 = static part
+
 initAHP :: AHPTree -> (AHPTree, Bool)
 initAHP ahpTree = (newAHPTree, isTreeValid)
     where isTreeValid = isAHPTreeValid newAHPTree
           newAHPTree = computeTreePriorityVectors . computeTreeConsistencies $ ahpTree
+
+-- * Part 2 = dynamic part
 
 rankAlternatives :: [Alternative] -> AHPTree -> (AHPTree, [Alternative])
 rankAlternatives alts ahpTree = (rankedAhpTree, reverse sortedRankedAlternatives)
