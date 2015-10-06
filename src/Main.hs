@@ -23,6 +23,7 @@ main = do
     putStrLn ""
     let configs = [sampleAHPConfig, sampleAHPConfig2, sampleAHPConfig3]
     --mapM_ (putStrLn . showConfigurationSummary . initAHP) configs
+    --putStrLn . showConfigurationSummary $ (completeTree, validation)
+    --putStr $ showAlternatives ranking
     let (completeTree, ranking, validation) = simpleAHP sampleAHPConfig3 sampleAlternatives3
-    putStrLn . showConfigurationSummary $ (completeTree, validation)
-    putStr $ showAlternatives ranking
+    putStrLn . simpleSummary $ (completeTree, ranking, validation)

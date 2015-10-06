@@ -21,6 +21,11 @@ reportHeader title author time = unlines
     , "% " ++ showGregorian(utctDay time)
     ]
 
+simpleSummary :: (AHPTree, [Alternative], Bool) -> String
+simpleSummary (ahpTree, alts, validation) =  treeSummary ++ altSummary
+	where treeSummary = showConfigurationSummary (ahpTree, validation)
+	      altSummary = showAlternatives alts
+
 -- | Print an AHP tree and some additional information about it
 showConfigurationSummary :: (AHPTree, Bool) -- ^ AHP tree and the result of its validation
                          -> String          -- ^ Report about the AHP tree
