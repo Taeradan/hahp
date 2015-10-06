@@ -24,8 +24,7 @@ main = do
     let configs = [sampleAHPConfig, sampleAHPConfig2, sampleAHPConfig3]
     --mapM_ (putStrLn . showConfigurationSummary . initAHP) configs
     let (initSampleAHPConfig3, validationSampleAHPConfig3) = initAHP sampleAHPConfig3
-        ranking = rankAlternatives sampleAlternatives3 initSampleAHPConfig3
+        (completeTreeConfig3, ranking) = rankAlternatives sampleAlternatives3 initSampleAHPConfig3
     --putStrLn . showConfigurationSummary $ (initSampleAHPConfig3, validationSampleAHPConfig3)
-	completeTreeConfig3 = computeTreeAlternativesPriorities sampleAlternatives3 initSampleAHPConfig3
     putStrLn . showConfigurationSummary $ (completeTreeConfig3, validationSampleAHPConfig3)
     putStr $ showAlternatives ranking
