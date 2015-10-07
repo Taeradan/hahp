@@ -15,7 +15,7 @@ computeTreeAlternativesPriorities alts ahpTree =
         (AHPTree _ _ _ _ _ children) -> agregateTreeAlternativesPriorities . computeChildrenTreeAlternativesPriorities alts $ ahpTree
 --        AHPLeaf {} -> ahpTree
         AHPLeaf {name = name} -> ahpTree
-            { alternativesPriority = Just $ computeAlternativesPriority alts name
+            { alternativesPriority = Just $ computeAlternativesPriority ahpTree alts name
             }
 
 -- * Helper function.
@@ -39,21 +39,24 @@ agregatePriorities ahpTree = catChildVectors <> childPriorities
           catChildVectors = foldl1 (|||) childVectors
           childPriorities = fromJust . childrenPriority $ ahpTree
 
-computeAlternativesPriority :: [Alternative] -> IndicatorName -> PriorityVector
+computeAlternativesPriority :: AHPTree -> [Alternative] -> IndicatorName -> PriorityVector
 --computeAlternativesPriority alts name = (trace ("Affichage vecteur priorite pour " ++ name ++ show result)) $ result
-computeAlternativesPriority alts name = result
-    where pairwiseAlternatives =  buildAlternativePairwiseMatrix name alts alts
+computeAlternativesPriority ahpTree alts name = result
+    where pairwiseAlternatives =  buildAlternativePairwiseMatrix ahpTree name alts alts
           --result = priorityVector . (trace ("Affichage matrice Alt x Alt pour " ++ name ++ show pairwiseAlternatives)) $ pairwiseAlternatives
           result = priorityVector pairwiseAlternatives
 
 -- TODO : implements Minimize or Maximize option
-buildAlternativePairwiseMatrix :: IndicatorName -> [Alternative] -> [Alternative] -> Matrix Double
-buildAlternativePairwiseMatrix name altsA altsB = (length altsA >< length altsB)matrix
+buildAlternativePairwiseMatrix :: AHPTree -> IndicatorName -> [Alternative] -> [Alternative] -> Matrix Double
+buildAlternativePairwiseMatrix ahpTree name altsA altsB = (length altsA >< length altsB)matrix
         where valsA = map (selectIndValue name) altsA
 	      valsB = map (selectIndValue name) altsB
 	      cartesianProduct = [(x,y) | x <- valsA, y <- valsB]
               --matrix = map divideMinimize cartesianProduct
-              matrix = map divideMaximize cartesianProduct
+              --matrix = map divideMaximize cartesianProduct
+              matrix = map operator cartesianProduct
+	      operator = (if isMaximize then divideMaximize else divideMinimize)
+	      isMaximize = maximize . fromJust . extractLeaf ahpTree $ name
 
 divideMaximize :: (Double, Double) -> Double
 divideMaximize (x,y) = x / y
