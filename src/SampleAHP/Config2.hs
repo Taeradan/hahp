@@ -34,3 +34,41 @@ sampleAHPConfig2 = AHPTree
                         , AHPLeaf "Capital" True Nothing
                         ]
 
+sampleIndicatorValues2 :: IndicatorValues
+sampleIndicatorValues2 = insert "Puissance" 100
+                    . insert "Timidité" 100
+                    . insert "Tenue" 100
+                    . insert "Taille de la *" 100
+                    . insert "Capital" 100
+                        $ empty
+
+sampleIndicatorValues2' :: IndicatorValues
+sampleIndicatorValues2' = insert "Puissance" 1000
+                    . insert "Timidité" 100
+                    . insert "Tenue" 100
+                    . insert "Taille de la *" 100
+                    . insert "Capital" 100
+                        $ empty
+
+sampleIndicatorValues2'' :: IndicatorValues
+sampleIndicatorValues2'' = insert "Puissance" 1000
+                    . insert "Timidité" 100
+                    . insert "Tenue" 100
+                    . insert "Taille de la *" 1000
+                    . insert "Capital" 100
+                        $ empty
+
+sampleIndicatorValues2''' :: IndicatorValues
+sampleIndicatorValues2''' = insert "Puissance" 1000
+                    . insert "Timidité" 1000
+                    . insert "Tenue" 100
+                    . insert "Taille de la *" 100
+                    . insert "Capital" 100
+                        $ empty
+
+sampleAlternatives2 :: [Alternative]
+sampleAlternatives2 = [ Alternative "alternative A" sampleIndicatorValues2
+                      , Alternative "alternative B" sampleIndicatorValues2'
+                      , Alternative "alternative C" sampleIndicatorValues2''
+                      , Alternative "alternative D" sampleIndicatorValues2'''
+                      ]

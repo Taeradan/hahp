@@ -3,6 +3,7 @@ module Main where
 import           Algorithm
 import           Algorithm.Consistency
 import           Algorithm.Ranking
+import           Configuration
 import           Data.Time
 import           Reporting
 import           SampleAHP.Config1
@@ -21,9 +22,14 @@ main = do
     let valeursRI = map randomIndexCalculated [1..15]
     print valeursRI
     putStrLn ""
-    let configs = [sampleAHPConfig, sampleAHPConfig2, sampleAHPConfig3]
+    let configs = [sampleAHPConfig1, sampleAHPConfig2, sampleAHPConfig3]
+    let alternatives = [sampleAlternatives1, sampleAlternatives2, sampleAlternatives3]
+    let sampleDataSet = zip configs alternatives
+    mapM_ (putStrLn . simpleAHPSummary) sampleDataSet
     --mapM_ (putStrLn . showConfigurationSummary . initAHP) configs
     --putStrLn . showConfigurationSummary $ (completeTree, validation)
     --putStr $ showAlternatives ranking
-    let (completeTree, ranking, validation) = simpleAHP sampleAHPConfig3 sampleAlternatives3
-    putStrLn . simpleSummary $ (completeTree, ranking, validation)
+
+simpleAHPSummary :: (AHPTree, [Alternative]) -> String
+simpleAHPSummary (ahpTree, alts) = simpleSummary $ (completeTree, ranking, validation)
+	where (completeTree, ranking, validation) = simpleAHP ahpTree alts
