@@ -2,18 +2,34 @@ module Reporting where
 
 import           Configuration
 import           Data.List
+import qualified Data.Map                      as M
 import           Data.Time
 import           Numeric.LinearAlgebra.HMatrix
 import           Text.Printf
 
-reportHeader :: String -> String -> UTCTime -> String
+-- * Report making
+
+-- | Given a title, an author and a timestamp, builds a Pandoc Markdown document header
+reportHeader :: String  -- ^ Report title
+             -> String  -- ^ Report author
+             -> UTCTime -- ^ Report timestamp
+             -> String  -- ^ Report header
+
 reportHeader title author time = unlines
     [ "% " ++ title
     , "% " ++ author
     , "% " ++ showGregorian(utctDay time)
     ]
 
-showConfigurationSummary :: (AHPTree, Bool) -> String
+simpleSummary :: (AHPTree, [Alternative], Bool) -> String
+simpleSummary (ahpTree, alts, validation) =  treeSummary ++ altSummary
+	where treeSummary = showConfigurationSummary (ahpTree, validation)
+	      altSummary = showAlternatives alts
+
+-- | Print an AHP tree and some additional information about it
+showConfigurationSummary :: (AHPTree, Bool) -- ^ AHP tree and the result of its validation
+                         -> String          -- ^ Report about the AHP tree
+
 showConfigurationSummary (ahpTree, validation) = unlines
     [ "# Configuration \"" ++ name ahpTree ++ "\""
     , ""
@@ -26,30 +42,79 @@ showConfigurationSummary (ahpTree, validation) = unlines
     , if validation
         then "-> configuration correcte"
         else "-> configuration invalide"
+    , ""
     ]
+
+-- * Alternatives printing
+
+showAlternatives :: [Alternative] -> String
+showAlternatives alts = unlines
+    [ ""
+    , "## Valeur des alternatives"
+    , ""
+    , concatMap (showAlternative 0) alts
+    ]
+
+showAlternative :: Int -> Alternative -> String
+showAlternative level a = unlines
+    [ tabs ++ "1. " ++ altName a
+    , showIndicatorValues (level + 1) (indValues a)
+    ]
+    where tabs = variableTabs level
+
+showIndicatorValues :: Int -> IndicatorValues -> String
+showIndicatorValues level values = unlines
+    [ tabs
+    --, tabs ++ "valeurs des indicateurs :"
+    , tabs
+    , unlines $ map (showIndicatorValue level) (M.toList values)
+    ]
+    where tabs = variableTabs level
+
+showIndicatorValue :: Int -> (String, Double) -> String
+showIndicatorValue level (key, value) = tabs ++ "* " ++ key ++ " = " ++ show value
+    where tabs = variableTabs level
+
+-- * AHP tree printing
 
 showAhpTree :: AHPTree -> String
 showAhpTree = showAhpSubTree 0
 
 showAhpSubTree :: Int -> AHPTree -> String
-showAhpSubTree level (AHPTree name prefMatrix consistency childrenPriority _ children) = unlines
+showAhpSubTree level (AHPTree name prefMatrix consistency childrenPriority alternativesPriority children) = unlines
     [ tabs ++ "* Tree : " ++ name
-    , tabs ++ "  matrice de préférence :"
-    , showMatrix level prefMatrix
-    , tabs ++ "  critère de cohérence = " ++ maybe "N/A" show consistency
-    , tabs ++ "  vecteur de priorité :"
-    , maybe "N/A" (showMatrix level) childrenPriority
+    , tabs
+    , tabs ++ "\t- matrice de préférence :"
+    , tabs
+    , showMatrix (level + 2) prefMatrix
+    , tabs
+    , tabs ++ "\t- critère de cohérence = " ++ maybe "N/A" show consistency
+    , tabs
+    , tabs ++ "\t- vecteur de priorité :"
+    , tabs
+    , maybe "N/A" (showMatrix (level + 2)) childrenPriority
+    , tabs ++ "\t- priorité entre alternatives :"
+    , tabs
+    , maybe "N/A" (showMatrix (level + 2)) alternativesPriority
     , concatMap (showAhpSubTree (level + 1)) children
     ]
         where tabs = variableTabs level
-showAhpSubTree level (AHPLeaf name maximize _) = unlines
+
+showAhpSubTree level (AHPLeaf name maximize alternativesPriority) = unlines
     [ tabs ++ "* Leaf : " ++ name
-    , tabs ++ "  " ++ (if maximize then "maximize" else "minimize")
+    , tabs
+    , tabs ++ "\t- " ++ (if maximize then "maximize" else "minimize")
+    , tabs ++ "\t- priorité entre alternatives :"
+    , tabs
+    , maybe "N/A" (showMatrix (level + 1)) alternativesPriority
     ]
         where tabs = variableTabs level
 
 showMatrix :: Int -> Matrix Double -> String
-showMatrix level matrix = concatMap showMatrixLine lists
+showMatrix level matrix = showMatrix' (level + 2) matrix
+
+showMatrix' :: Int -> Matrix Double -> String
+showMatrix' level matrix = concatMap showMatrixLine lists
     where lists = toLists matrix
           showMatrixLine line = variableTabs level ++ "  | " ++
                                 concatMap (\x -> printf "%.4f" x ++ " ") line ++
