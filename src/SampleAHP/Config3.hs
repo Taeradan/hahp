@@ -20,7 +20,7 @@ sampleAHPConfig3 = AHPTree
                        [ AHPLeaf "d" True Nothing
                        , AHPLeaf "Tp" True Nothing
                        , AHPLeaf "Tf" True Nothing
-                       , AHPLeaf "Id" True Nothing
+                       , AHPLeaf "Id" False Nothing
                        ]
 
 sampleIndicatorValues3 :: IndicatorValues

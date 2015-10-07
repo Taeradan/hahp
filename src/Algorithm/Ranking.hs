@@ -46,14 +46,11 @@ computeAlternativesPriority ahpTree alts name = result
           --result = priorityVector . (trace ("Affichage matrice Alt x Alt pour " ++ name ++ show pairwiseAlternatives)) $ pairwiseAlternatives
           result = priorityVector pairwiseAlternatives
 
--- TODO : implements Minimize or Maximize option
 buildAlternativePairwiseMatrix :: AHPTree -> IndicatorName -> [Alternative] -> [Alternative] -> Matrix Double
 buildAlternativePairwiseMatrix ahpTree name altsA altsB = (length altsA >< length altsB)matrix
         where valsA = map (selectIndValue name) altsA
 	      valsB = map (selectIndValue name) altsB
 	      cartesianProduct = [(x,y) | x <- valsA, y <- valsB]
-              --matrix = map divideMinimize cartesianProduct
-              --matrix = map divideMaximize cartesianProduct
               matrix = map operator cartesianProduct
 	      operator = (if isMaximize then divideMaximize else divideMinimize)
 	      isMaximize = maximize . fromJust . extractLeaf ahpTree $ name
