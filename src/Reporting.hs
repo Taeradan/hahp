@@ -21,7 +21,9 @@ reportHeader title author time = unlines
     , "% " ++ showGregorian(utctDay time)
     ]
 
-simpleSummary :: (AHPTree, [Alternative], Bool) -> String
+-- | Print a simple report about an AHP tree and ranking result
+simpleSummary :: (AHPTree, [Alternative], Bool) -- ^ AHP tree, some alternatives and the result of tree validation
+                 -> String                      -- ^ Report build from input
 simpleSummary (ahpTree, alts, validation) =  treeSummary ++ altSummary
 	where treeSummary = showConfigurationSummary (ahpTree, validation)
 	      altSummary = showAlternatives alts
@@ -47,7 +49,9 @@ showConfigurationSummary (ahpTree, validation) = unlines
 
 -- * Alternatives printing
 
-showAlternatives :: [Alternative] -> String
+-- | Print AHP Alternatives and some additional information about them
+showAlternatives :: [Alternative] -- ^ AHP Alternatives
+                    -> String     -- ^ Report alternatives with indicator values
 showAlternatives alts = unlines
     [ ""
     , "## Valeur des alternatives"
@@ -55,7 +59,10 @@ showAlternatives alts = unlines
     , concatMap (showAlternative 0) alts
     ]
 
-showAlternative :: Int -> Alternative -> String
+-- | Print an AHP Alternative and some additional information about it
+showAlternative :: Int         -- ^ Deep level. Used to intercalate separators
+                -> Alternative -- ^ Alternative
+                -> String      -- ^ Report about the alternative
 showAlternative level a = unlines
     [ tabs ++ "1. " ++ altName a
     , showIndicatorValues (level + 1) (indValues a)
