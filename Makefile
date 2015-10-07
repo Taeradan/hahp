@@ -1,4 +1,5 @@
 run:
+	date
 	cabal run
 
 hlint:

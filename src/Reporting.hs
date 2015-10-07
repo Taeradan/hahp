@@ -21,6 +21,11 @@ reportHeader title author time = unlines
     , "% " ++ showGregorian(utctDay time)
     ]
 
+simpleSummary :: (AHPTree, [Alternative], Bool) -> String
+simpleSummary (ahpTree, alts, validation) =  treeSummary ++ altSummary
+	where treeSummary = showConfigurationSummary (ahpTree, validation)
+	      altSummary = showAlternatives alts
+
 -- | Print an AHP tree and some additional information about it
 showConfigurationSummary :: (AHPTree, Bool) -- ^ AHP tree and the result of its validation
                          -> String          -- ^ Report about the AHP tree
@@ -37,34 +42,38 @@ showConfigurationSummary (ahpTree, validation) = unlines
     , if validation
         then "-> configuration correcte"
         else "-> configuration invalide"
+    , ""
     ]
 
 -- * Alternatives printing
 
 showAlternatives :: [Alternative] -> String
 showAlternatives alts = unlines
-    [ "## Valeur des alternatives"
+    [ ""
+    , "## Valeur des alternatives"
     , ""
-    , concatMap (showAlternative 1) alts
+    , concatMap (showAlternative 0) alts
     ]
 
 showAlternative :: Int -> Alternative -> String
 showAlternative level a = unlines
-    [ tabs ++ "* " ++ altName a
-    , tabs ++ "  " ++ (showIndicatorValues level (indValues a))
+    [ tabs ++ "1. " ++ altName a
+    , showIndicatorValues (level + 1) (indValues a)
     ]
-        where tabs = variableTabs level
+    where tabs = variableTabs level
 
 showIndicatorValues :: Int -> IndicatorValues -> String
 showIndicatorValues level values = unlines
-    [ tabs ++ "valeurs des indicateurs :"
+    [ tabs
+    --, tabs ++ "valeurs des indicateurs :"
+    , tabs
     , unlines $ map (showIndicatorValue level) (M.toList values)
     ]
-        where tabs = variableTabs (level)
+    where tabs = variableTabs level
 
 showIndicatorValue :: Int -> (String, Double) -> String
 showIndicatorValue level (key, value) = tabs ++ "* " ++ key ++ " = " ++ show value
-    where tabs = variableTabs (level + 1)
+    where tabs = variableTabs level
 
 -- * AHP tree printing
 
@@ -72,25 +81,40 @@ showAhpTree :: AHPTree -> String
 showAhpTree = showAhpSubTree 0
 
 showAhpSubTree :: Int -> AHPTree -> String
-showAhpSubTree level (AHPTree name prefMatrix consistency childrenPriority _ children) = unlines
+showAhpSubTree level (AHPTree name prefMatrix consistency childrenPriority alternativesPriority children) = unlines
     [ tabs ++ "* Tree : " ++ name
-    , tabs ++ "  matrice de préférence :"
-    , showMatrix level prefMatrix
-    , tabs ++ "  critère de cohérence = " ++ maybe "N/A" show consistency
-    , tabs ++ "  vecteur de priorité :"
-    , maybe "N/A" (showMatrix level) childrenPriority
+    , tabs
+    , tabs ++ "\t- matrice de préférence :"
+    , tabs
+    , showMatrix (level + 2) prefMatrix
+    , tabs
+    , tabs ++ "\t- critère de cohérence = " ++ maybe "N/A" show consistency
+    , tabs
+    , tabs ++ "\t- vecteur de priorité :"
+    , tabs
+    , maybe "N/A" (showMatrix (level + 2)) childrenPriority
+    , tabs ++ "\t- priorité entre alternatives :"
+    , tabs
+    , maybe "N/A" (showMatrix (level + 2)) alternativesPriority
     , concatMap (showAhpSubTree (level + 1)) children
     ]
         where tabs = variableTabs level
 
-showAhpSubTree level (AHPLeaf name maximize _) = unlines
+showAhpSubTree level (AHPLeaf name maximize alternativesPriority) = unlines
     [ tabs ++ "* Leaf : " ++ name
-    , tabs ++ "  " ++ (if maximize then "maximize" else "minimize")
+    , tabs
+    , tabs ++ "\t- " ++ (if maximize then "maximize" else "minimize")
+    , tabs ++ "\t- priorité entre alternatives :"
+    , tabs
+    , maybe "N/A" (showMatrix (level + 1)) alternativesPriority
     ]
         where tabs = variableTabs level
 
 showMatrix :: Int -> Matrix Double -> String
-showMatrix level matrix = concatMap showMatrixLine lists
+showMatrix level matrix = showMatrix' (level + 2) matrix
+
+showMatrix' :: Int -> Matrix Double -> String
+showMatrix' level matrix = concatMap showMatrixLine lists
     where lists = toLists matrix
           showMatrixLine line = variableTabs level ++ "  | " ++
                                 concatMap (\x -> printf "%.4f" x ++ " ") line ++
