@@ -68,3 +68,15 @@ selectIndValue name value = selectIndValue' name (M.toList . indValues $ value)
 
 selectIndValue' :: IndicatorName -> [(IndicatorName, Double)] -> Double
 selectIndValue' name values = fromJust (lookup name values)
+
+extractLeaf :: AHPTree -> String -> Maybe AHPTree
+extractLeaf ahpTree altName = listToMaybe matchingleaves 
+	where matchingleaves = filter (\x -> (name x) == altName) leaves
+	      leaves = extractLeaves' [] ahpTree
+
+extractLeaves' :: [AHPTree] -> AHPTree -> [AHPTree]
+extractLeaves' acc ahpTree =
+	case ahpTree of
+		AHPTree {} -> concatMap (extractLeaves' acc) (children ahpTree)
+		AHPLeaf {} -> [ahpTree] ++ acc
+
