@@ -5,6 +5,9 @@ run:
 hlint:
 	hlint src
 
+stylish-haskell:
+	find src -name "*.hs" -exec stylish-haskell -i {} \;
+
 pdf:
 	cabal install
 	HAHP > out.md
