@@ -118,7 +118,7 @@ showAhpSubTree level (AHPLeaf name maximize alternativesPriority) = unlines
         where tabs = variableTabs level
 
 showMatrix :: Int -> Matrix Double -> String
-showMatrix level matrix = showMatrix' (level + 2) matrix
+showMatrix level = showMatrix' (level + 2)
 
 showMatrix' :: Int -> Matrix Double -> String
 showMatrix' level matrix = concatMap showMatrixLine lists

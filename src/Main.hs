@@ -31,5 +31,5 @@ main = do
     --putStr $ showAlternatives ranking
 
 simpleAHPSummary :: (AHPTree, [Alternative]) -> String
-simpleAHPSummary (ahpTree, alts) = simpleSummary $ (completeTree, ranking, validation)
+simpleAHPSummary (ahpTree, alts) = simpleSummary (completeTree, ranking, validation)
 	where (completeTree, ranking, validation) = simpleAHP ahpTree alts

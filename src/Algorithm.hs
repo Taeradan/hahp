@@ -7,7 +7,7 @@ import           Algorithm.Validation
 import           Configuration
 import           Data.List
 import           Data.Maybe
-import           Data.Ord                      ( comparing )
+import           Data.Ord                      (comparing)
 import           Numeric.LinearAlgebra.HMatrix
 
 -- |This function is a quick way to rank a set of alternatives with AHP algorithm.
