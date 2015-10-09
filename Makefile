@@ -3,7 +3,7 @@ run:
 	cabal run
 
 hlint:
-	hlint src/*.hs
+	hlint src
 
 pdf:
 	cabal install
