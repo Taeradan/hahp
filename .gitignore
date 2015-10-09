@@ -21,3 +21,4 @@ cabal.sandbox.config
 
 out.*
 SourceGraph
+/report.html
