@@ -3,7 +3,7 @@ run:
 	cabal run
 
 hlint:
-	hlint src
+	hlint -r src
 
 stylish-haskell:
 	find src -name "*.hs" -exec stylish-haskell -i {} \;
