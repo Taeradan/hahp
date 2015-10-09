@@ -12,7 +12,11 @@ pdf:
 	cabal build
 	dist/build/HAHP/HAHP > out.md
 	pandoc out.md -o out.pdf -V geometry:margin=1cm
-	
-doc:
+
+doc: sourcegraph haddock
+
+sourcegraph:
 	docker run -v $$(pwd):/src --rm taeradan/haskell-sourcegraph HAHP.cabal
+
+haddock:
 	cabal haddock --executables
