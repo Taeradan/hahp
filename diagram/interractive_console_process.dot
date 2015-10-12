@@ -1,0 +1,108 @@
+digraph Def {
+    rankdir = TB;
+
+    label="promosition mode interractif\n(en console)"
+
+    /** Data definition  */
+    node [shape=box,style="filled",fillcolor=peachpuff];
+
+    //-- Data nodes
+    d1[label="(AHP Tree, nom objectif global]"];
+  
+    d2_n[label="(AHP Tree, reponse = non)"];
+    d2_y[label="(AHP Tree, reponse = oui)"];
+    d2_y_critere[label="(AHP Tree, nom du critère)"];
+    
+    d3_n[label="(AHP Tree, reponse = non)"];
+    d3_y[label="(AHP Tree, reponse = oui)"];
+    d3_y_a[label="(AHP Tree, nom de l'indicateur)"];
+    d3_y_b[label="(AHP Tree, maximisation = (réponse utilisateur))"];
+    
+    d4[label="(AHP Tree, matrice préférence)"];
+    d4_n[label="(AHP Tree, matrice cohérente = non)"];
+    d4_y[label="(AHP Tree, reponse cohérente = oui)"];
+
+    d5_y[label="(AHP Tree, validation = vrai)"];
+    d5_n[label="(AHP Tree, validation = faux)"];
+    
+    d6[label="(AHP Tree, [Alternative])"];
+
+    /** Process definition */
+    node [shape=ellipse,style="filled",fillcolor=olivedrab1];
+
+    //-- Process nodes
+    p1[label="entrez le nom de l'objectif global"];
+    
+    p2[label="voulez-vous ajouter un critère ?"];
+    p2_y[label="entrez le nom du critère"];
+
+    p3[label="voulez-vous ajouter un indicateur simple ?"];
+    p3_y_a[label="entrez le nom de l'indicateur"];
+    p3_y_b[label="l'indicateur doit il être maximisé ?"];
+    
+    p4[label="saisie de la matrice de préférence\n(non détaillée ici)"];
+    p4_validite[label="vérification de la cohérence de la matrice"];
+    
+    p5[label="vérification de l'arbre"];
+    
+    
+    p6[label="Saisie des alternatives\n(non détaillée ici)"];
+    
+    p7[label="Appel libHAHP"];
+    
+    /** Set other color to identify wrong declaration */
+    node [shape=square,style="filled",fillcolor=red];
+
+    p5_n[label="on fait quoi ?"];
+
+    /** Relations */
+    subgraph cluster_p2 { 
+        p2 -> d2_n;
+        //p2 -> d2_n -> p3;
+        p2 -> d2_y -> p2_y -> d2_y_critere -> p2;
+        
+        label="Saisie des critères";
+        graph[style=dotted];
+    }
+    d2_n -> p3; 
+
+    subgraph cluster_p3 { 
+        p3 -> d3_n;
+        p3 -> d3_y -> p3_y_a -> d3_y_a -> p3_y_b -> d3_y_b -> p3;
+
+        label="Saisie des indicateurs";
+        graph[style=dotted];
+    }
+    d3_n -> p4;
+
+    subgraph cluster_p4 { 
+        p4 -> d4 -> p4_validite;
+        p4_validite -> d4_n -> p4;
+        p4_validite -> d4_y;
+
+        label="Saisie matrice de préférence";
+        graph[style=dotted];
+    } 
+    d4_y -> p5;
+    
+    subgraph cluster_p5 { 
+        p5 -> d5_n -> p5_n;
+        p5 -> d5_y;
+
+        label="Vérification de l'arbre";
+        graph[style=dotted];
+    } 
+    d5_y -> p6;
+
+    subgraph cluster_p6 { 
+        p6 -> d6;
+
+        label="Saisie des alternatives";
+        graph[style=dotted];
+    } 
+    d6 -> p7;
+
+
+    p1 -> d1 -> p2;
+}
+
