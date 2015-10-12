@@ -1,0 +1,48 @@
+digraph Def {
+    rankdir = TB;
+
+    label="libHAHP"
+
+    /** Data definition  */
+    node [shape=box,style="filled",fillcolor=peachpuff];
+
+    //-- Data nodes
+    tree[label="AHP Tree"];
+    tree_[label="AHP Tree'"];
+    alts[label="[Alternative]"];
+    alt_tree[label="([Alternative], AHP Tree)"];
+    alt_tree_validation[label="([Alternative], AHP Tree, Tree Validation)"];
+    tree_validation_alt[label="(AHP Tree, Tree Validation, [Alternative])"];
+    out_md[label="out.md"];
+    out_dot[label="out.dot"];
+    out_pdf[label="out.pdf"];
+
+  
+    /** Process definition */
+    node [shape=ellipse,style="filled",fillcolor=olivedrab1];
+
+    //-- Process nodes
+    check_tree_structure[label="Check Tree Structure\n(if error, fail)"];
+    check_alt_structure[label="Check Alternatives Structure"];
+    compute_tree[label="Compute AHP Tree"];
+    compute_sort[label="Sort [Alternative] with AHP ranking"];
+    report_md[label="Build .md report"];
+    report_future[label="? Future reports ?"];
+
+    /** Set other color to identify wrong declaration */
+    node [shape=square,style="filled",fillcolor=red];
+
+    /** Relations */
+    subgraph { 
+        rank=same; alts; tree;
+    } 
+
+    tree -> check_tree_structure -> tree_;
+    {alts; tree_} -> check_alt_structure -> alt_tree;
+    alt_tree -> compute_tree -> alt_tree_validation;
+    alt_tree_validation -> compute_sort -> tree_validation_alt;
+    tree_validation_alt -> report_md -> out_md;
+
+    tree_validation_alt -> report_future -> {out_dot; out_pdf};
+}
+
