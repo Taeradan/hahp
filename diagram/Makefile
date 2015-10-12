@@ -12,9 +12,13 @@ OBJ_eps_dot= $(SRC_dot:.dot=.eps)
 OBJ_pdf_dot= $(SRC_dot:.dot=.pdf)
 OBJ_png_dot= $(SRC_dot:.dot=.png)
 
+EXE_pdf_md=hello_pdf_md.txt
+SRC_md= $(shell find . -name "*.md")
+OBJ_pdf_md= $(SRC_md:.md=.pdf)
+
 MAKE_DONE = make-done
 	 
-all: dia graphviz
+all: dia graphviz pandoc
 	@touch $(MAKE_DONE)
 
 clean :
@@ -24,7 +28,9 @@ dia: $(EXE_eps_dia) $(EXE_pdf_dia)
 
 #graphviz: $(EXE_eps_dot) $(EXE_pdf_dot)
 graphviz: $(EXE_png_dot)
-	 
+
+pandoc:	$(EXE_pdf_md)
+
 $(EXE_eps_dia): $(OBJ_eps_dia)
 	@date > $(EXE_eps_dia)
 
@@ -59,4 +65,11 @@ $(EXE_png_dot): $(OBJ_png_dot)
 %.png: %.dot
 	@echo -e "\t - $@"
 	@dot -Tpng $< -o $@
+
+$(EXE_pdf_md): $(OBJ_pdf_md)
+	@date > $(EXE_pdf_md)
+
+%.pdf: %.md
+	@echo "\t - $@"
+	@pandoc $< -o $@ -V geometry:margin=1cm
 
