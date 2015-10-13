@@ -15,7 +15,7 @@ computeTreeConsistencies ahpTree =
         AHPLeaf {} -> ahpTree
 
 -- |A matrix with consistency=0 is consistent.
-matrixConsistency :: PreferenceMatrix -> Double
+matrixConsistency :: PairwiseMatrix -> Double
 matrixConsistency prefMat
     | matrixSize <= 2 = 0
     | otherwise = consistencyIndicator / randomIndexValue
@@ -24,7 +24,7 @@ matrixConsistency prefMat
           lambdaMax = maxEigenValue prefMat
           matrixSize = fromIntegral . rows $ prefMat
 
-maxEigenValue :: PreferenceMatrix -> Double
+maxEigenValue :: PairwiseMatrix -> Double
 maxEigenValue prefMat = realPart . maxElement . eigenvalues $ prefMat
 
 randomIndex :: Double -> Double

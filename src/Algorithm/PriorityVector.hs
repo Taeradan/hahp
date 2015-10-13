@@ -12,11 +12,11 @@ computeTreePriorityVectors ahpTree =
             }
         AHPLeaf {} -> ahpTree
 
-priorityVector :: PreferenceMatrix -> PriorityVector
+priorityVector :: PairwiseMatrix -> PriorityVector
 priorityVector prefMat =
     priorityVectorRefining prefMat prefMat (priorityVectorBase prefMat)
 
-priorityVectorRefining :: PreferenceMatrix -> PreferenceMatrix -> PriorityVector -> PriorityVector
+priorityVectorRefining :: PairwiseMatrix -> PairwiseMatrix -> PriorityVector -> PriorityVector
 priorityVectorRefining origPrefMat powPrefMat oldPrioVect =
     if compareMatrixItems newPrioVect oldPrioVect threshold
         then newPrioVect
@@ -29,7 +29,7 @@ compareMatrixItems matrixA matrixB threshold =
     all (\(x,y) -> abs(x - y) < threshold ) list
         where list = zip (toList . flatten $ matrixA) (toList . flatten $ matrixB)
 
-priorityVectorBase :: PreferenceMatrix -> PriorityVector
+priorityVectorBase :: PairwiseMatrix -> PriorityVector
 priorityVectorBase prefMat = numerator <> inv denominator
     where numerator = prefMat <> eT
           denominator = e <> prefMat <> eT
