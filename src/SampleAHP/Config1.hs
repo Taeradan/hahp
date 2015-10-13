@@ -7,7 +7,7 @@ import           Data.Packed.Matrix
 rootName :: String
 rootName = "Super objectif"
 
-rootPrefMatrix :: PreferenceMatrix
+rootPrefMatrix :: PairwiseMatrix
 rootPrefMatrix = fromLists [  [1.0, 1.0] , [1.0, 1.0] ]
 
 leaf1 :: AHPTree
