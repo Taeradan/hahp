@@ -35,16 +35,15 @@ showConfigurationSummary :: (AHPTree, Bool) -- ^ AHP tree and the result of its 
 showConfigurationSummary (ahpTree, validation) = unlines
     [ "# Configuration \"" ++ name ahpTree ++ "\""
     , ""
-    , "## Aperçu de la configuration"
+    , "## Configuration preview"
     , ""
     , showAhpTree ahpTree
     , ""
-    , "## La configuration est elle valide ?"
+    , "## Configuration validity"
     , ""
     , if validation
-        then "-> configuration correcte"
-        else "-> configuration invalide"
-    , ""
+        then "-> this configuration is valid"
+        else "-> this configuration is NOT valid"
     ]
 
 -- * Alternatives printing
@@ -54,7 +53,7 @@ showAlternatives :: [Alternative] -- ^ AHP Alternatives
                     -> String     -- ^ Report alternatives with indicator values
 showAlternatives alts = unlines
     [ ""
-    , "## Valeur des alternatives"
+    , "## Alternatives values"
     , ""
     , concatMap (showAlternative 0) alts
     ]
@@ -69,10 +68,13 @@ showAlternative level a = unlines
     ]
     where tabs = variableTabs level
 
-showIndicatorValues :: Int -> IndicatorValues -> String
+-- | Print an AHP IndicatorValues wit name and value
+showIndicatorValues :: Int              -- ^ Deep level. Used to intercalate separators
+                    -> IndicatorValues  -- ^ IndicatorValues
+                    -> String           -- ^ Report about the values
 showIndicatorValues level values = unlines
     [ tabs
-    --, tabs ++ "valeurs des indicateurs :"
+    --, tabs ++ "indicators values :"
     , tabs
     , unlines $ map (showIndicatorValue level) (M.toList values)
     ]
@@ -110,12 +112,14 @@ showAhpSubTree level (AHPTree name prefMatrix consistency childrenPriority alter
 showAhpSubTree level (AHPLeaf name maximize alternativesPriority) = unlines
     [ tabs ++ "* Leaf : " ++ name
     , tabs
-    , tabs ++ "\t- " ++ (if maximize then "maximize" else "minimize")
+    , tabs ++ "\t- " ++ (if maximize then "indicator is maximized" else "indicator is minimized")
     , tabs ++ "\t- priorité entre alternatives :"
     , tabs
     , maybe "N/A" (showMatrix (level + 1)) alternativesPriority
     ]
         where tabs = variableTabs level
+
+-- * Matrix printing
 
 showMatrix :: Int -> Matrix Double -> String
 showMatrix level = showMatrix' (level + 2)
