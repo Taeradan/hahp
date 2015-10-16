@@ -28,3 +28,6 @@ data Alternative = Alternative { altName   :: String
                  deriving (Show)
 
 type IndicatorValues = Map IndicatorName Double
+
+data StructureError = PairwiseMatrixSize_VS_SubLevel
+                    deriving (Show)

@@ -3,6 +3,7 @@ module Algorithm where
 import           Algorithm.Consistency
 import           Algorithm.PriorityVector
 import           Algorithm.Ranking
+import           Algorithm.StructureCheck
 import           Algorithm.Validation
 import           Configuration
 import           Data.List
