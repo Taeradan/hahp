@@ -1,8 +1,6 @@
 module Main where
 
 import           Algorithm
-import           Algorithm.Consistency
-import           Algorithm.Ranking
 import           Configuration
 import           Data.Time
 import           Reporting
@@ -31,5 +29,4 @@ main = do
     --putStr $ showAlternatives ranking
 
 simpleAHPSummary :: (AHPTree, [Alternative]) -> String
-simpleAHPSummary (ahpTree, alts) = simpleSummary (completeTree, ranking, validation)
-	where (completeTree, ranking, validation) = simpleAHP ahpTree alts
+simpleAHPSummary (ahpTree, alts) = simpleSummary $ simpleAHP ahpTree alts

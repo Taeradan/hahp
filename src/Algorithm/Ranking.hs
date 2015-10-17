@@ -7,7 +7,6 @@ import qualified Data.Map                      as M
 import           Data.Maybe
 import           Debug.Trace
 import           Numeric.LinearAlgebra.HMatrix
-import           Reporting
 
 computeTreeAlternativesPriorities :: [Alternative] -> AHPTree -> AHPTree
 computeTreeAlternativesPriorities alts ahpTree =
