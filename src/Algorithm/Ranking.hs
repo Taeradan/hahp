@@ -53,7 +53,7 @@ buildAlternativePairwiseMatrix ahpTree name altsA altsB = (length altsA >< lengt
 	      cartesianProduct = [(x,y) | x <- valsA, y <- valsB]
               matrix = map operator cartesianProduct
 	      operator = if isMaximize then divideMaximize else divideMinimize
-	      isMaximize = maximize . fromJust . extractLeaf ahpTree $ name
+	      isMaximize = maximize ahpTree
 
 divideMaximize :: (Double, Double) -> Double
 divideMaximize (x,y) = x / y
@@ -68,15 +68,3 @@ selectIndValue name value = selectIndValue' name (M.toList . indValues $ value)
 
 selectIndValue' :: IndicatorName -> [(IndicatorName, Double)] -> Double
 selectIndValue' name values = fromJust (lookup name values)
-
-extractLeaf :: AHPTree -> String -> Maybe AHPTree
-extractLeaf ahpTree altName = listToMaybe matchingleaves
-	where matchingleaves = filter (\x -> name x == altName) leaves
-	      leaves = extractLeaves' [] ahpTree
-
-extractLeaves' :: [AHPTree] -> AHPTree -> [AHPTree]
-extractLeaves' acc ahpTree =
-	case ahpTree of
-		AHPTree {} -> concatMap (extractLeaves' acc) (children ahpTree)
-		AHPLeaf {} -> ahpTree : acc
-
