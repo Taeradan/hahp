@@ -12,16 +12,14 @@ computeTreeAlternativesPriorities :: [Alternative] -> AHPTree -> AHPTree
 computeTreeAlternativesPriorities alts ahpTree =
     case ahpTree of
         (AHPTree _ _ _ _ _ children) -> agregateTreeAlternativesPriorities . computeChildrenTreeAlternativesPriorities alts $ ahpTree
---        AHPLeaf {} -> ahpTree
-        AHPLeaf {name = name} -> ahpTree
-            { alternativesPriority = Just $ computeAlternativesPriority ahpTree alts name
+        AHPLeaf {} -> ahpTree
+            { alternativesPriority = Just $ computeAlternativesPriority ahpTree alts
             }
 
 -- * Helper function.
 
 agregateTreeAlternativesPriorities :: AHPTree -> AHPTree
 agregateTreeAlternativesPriorities ahpTree = ahpTree {
-	--alternativesPriority = Just . trace ( "###### agregatePriorities de " ++ showAhpTree ahpTreeWithChildren) . agregatePriorities $ ahpTreeWithChildren
         alternativesPriority = Just . agregatePriorities $ ahpTree
     }
 
@@ -38,32 +36,24 @@ agregatePriorities ahpTree = catChildVectors <> childPriorities
           catChildVectors = foldl1 (|||) childVectors
           childPriorities = fromJust . childrenPriority $ ahpTree
 
-computeAlternativesPriority :: AHPTree -> [Alternative] -> IndicatorName -> PriorityVector
---computeAlternativesPriority alts name = (trace ("Affichage vecteur priorite pour " ++ name ++ show result)) $ result
-computeAlternativesPriority ahpTree alts name = result
-    where pairwiseAlternatives =  buildAlternativePairwiseMatrix ahpTree name alts alts
-          --result = priorityVector . (trace ("Affichage matrice Alt x Alt pour " ++ name ++ show pairwiseAlternatives)) $ pairwiseAlternatives
+computeAlternativesPriority :: AHPTree -> [Alternative] -> PriorityVector
+computeAlternativesPriority ahpTree alts = result
+    where pairwiseAlternatives =  buildAlternativePairwiseMatrix ahpTree alts
           result = priorityVector pairwiseAlternatives
 
-buildAlternativePairwiseMatrix :: AHPTree -> IndicatorName -> [Alternative] -> [Alternative] -> Matrix Double
-buildAlternativePairwiseMatrix ahpTree name altsA altsB = (length altsA >< length altsB)matrix
-        where valsA = map (selectIndValue name) altsA
-	      valsB = map (selectIndValue name) altsB
-	      cartesianProduct = [(x,y) | x <- valsA, y <- valsB]
+buildAlternativePairwiseMatrix :: AHPTree -> [Alternative] -> Matrix Double
+buildAlternativePairwiseMatrix ahpTree alts = (length alts >< length alts) matrix
+        where vals = map (selectIndValue (name ahpTree)) alts
+	      cartesianProduct = [(x, y) | x <- vals, y <- vals]
               matrix = map operator cartesianProduct
-	      operator = if isMaximize then divideMaximize else divideMinimize
-	      isMaximize = maximize ahpTree
-
-divideMaximize :: (Double, Double) -> Double
-divideMaximize (x,y) = x / y
-
-divideMinimize :: (Double, Double) -> Double
-divideMinimize (x,y) = y / x
+	      operator = if maximize ahpTree
+                         then (\ (x, y) -> x / y)
+                         else (\ (x, y) -> y / x)
 
 -- * Extract data from data stuctures
 
 selectIndValue :: IndicatorName -> Alternative -> Double
-selectIndValue name value = selectIndValue' name (M.toList . indValues $ value)
+selectIndValue name alt = selectIndValue' name (M.toList . indValues $ alt)
 
 selectIndValue' :: IndicatorName -> [(IndicatorName, Double)] -> Double
 selectIndValue' name values = fromJust (lookup name values)
