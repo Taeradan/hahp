@@ -1,6 +1,6 @@
 module Algorithm.Consistency where
 
-import           Configuration
+import           Data
 import           Numeric.LinearAlgebra.HMatrix
 
 -- trick : http://stackoverflow.com/a/7897595

@@ -4,7 +4,7 @@ import           Algorithm.Consistency
 import           Algorithm.PriorityVector
 import           Algorithm.Ranking
 import           Algorithm.Validation
-import           Configuration
+import           Data
 import           Data.List
 import           Data.Maybe
 import           Data.Ord                      (comparing)

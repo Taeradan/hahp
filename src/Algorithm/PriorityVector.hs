@@ -1,6 +1,6 @@
 module Algorithm.PriorityVector where
 
-import           Configuration
+import           Data
 import           Numeric.LinearAlgebra.HMatrix
 
 computeTreePriorityVectors :: AHPTree -> AHPTree

@@ -1,7 +1,7 @@
 module Main where
 
 import           Algorithm
-import           Configuration
+import           Data
 import           Data.Time
 import           Reporting
 import           SampleAHP.Config1

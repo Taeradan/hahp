@@ -1,6 +1,6 @@
 module Algorithm.Validation where
 
-import           Configuration
+import           Data
 import           Data.Maybe
 
 isAHPTreeValid :: AHPTree -> Bool

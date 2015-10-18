@@ -1,6 +1,6 @@
 module Reporting where
 
-import           Configuration
+import           Data
 import           Data.List
 import qualified Data.Map                      as M
 import           Data.Time

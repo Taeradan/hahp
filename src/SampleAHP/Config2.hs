@@ -1,6 +1,6 @@
 module SampleAHP.Config2 where
 
-import           Configuration
+import           Data
 import           Data.Map
 import           Data.Packed.Matrix
 

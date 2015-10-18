@@ -1,4 +1,4 @@
-module Configuration where
+module Data where
 
 import           Data.Map                      (Map)
 import           Numeric.LinearAlgebra.HMatrix
