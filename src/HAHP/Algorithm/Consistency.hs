@@ -1,4 +1,7 @@
-module HAHP.Algorithm.Consistency where
+module HAHP.Algorithm.Consistency
+    (
+    computeTreeConsistencies
+    ) where
 
 import           HAHP.Data
 import           Numeric.LinearAlgebra.HMatrix
