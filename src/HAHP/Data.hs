@@ -1,4 +1,4 @@
-module Data where
+module HAHP.Data where
 
 import           Data.Map                      (Map)
 import           Numeric.LinearAlgebra.HMatrix

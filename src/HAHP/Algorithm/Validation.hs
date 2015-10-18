@@ -1,7 +1,7 @@
-module Algorithm.Validation where
+module HAHP.Algorithm.Validation where
 
-import           Data
 import           Data.Maybe
+import           HAHP.Data
 
 isAHPTreeValid :: AHPTree -> Bool
 isAHPTreeValid ahpTree =

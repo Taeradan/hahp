@@ -1,12 +1,12 @@
 module Main where
 
-import           Algorithm
-import           Data
 import           Data.Time
-import           Reporting
-import           SampleAHP.Config1
-import           SampleAHP.Config2
-import           SampleAHP.Config3
+import           HAHP.Algorithm
+import           HAHP.Data
+import           HAHP.Reporting
+import           HAHP.Sample.Config1
+import           HAHP.Sample.Config2
+import           HAHP.Sample.Config3
 
 main :: IO ()
 main = do

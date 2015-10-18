@@ -1,6 +1,6 @@
-module Algorithm.Consistency where
+module HAHP.Algorithm.Consistency where
 
-import           Data
+import           HAHP.Data
 import           Numeric.LinearAlgebra.HMatrix
 
 -- trick : http://stackoverflow.com/a/7897595

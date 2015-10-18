@@ -1,11 +1,11 @@
-module Algorithm.Ranking where
+module HAHP.Algorithm.Ranking where
 
-import           Algorithm.PriorityVector
-import           Data
 import           Data.List
 import qualified Data.Map                      as M
 import           Data.Maybe
 import           Debug.Trace
+import           HAHP.Algorithm.PriorityVector
+import           HAHP.Data
 import           Numeric.LinearAlgebra.HMatrix
 
 computeTreeAlternativesPriorities :: [Alternative] -> AHPTree -> AHPTree

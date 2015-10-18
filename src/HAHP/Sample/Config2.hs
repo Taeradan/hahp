@@ -1,8 +1,8 @@
-module SampleAHP.Config2 where
+module HAHP.Sample.Config2 where
 
-import           Data
 import           Data.Map
 import           Data.Packed.Matrix
+import           HAHP.Data
 
 -- | Exemple pour "devenir maitre du monde"
 sampleAHPConfig2 :: AHPTree

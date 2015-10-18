@@ -1,8 +1,8 @@
-module SampleAHP.Config3 where
+module HAHP.Sample.Config3 where
 
-import           Data
 import           Data.Map
 import           Data.Packed.Matrix
+import           HAHP.Data
 
 -- | Example provenant de Ounnar 1999
 sampleAHPConfig3 :: AHPTree

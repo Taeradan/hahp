@@ -1,9 +1,9 @@
-module Reporting where
+module HAHP.Reporting where
 
-import           Data
 import           Data.List
 import qualified Data.Map                      as M
 import           Data.Time
+import           HAHP.Data
 import           Numeric.LinearAlgebra.HMatrix
 import           Text.Printf
 

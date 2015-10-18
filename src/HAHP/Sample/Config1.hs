@@ -1,8 +1,8 @@
-module SampleAHP.Config1 where
+module HAHP.Sample.Config1 where
 
-import           Data
 import           Data.Map
 import           Data.Packed.Matrix
+import           HAHP.Data
 
 rootName :: String
 rootName = "Super objectif"
