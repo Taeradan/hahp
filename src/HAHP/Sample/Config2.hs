@@ -1,13 +1,13 @@
+-- | Example for choosing the world's master
 module HAHP.Sample.Config2 where
 
 import           Data.Map
 import           Data.Packed.Matrix
 import           HAHP.Data
 
--- | Exemple pour "devenir maitre du monde"
 sampleAHPConfig2 :: AHPTree
 sampleAHPConfig2 = AHPTree
-                        "Devenir le maitre du monde, Minus & Cortex"
+                        "Become the world's master, Pinky and the Brain"
                         ( fromLists [ [ 1.00, 1/4 , 4    ],
                                       [ 4   , 1.00, 9    ],
                                       [ 1/4 , 1/9 , 1.00 ]
@@ -16,9 +16,9 @@ sampleAHPConfig2 = AHPTree
                         Nothing
                         Nothing
                         Nothing
-                        [ AHPLeaf "Puissance" True Nothing
+                        [ AHPLeaf "Power" True Nothing
                         , AHPTree
-                            "Carisme"
+                            "Charisma"
                             ( (3><3) [ 1,   3,   5
                                      , 1/3, 1,   9
                                      , 1/5, 1/9, 1
@@ -27,48 +27,48 @@ sampleAHPConfig2 = AHPTree
                             Nothing
                             Nothing
                             Nothing
-                            [ AHPLeaf "Timidité" False Nothing
-                            , AHPLeaf "Tenue" True Nothing
-                            , AHPLeaf "Taille de la *" True Nothing
+                            [ AHPLeaf "Shyness" False Nothing
+                            , AHPLeaf "Outfit" True Nothing
+                            , AHPLeaf "Size of *" True Nothing
                             ]
                         , AHPLeaf "Capital" True Nothing
                         ]
 
 sampleIndicatorValues2 :: IndicatorValues
-sampleIndicatorValues2 = insert "Puissance" 100
-                    . insert "Timidité" 100
-                    . insert "Tenue" 100
-                    . insert "Taille de la *" 100
+sampleIndicatorValues2 = insert "Power" 100
+                    . insert "Shyness" 100
+                    . insert "Outfit" 100
+                    . insert "Size of *" 100
                     . insert "Capital" 100
                         $ empty
 
 sampleIndicatorValues2' :: IndicatorValues
-sampleIndicatorValues2' = insert "Puissance" 1000
-                    . insert "Timidité" 100
-                    . insert "Tenue" 100
-                    . insert "Taille de la *" 100
+sampleIndicatorValues2' = insert "Power" 1000
+                    . insert "Shyness" 100
+                    . insert "Outfit" 100
+                    . insert "Size of *" 100
                     . insert "Capital" 100
                         $ empty
 
 sampleIndicatorValues2'' :: IndicatorValues
-sampleIndicatorValues2'' = insert "Puissance" 1000
-                    . insert "Timidité" 100
-                    . insert "Tenue" 100
-                    . insert "Taille de la *" 1000
+sampleIndicatorValues2'' = insert "Power" 1000
+                    . insert "Shyness" 100
+                    . insert "Outfit" 100
+                    . insert "Size of *" 1000
                     . insert "Capital" 100
                         $ empty
 
 sampleIndicatorValues2''' :: IndicatorValues
-sampleIndicatorValues2''' = insert "Puissance" 1000
-                    . insert "Timidité" 1000
-                    . insert "Tenue" 100
-                    . insert "Taille de la *" 100
+sampleIndicatorValues2''' = insert "Power" 1000
+                    . insert "Shyness" 1000
+                    . insert "Outfit" 100
+                    . insert "Size of *" 100
                     . insert "Capital" 100
                         $ empty
 
 sampleAlternatives2 :: [Alternative]
-sampleAlternatives2 = [ Alternative "alternative A" sampleIndicatorValues2
-                      , Alternative "alternative B" sampleIndicatorValues2'
-                      , Alternative "alternative C" sampleIndicatorValues2''
-                      , Alternative "alternative D" sampleIndicatorValues2'''
+sampleAlternatives2 = [ Alternative "John" sampleIndicatorValues2
+                      , Alternative "David" sampleIndicatorValues2'
+                      , Alternative "Marc" sampleIndicatorValues2''
+                      , Alternative "Steve" sampleIndicatorValues2'''
                       ]
