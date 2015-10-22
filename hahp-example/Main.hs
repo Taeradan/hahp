@@ -10,8 +10,8 @@ import           HAHP.Sample.Config3
 
 main :: IO ()
 main = do
-    let title = "Test de la librairie HAHP"
-        author = "JP P, Y D"
+    let title = "HAHP library testing"
+        author = "Jean-Pierre Prunaret, Yves Dubromelle"
         configs = [sampleAHPConfig1, sampleAHPConfig2, sampleAHPConfig3]
         alternatives = [sampleAlternatives1, sampleAlternatives2, sampleAlternatives3]
         sampleDataSet = zip configs alternatives
