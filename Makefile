@@ -10,13 +10,13 @@ stylish-haskell:
 
 pdf:
 	cabal build
-	dist/build/HAHP/HAHP > out.md
+	dist/build/hahp-example/hahp-example > out.md
 	pandoc out.md -o out.pdf -V geometry:margin=1cm
 
 doc: sourcegraph haddock
 
 sourcegraph:
-	docker run -v $$(pwd):/src --rm taeradan/haskell-sourcegraph HAHP.cabal
+	docker run -v $$(pwd):/src --rm taeradan/haskell-sourcegraph hahp.cabal
 
 haddock:
 	cabal haddock --executables
