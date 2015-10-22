@@ -11,7 +11,7 @@ import           Numeric.LinearAlgebra.HMatrix
 computeTreeAlternativesPriorities :: [Alternative] -> AHPTree -> AHPTree
 computeTreeAlternativesPriorities alts ahpTree =
     case ahpTree of
-        (AHPTree _ _ _ _ _ children) -> agregateTreeAlternativesPriorities . computeChildrenTreeAlternativesPriorities alts $ ahpTree
+        AHPTree {} -> agregateTreeAlternativesPriorities . computeChildrenTreeAlternativesPriorities alts $ ahpTree
         AHPLeaf {} -> ahpTree
             { alternativesPriority = Just $ computeAlternativesPriority ahpTree alts
             }
@@ -47,8 +47,10 @@ buildAlternativePairwiseMatrix ahpTree alts = (length alts >< length alts) matri
 	      cartesianProduct = [(x, y) | x <- vals, y <- vals]
               matrix = map operator cartesianProduct
 	      operator = if maximize ahpTree
-                         then (\ (x, y) -> x / y)
-                         else (\ (x, y) -> y / x)
+                         -- `uncurry` permit the use of an operator on a pair
+                         then uncurry (/)
+                         -- `flip` revert the arguments
+                         else uncurry (flip (/))
 
 -- * Extract data from data stuctures
 
