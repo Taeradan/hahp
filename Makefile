@@ -19,4 +19,4 @@ sourcegraph:
 	docker run -v $$(pwd):/src --rm taeradan/haskell-sourcegraph hahp.cabal
 
 haddock:
-	cabal haddock --executables
+	cabal haddock
