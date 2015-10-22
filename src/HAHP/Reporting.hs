@@ -35,15 +35,15 @@ showConfigurationSummary :: (AHPTree, Bool) -- ^ AHP tree and the result of its 
 showConfigurationSummary (ahpTree, validation) = unlines
     [ "# Configuration \"" ++ name ahpTree ++ "\""
     , ""
-    , "## Configuration preview"
+    , "## AHP tree preview"
     , ""
     , showAhpTree ahpTree
     , ""
-    , "## Configuration validity"
+    , "## AHP tree validity"
     , ""
     , if validation
-        then "-> this configuration is valid"
-        else "-> this configuration is NOT valid"
+        then "-> this tree is valid"
+        else "-> this tree is NOT valid"
     ]
 
 -- * Alternatives printing
@@ -93,16 +93,16 @@ showAhpSubTree :: Int -> AHPTree -> String
 showAhpSubTree level (AHPTree name prefMatrix consistency childrenPriority alternativesPriority children) = unlines
     [ tabs ++ "* Tree : " ++ name
     , tabs
-    , tabs ++ "\t- matrice de préférence :"
+    , tabs ++ "\t- pairwise comparison matrix :"
     , tabs
     , showMatrix (level + 2) prefMatrix
     , tabs
-    , tabs ++ "\t- critère de cohérence = " ++ maybe "N/A" show consistency
+    , tabs ++ "\t- consistency ratio = " ++ maybe "N/A" show consistency
     , tabs
-    , tabs ++ "\t- vecteur de priorité :"
+    , tabs ++ "\t- children priority vector :"
     , tabs
     , maybe "N/A" (showMatrix (level + 2)) childrenPriority
-    , tabs ++ "\t- priorité entre alternatives :"
+    , tabs ++ "\t- alternatives priority vector :"
     , tabs
     , maybe "N/A" (showMatrix (level + 2)) alternativesPriority
     , concatMap (showAhpSubTree (level + 1)) children
@@ -113,7 +113,7 @@ showAhpSubTree level (AHPLeaf name maximize alternativesPriority) = unlines
     [ tabs ++ "* Leaf : " ++ name
     , tabs
     , tabs ++ "\t- " ++ (if maximize then "indicator is maximized" else "indicator is minimized")
-    , tabs ++ "\t- priorité entre alternatives :"
+    , tabs ++ "\t- alternatives priority vector :"
     , tabs
     , maybe "N/A" (showMatrix (level + 1)) alternativesPriority
     ]
