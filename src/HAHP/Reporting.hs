@@ -14,7 +14,6 @@ reportHeader :: String  -- ^ Report title
              -> String  -- ^ Report author
              -> UTCTime -- ^ Report timestamp
              -> String  -- ^ Report header
-
 reportHeader title author time = unlines
     [ "% " ++ title
     , "% " ++ author
@@ -23,15 +22,14 @@ reportHeader title author time = unlines
 
 -- | Print a simple report about an AHP tree and ranking result
 simpleSummary :: (AHPTree, [Alternative], Bool) -- ^ AHP tree, some alternatives and the result of tree validation
-                 -> String                      -- ^ Report build from input
+              -> String                         -- ^ Report build from input
 simpleSummary (ahpTree, alts, validation) =  treeSummary ++ altSummary
-	where treeSummary = showConfigurationSummary (ahpTree, validation)
-	      altSummary = showAlternatives alts
+    where treeSummary = showConfigurationSummary (ahpTree, validation)
+          altSummary = showAlternatives alts
 
 -- | Print an AHP tree and some additional information about it
 showConfigurationSummary :: (AHPTree, Bool) -- ^ AHP tree and the result of its validation
                          -> String          -- ^ Report about the AHP tree
-
 showConfigurationSummary (ahpTree, validation) = unlines $
     [ "# Configuration \"" ++ name ahpTree ++ "\""
     , ""
