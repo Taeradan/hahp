@@ -72,16 +72,19 @@ showAlternative level a = unlines
 showIndicatorValues :: Int              -- ^ Deep level. Used to intercalate separators
                     -> IndicatorValues  -- ^ IndicatorValues
                     -> String           -- ^ Report about the values
-showIndicatorValues level values = unlines
-    [ tabs
-    --, tabs ++ "indicators values :"
-    , tabs
-    , unlines $ map (showIndicatorValue level) (M.toList values)
+showIndicatorValues level values = unlines $
+    [ ""
+    , "| Indicator | Value |"
+    , "|-----------|-------|"
     ]
+    ++
+    map (showIndicatorValue level) (M.toList values)
+    ++
+    [""]
     where tabs = variableTabs level
 
 showIndicatorValue :: Int -> (String, Double) -> String
-showIndicatorValue level (key, value) = tabs ++ "* " ++ key ++ " = " ++ show value
+showIndicatorValue level (key, value) = "| " ++ key ++ " | " ++ show value ++ " |"
     where tabs = variableTabs level
 
 -- * AHP tree printing
