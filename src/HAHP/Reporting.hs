@@ -32,13 +32,16 @@ simpleSummary (ahpTree, alts, validation) =  treeSummary ++ altSummary
 showConfigurationSummary :: (AHPTree, Bool) -- ^ AHP tree and the result of its validation
                          -> String          -- ^ Report about the AHP tree
 
-showConfigurationSummary (ahpTree, validation) = unlines
+showConfigurationSummary (ahpTree, validation) = unlines $
     [ "# Configuration \"" ++ name ahpTree ++ "\""
     , ""
     , "## AHP tree preview"
     , ""
-    , showAhpTree ahpTree
-    , ""
+    ]
+    ++
+    lines (showAhpTree ahpTree)
+    ++
+    [ ""
     , "## AHP tree validity"
     , ""
     , if validation
@@ -50,23 +53,24 @@ showConfigurationSummary (ahpTree, validation) = unlines
 
 -- | Print AHP Alternatives and some additional information about them
 showAlternatives :: [Alternative] -- ^ AHP Alternatives
-                    -> String     -- ^ Report alternatives with indicator values
-showAlternatives alts = unlines
+                 -> String        -- ^ Report alternatives with indicator values
+showAlternatives alts = unlines $
     [ ""
     , "## Alternatives values"
     , ""
-    , concatMap (showAlternative 0) alts
     ]
+    ++
+    lines (concatMap (showAlternative 0) alts)
 
 -- | Print an AHP Alternative and some additional information about it
 showAlternative :: Int         -- ^ Deep level. Used to intercalate separators
                 -> Alternative -- ^ Alternative
                 -> String      -- ^ Report about the alternative
-showAlternative level a = unlines
-    [ tabs ++ "1. " ++ altName a
-    , showIndicatorValues (level + 1) (indValues a)
-    ]
-    where tabs = variableTabs level
+showAlternative level a = unlines $
+    [tabs ++ "1. " ++ altName a]
+    ++
+    lines (showIndicatorValues (level + 1) (indValues a))
+  where tabs = variableTabs level
 
 -- | Print an AHP IndicatorValues wit name and value
 showIndicatorValues :: Int              -- ^ Deep level. Used to intercalate separators
@@ -81,7 +85,7 @@ showIndicatorValues level values = unlines $
     map (showIndicatorValue level) (M.toList values)
     ++
     [""]
-    where tabs = variableTabs level
+  where tabs = variableTabs level
 
 showIndicatorValue :: Int -> (String, Double) -> String
 showIndicatorValue level (key, value) = "| " ++ key ++ " | " ++ show value ++ " |"
@@ -93,33 +97,38 @@ showAhpTree :: AHPTree -> String
 showAhpTree = showAhpSubTree 0
 
 showAhpSubTree :: Int -> AHPTree -> String
-showAhpSubTree level (AHPTree name prefMatrix consistency childrenPriority alternativesPriority children) = unlines
+showAhpSubTree level (AHPTree name prefMatrix consistency childrenPriority alternativesPriority children) = unlines $
     [ tabs ++ "* Tree : " ++ name
-    , tabs
     , tabs ++ "\t- pairwise comparison matrix :"
     , tabs
-    , showMatrix (level + 2) prefMatrix
-    , tabs
-    , tabs ++ "\t- consistency ratio = " ++ maybe "N/A" show consistency
-    , tabs
+    ]
+    ++
+    lines (showMatrix (level + 2) prefMatrix)
+    ++
+    [ tabs ++ "\t- consistency ratio = " ++ maybe "N/A" show consistency
     , tabs ++ "\t- children priority vector :"
     , tabs
-    , maybe "N/A" (showMatrix (level + 2)) childrenPriority
-    , tabs ++ "\t- alternatives priority vector :"
-    , tabs
-    , maybe "N/A" (showMatrix (level + 2)) alternativesPriority
-    , concatMap (showAhpSubTree (level + 1)) children
     ]
+    ++
+    lines (maybe "N/A" (showMatrix (level + 2)) childrenPriority)
+    ++
+    [ tabs ++ "\t- alternatives priority vector :"
+    , tabs
+    ]
+    ++
+    lines (maybe "N/A" (showMatrix (level + 2)) alternativesPriority)
+    ++
+    lines (concatMap (showAhpSubTree (level + 1)) children)
         where tabs = variableTabs level
 
-showAhpSubTree level (AHPLeaf name maximize alternativesPriority) = unlines
+showAhpSubTree level (AHPLeaf name maximize alternativesPriority) = unlines $
     [ tabs ++ "* Leaf : " ++ name
-    , tabs
     , tabs ++ "\t- " ++ (if maximize then "indicator is maximized" else "indicator is minimized")
     , tabs ++ "\t- alternatives priority vector :"
     , tabs
-    , maybe "N/A" (showMatrix (level + 1)) alternativesPriority
     ]
+    ++
+    lines (maybe "N/A" (showMatrix (level + 1)) alternativesPriority)
         where tabs = variableTabs level
 
 -- * Matrix printing
