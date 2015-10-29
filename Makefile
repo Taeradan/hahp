@@ -11,7 +11,7 @@ stylish-haskell:
 pdf:
 	cabal build
 	dist/build/hahp-example/hahp-example > out.md
-	pandoc out.md -o out.pdf -V geometry:margin=1cm
+	pandoc out.md -o out.pdf -V geometry:a4paper -V geometry:margin=2cm
 
 doc: sourcegraph haddock
 
