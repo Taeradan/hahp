@@ -1,6 +1,10 @@
-module Algorithm.PriorityVector where
+module HAHP.Algorithm.PriorityVector
+    (
+    computeTreePriorityVectors,
+    priorityVector
+    ) where
 
-import           Configuration
+import           HAHP.Data
 import           Numeric.LinearAlgebra.HMatrix
 
 computeTreePriorityVectors :: AHPTree -> AHPTree
