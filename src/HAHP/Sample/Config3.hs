@@ -1,10 +1,10 @@
-module SampleAHP.Config3 where
+-- | Example from Ounnar 1999
+module HAHP.Sample.Config3 where
 
-import           Configuration
 import           Data.Map
 import           Data.Packed.Matrix
+import           HAHP.Data
 
--- | Example provenant de Ounnar 1999
 sampleAHPConfig3 :: AHPTree
 sampleAHPConfig3 = AHPTree
                        "Testing the Priority vectors computation"

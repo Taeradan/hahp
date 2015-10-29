@@ -1,13 +1,13 @@
-module Algorithm where
+module HAHP.Algorithm where
 
-import           Algorithm.Consistency
-import           Algorithm.PriorityVector
-import           Algorithm.Ranking
-import           Algorithm.Validation
-import           Configuration
 import           Data.List
 import           Data.Maybe
 import           Data.Ord                      (comparing)
+import           HAHP.Algorithm.Consistency
+import           HAHP.Algorithm.PriorityVector
+import           HAHP.Algorithm.Ranking
+import           HAHP.Algorithm.Validation
+import           HAHP.Data
 import           Numeric.LinearAlgebra.HMatrix
 
 -- |This function is a quick way to rank a set of alternatives with AHP algorithm.
