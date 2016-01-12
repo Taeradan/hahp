@@ -21,16 +21,17 @@ reportHeader title author time = unlines
     ]
 
 -- | Print a simple report about an AHP tree and ranking result
-simpleSummary :: (AHPTree, [Alternative], Bool) -- ^ AHP tree, some alternatives and the result of tree validation
+simpleSummary :: (AHPTree, [Alternative], [ValidationError]) -- ^ AHP tree, some alternatives and the result of tree validation
               -> String                         -- ^ Report build from input
-simpleSummary (ahpTree, alts, validation) =  treeSummary ++ altSummary ++ "\\newpage \n"
-    where treeSummary = showConfigurationSummary (ahpTree, validation)
+simpleSummary (ahpTree, alts, errors) =  treeSummary ++ altSummary ++ errorSummary ++ "\\newpage \n"
+    where treeSummary = showConfiguration ahpTree
           altSummary = showAlternatives alts
+          errorSummary = showErrors errors
 
 -- | Print an AHP tree and some additional information about it
-showConfigurationSummary :: (AHPTree, Bool) -- ^ AHP tree and the result of its validation
-                         -> String          -- ^ Report about the AHP tree
-showConfigurationSummary (ahpTree, validation) = unlines $
+showConfiguration :: AHPTree -- ^ AHP tree
+                         -> String  -- ^ Report about the AHP tree
+showConfiguration ahpTree = unlines $
     [ "# Configuration \"" ++ name ahpTree ++ "\""
     , ""
     , "## AHP tree preview"
@@ -38,14 +39,32 @@ showConfigurationSummary (ahpTree, validation) = unlines $
     ]
     ++
     lines (showAhpTree ahpTree)
-    ++
+
+-- * Errors
+
+showErrors :: [ValidationError] -- ^ List of errors
+           -> String            -- ^ Report errors
+showErrors errors = unlines $
     [ ""
     , "## AHP tree validity"
     , ""
-    , if validation
-        then "-> this tree is valid"
-        else "-> this tree is NOT valid"
+    , "### Summary"
+    , ""
+    , if null errors
+        then "This tree is valid"
+        else "This tree is NOT valid"
+    , ""
+    , "### List of errors"
+    , ""
     ]
+    ++
+    lines (concatMap showError errors)
+
+
+showError :: ValidationError
+          -> String
+showError (ConsistencyError ahpTree consistencyTreshold consistency) =
+    "* " ++ name ahpTree ++ ", consistency treshold = " ++ show consistencyTreshold ++ ", consistency value = " ++ printf "%.4f" consistency
 
 -- * Alternatives printing
 

@@ -33,6 +33,4 @@ data ValidationError = ConsistencyError { ahpTree :: AHPTree
                                         , consistencyTreshold :: Double
                                         , consistency :: Double
                                         }
-                     | UndefinedError   {
-                                        }
                     deriving (Show)
