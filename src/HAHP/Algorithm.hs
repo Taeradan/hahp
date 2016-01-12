@@ -22,7 +22,7 @@ simpleAHP ahpTree alts = (completeTree, ranking, validation)
 
 initAHP :: AHPTree -> (AHPTree, Bool)
 initAHP ahpTree = (newAHPTree, isTreeValid)
-    where isTreeValid = isAHPTreeValid newAHPTree
+    where isTreeValid = if null (snd (validateAHPTree newAHPTree)) then True else False
           newAHPTree = computeTreePriorityVectors . computeTreeConsistencies $ ahpTree
 
 -- * Part 2 = dynamic part

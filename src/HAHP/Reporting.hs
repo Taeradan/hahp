@@ -23,7 +23,7 @@ reportHeader title author time = unlines
 -- | Print a simple report about an AHP tree and ranking result
 simpleSummary :: (AHPTree, [Alternative], Bool) -- ^ AHP tree, some alternatives and the result of tree validation
               -> String                         -- ^ Report build from input
-simpleSummary (ahpTree, alts, validation) =  treeSummary ++ altSummary
+simpleSummary (ahpTree, alts, validation) =  treeSummary ++ altSummary ++ "\\newpage \n"
     where treeSummary = showConfigurationSummary (ahpTree, validation)
           altSummary = showAlternatives alts
 

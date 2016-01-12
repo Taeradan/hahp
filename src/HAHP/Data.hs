@@ -29,5 +29,10 @@ data Alternative = Alternative { altName   :: String
 
 type IndicatorValues = Map IndicatorName Double
 
-data StructureError = PairwiseMatrixSize_VS_SubLevel
+data ValidationError = ConsistencyError { ahpTree :: AHPTree
+                                        , consistencyTreshold :: Double
+                                        , consistency :: Double
+                                        }
+                     | UndefinedError   {
+                                        }
                     deriving (Show)
