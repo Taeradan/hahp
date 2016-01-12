@@ -2,7 +2,7 @@
 module HAHP.Sample.Config3 where
 
 import           Data.Map
-import           Data.Packed.Matrix
+import           Numeric.LinearAlgebra.HMatrix
 import           HAHP.Data
 
 sampleAHPConfig3 :: AHPTree
