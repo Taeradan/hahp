@@ -34,9 +34,13 @@ data ValidationError = ConsistencyError { ahpTree              :: AHPTree
                                         , consistency          :: Double
                                         }
                      | NotComputedConsistencyError { ahpTree :: AHPTree}
+                     | NotUnitaryDiagError { ahpTree :: AHPTree }
+                     | ParentChildrenSizeMismatchError {ahpTree            :: AHPTree
+                                                       , errorParentSize   :: Int
+                                                       , errorChildrenSize :: Int
+                                                       }
                      | SquareMatrixError { ahpTree   :: AHPTree
                                          , errorRows :: Int
                                          , errorCols :: Int
                                          }
-
                     deriving (Show)

@@ -64,11 +64,15 @@ showErrors errors = unlines $
 showError :: ValidationError
           -> String
 showError (ConsistencyError ahpTree consistencyTreshold consistency) =
-    "* " ++ name ahpTree ++ ", consistency treshold = " ++ show consistencyTreshold ++ ", consistency value = " ++ printf "%.4f" consistency
+    "* " ++ name ahpTree ++ ", consistency treshold = " ++ show consistencyTreshold ++ ", consistency value = " ++ printf "%.4f" consistency ++ "\n"
 showError (NotComputedConsistencyError ahpTree) =
-    "* " ++ name ahpTree ++ ", consistency not computed !"
+    "* " ++ name ahpTree ++ ", consistency not computed !" ++ "\n"
+showError (NotUnitaryDiagError ahpTree) =
+    "* " ++ name ahpTree ++ ", diagonal is not '1'" ++ "\n"
+showError (ParentChildrenSizeMismatchError ahpTree parent children) =
+    "* " ++ name ahpTree ++ ", parent and child size mismatch, parent size = " ++ show parent ++ ", children size = " ++ show children ++ "\n"
 showError (SquareMatrixError ahpTree rows cols) =
-    "* " ++ name ahpTree ++ ", matrix not square rows = " ++ show rows ++ ", columns = " ++ show cols
+    "* " ++ name ahpTree ++ ", matrix not square rows = " ++ show rows ++ ", columns = " ++ show cols ++ "\n"
 
 -- * Alternatives printing
 

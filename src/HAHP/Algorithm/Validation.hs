@@ -13,8 +13,11 @@ validateAHPTree :: AHPTree -> (AHPTree, [ValidationError])
 validateAHPTree ahpTree = (ahpTree, catMaybes $ concatMap (recursiveValidator ahpTree) errorsList)
 
 errorsInputList :: [ ((AHPTree -> Bool), (AHPTree -> ValidationError)) ]
-errorsInputList = [(squareMatrixTest, squareMatrixError)
+errorsInputList = [ (squareMatrixTest, squareMatrixError)
+                  , (parentSizeMatchChildrenTest, parentSizeMatchChildrenError)
+                  , (unitaryDiagTest, unitaryDiagError)
                   ]
+
 errorsList :: [ ((AHPTree -> Bool), (AHPTree -> ValidationError)) ]
 errorsList = [ (consistencyTest, consistencyError)
              ]
@@ -68,3 +71,25 @@ squareMatrixError ahpTree =
                       , errorCols = cols matrix
                       }
         where matrix = preferenceMatrix ahpTree
+
+parentSizeMatchChildrenTest :: AHPTree -> Bool
+parentSizeMatchChildrenTest ahpTree = parentSize == childrenSize
+    where parentSize = rows . preferenceMatrix $ ahpTree
+          childrenSize = length . children $ ahpTree
+
+parentSizeMatchChildrenError :: AHPTree -> ValidationError
+parentSizeMatchChildrenError ahpTree =
+    ParentChildrenSizeMismatchError { ahpTree = ahpTree
+                                    , errorParentSize = parentSize
+                                    , errorChildrenSize = childrenSize
+                                    }
+    where parentSize = rows . preferenceMatrix $ ahpTree
+          childrenSize = length . children $ ahpTree
+
+unitaryDiagTest :: AHPTree -> Bool
+unitaryDiagTest ahpTree = all (== 1) (toList . takeDiag $ matrix)
+    where matrix = preferenceMatrix ahpTree
+
+unitaryDiagError :: AHPTree -> ValidationError
+unitaryDiagError ahpTree = NotUnitaryDiagError {ahpTree = ahpTree}
+
