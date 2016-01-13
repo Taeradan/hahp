@@ -26,12 +26,10 @@ simpleAHP ahpTree alts =
 initAHP :: AHPTree -> (AHPTree, [ValidationError])
 initAHP ahpTree =
     if null inputErrors
-    then (newAHPTree, inputErrors ++ errors)
+    then (newAHPTree, errors)
     else (ahpTree, inputErrors)
     where (_, inputErrors) = validateInputAHPTree ahpTree
           (newAHPTree, errors) = validateAHPTree (computeTreePriorityVectors . computeTreeConsistencies $ ahpTree)
---initAHP ahpTree = validateAHPTree newAHPTree
---    where newAHPTree = computeTreePriorityVectors . computeTreeConsistencies $ ahpTree
 
 -- * Part 2 = dynamic part
 
