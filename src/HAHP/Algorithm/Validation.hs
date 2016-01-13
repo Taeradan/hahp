@@ -2,6 +2,7 @@ module HAHP.Algorithm.Validation where
 
 import           Data.Maybe
 import           HAHP.Data
+import           Numeric.LinearAlgebra.HMatrix
 
 -- * Helper functions
 
@@ -10,6 +11,7 @@ validateAHPTree ahpTree = (ahpTree, catMaybes $ concatMap (recursiveValidator ah
 
 errorsList :: [ ((AHPTree -> Bool), (AHPTree -> ValidationError)) ]
 errorsList = [ (consistencyTest, consistencyError)
+             , (squareMatrixTest, squareMatrixError)
              ]
 
 
@@ -22,7 +24,7 @@ recursiveValidator ahpTree (testFnt, errorFnt) =
             where currentValidity = if testFnt ahpTree
                                     then Nothing
                                     else Just (errorFnt ahpTree)
-                  childrenValidity = concatMap (\x -> recursiveValidator x (testFnt, errorFnt)) (children ahpTree)
+                  childrenValidity = concatMap (\ x -> recursiveValidator x (testFnt, errorFnt)) (children ahpTree)
         AHPLeaf {} -> [Nothing]
 
 -- * Consistency
@@ -46,4 +48,14 @@ isMatrixConsistent consistency threshold
 
 -- * Tree Structure
 
+squareMatrixTest :: AHPTree -> Bool
+squareMatrixTest ahpTree = rows matrix == cols matrix
+    where matrix = preferenceMatrix ahpTree
 
+squareMatrixError :: AHPTree -> ValidationError
+squareMatrixError ahpTree =
+    SquareMatrixError { ahpTree = ahpTree
+                      , errorRows = rows matrix
+                      , errorCols = cols matrix
+                      }
+        where matrix = preferenceMatrix ahpTree
