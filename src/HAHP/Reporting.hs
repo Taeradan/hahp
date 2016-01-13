@@ -75,9 +75,9 @@ showIndicatorValues :: Int              -- ^ Deep level. Used to intercalate sep
                     -> IndicatorValues  -- ^ IndicatorValues
                     -> String           -- ^ Report about the values
 showIndicatorValues level values = unlines $
-    [ ""
-    , "| Indicator | Value |"
-    , "|-----------|-------|"
+    [ tabs ++ ""
+    , tabs ++ "| Indicator | Value |"
+    , tabs ++ "|-----------|-------|"
     ]
     ++
     map (showIndicatorValue level) (M.toList values)
@@ -86,7 +86,7 @@ showIndicatorValues level values = unlines $
   where tabs = variableTabs level
 
 showIndicatorValue :: Int -> (String, Double) -> String
-showIndicatorValue level (key, value) = "| " ++ key ++ " | " ++ show value ++ " |"
+showIndicatorValue level (key, value) = tabs ++ "| " ++ key ++ " | " ++ show value ++ " |"
     where tabs = variableTabs level
 
 -- * AHP tree printing

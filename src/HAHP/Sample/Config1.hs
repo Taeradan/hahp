@@ -1,7 +1,7 @@
 module HAHP.Sample.Config1 where
 
 import           Data.Map
-import           Data.Packed.Matrix
+import           Numeric.LinearAlgebra.HMatrix
 import           HAHP.Data
 
 rootName :: String
