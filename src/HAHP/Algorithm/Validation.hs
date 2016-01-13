@@ -3,26 +3,42 @@ module HAHP.Algorithm.Validation where
 import           Data.Maybe
 import           HAHP.Data
 
--- * Helper function
+-- * Helper functions
 
 validateAHPTree :: AHPTree -> (AHPTree, [ValidationError])
-validateAHPTree ahpTree = (ahpTree, catMaybes . validateConsistency $ ahpTree)
+validateAHPTree ahpTree = (ahpTree, catMaybes . concat $
+                          [ validateConsistency ahpTree])
+--                          , validateTreeStructure ahpTree])
+
+recursiveValidator :: (AHPTree -> Bool)
+                   -> (AHPTree -> ValidationError)
+                   -> AHPTree
+                   -> [Maybe ValidationError]
+recursiveValidator testFnt errorFnt ahpTree =
+    case ahpTree of
+        AHPTree {} -> currentValidity : childrenValidity
+            where currentValidity = if testFnt ahpTree
+                                    then Nothing
+                                    else Just (errorFnt ahpTree)
+                  childrenValidity = concatMap (recursiveValidator testFnt errorFnt) (children ahpTree)
+        AHPLeaf {} -> [Nothing]
 
 -- * Consistency
 
 validateConsistency :: AHPTree -> [Maybe ValidationError]
-validateConsistency ahpTree =
-    case ahpTree of
-        (AHPTree _ _ consistency _ _ children) -> currentValidity : childrenValidity
-            where currentValidity = if test
-                                then Nothing
-                                else Just (ConsistencyError ahpTree consistencyThreshold localConsistency)
-                  test = isMatrixConsistent localConsistency consistencyThreshold
-                  localConsistency = fromJust consistency
-                  childrenValidity = concatMap validateConsistency children
-        AHPLeaf {} -> [Nothing]
+validateConsistency ahpTree = recursiveValidator consistencyTest consistencyError ahpTree
 
-consistencyThreshold = 0.1
+consistencyTest :: AHPTree -> Bool
+consistencyTest (AHPTree _ _ consistency _ _ _) = isMatrixConsistent (fromJust consistency) validationConsistencyThreshold
+
+consistencyError :: AHPTree -> ValidationError
+consistencyError ahpTree =
+    ConsistencyError { ahpTree = ahpTree
+                     , consistencyThreshold = validationConsistencyThreshold
+                     , consistency = fromJust . consistencyValue $ ahpTree
+                     }
+
+validationConsistencyThreshold = 0.1
 
 isMatrixConsistent :: Double ->  Double -> Bool
 isMatrixConsistent consistency threshold
@@ -31,13 +47,4 @@ isMatrixConsistent consistency threshold
 
 -- * Tree Structure
 
-isTreeStructureValid :: AHPTree -> Bool
-isTreeStructureValid = null . checkTreeStructure
 
-checkTreeStructure :: AHPTree -> [ValidationError]
-checkTreeStructure = checkTreeStructure' []
-
--- TODO : implement, issue 6
-checkTreeStructure' :: [ValidationError] -> AHPTree -> [ValidationError]
-checkTreeStructure' prevErrors ahpTree = prevErrors ++ newErrors
-    where newErrors = []
