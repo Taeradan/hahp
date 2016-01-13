@@ -75,7 +75,8 @@ squareMatrixError ahpTree =
 
 -- TODO : to implement
 nullDivisionTest :: AHPTree -> Bool
-nullDivisionTest ahpTree = False
+nullDivisionTest ahpTree = all (/= 0) matrixvalues
+    where matrixvalues = concat . toLists . preferenceMatrix $ ahpTree
 
 nullDivisionError :: AHPTree -> ValidationError
 nullDivisionError ahpTree = NullDivisionError {ahpTree = ahpTree}
