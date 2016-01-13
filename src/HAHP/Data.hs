@@ -33,6 +33,7 @@ data ValidationError = ConsistencyError { ahpTree              :: AHPTree
                                         , consistencyThreshold :: Double
                                         , consistency          :: Double
                                         }
+                     | NotComputedConsistencyError { ahpTree :: AHPTree}
                      | SquareMatrixError { ahpTree   :: AHPTree
                                          , errorRows :: Int
                                          , errorCols :: Int
