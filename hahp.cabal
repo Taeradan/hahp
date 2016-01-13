@@ -32,6 +32,7 @@ library
     HAHP.Sample.Config1
     HAHP.Sample.Config2
     HAHP.Sample.Config3
+    HAHP.Sample.SquareMatrixError
 
 executable hahp-example
   main-is:             Main.hs
