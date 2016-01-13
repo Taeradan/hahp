@@ -29,8 +29,8 @@ data Alternative = Alternative { altName   :: String
 
 type IndicatorValues = Map IndicatorName Double
 
-data ValidationError = ConsistencyError { ahpTree :: AHPTree
+data ValidationError = ConsistencyError { ahpTree             :: AHPTree
                                         , consistencyTreshold :: Double
-                                        , consistency :: Double
+                                        , consistency         :: Double
                                         }
                     deriving (Show)

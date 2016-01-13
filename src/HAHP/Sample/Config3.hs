@@ -2,8 +2,8 @@
 module HAHP.Sample.Config3 where
 
 import           Data.Map
-import           Numeric.LinearAlgebra.HMatrix
 import           HAHP.Data
+import           Numeric.LinearAlgebra.HMatrix
 
 sampleAHPConfig3 :: AHPTree
 sampleAHPConfig3 = AHPTree
