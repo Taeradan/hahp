@@ -17,6 +17,7 @@ errorsInputList = [ (squareMatrixTest, squareMatrixError)
                   , (parentSizeMatchChildrenTest, parentSizeMatchChildrenError)
                   , (unitaryDiagTest, unitaryDiagError)
                   , (nullDivisionTest, nullDivisionError)
+--                  , (childrenNamesUnicityTest, childrenNamesUnicityError)
                   ]
 
 errorsList :: [ ((AHPTree -> Bool), (AHPTree -> ValidationError)) ]
@@ -35,7 +36,9 @@ recursiveValidator ahpTree (testFnt, errorFnt) =
                   childrenValidity = concatMap (\ x -> recursiveValidator x (testFnt, errorFnt)) (children ahpTree)
         AHPLeaf {} -> [Nothing]
 
--- * Consistency
+-- * Tests implementations
+
+-- ** Consistency test
 
 consistencyTest :: AHPTree -> Bool
 consistencyTest (AHPTree _ _ consistency _ _ _) =
@@ -59,27 +62,7 @@ isMatrixConsistent consistency threshold
     | consistency < threshold = True
     | otherwise = False
 
--- * Tree Structure
-
-squareMatrixTest :: AHPTree -> Bool
-squareMatrixTest ahpTree = rows matrix == cols matrix
-    where matrix = preferenceMatrix ahpTree
-
-squareMatrixError :: AHPTree -> ValidationError
-squareMatrixError ahpTree =
-    SquareMatrixError { ahpTree = ahpTree
-                      , errorRows = rows matrix
-                      , errorCols = cols matrix
-                      }
-        where matrix = preferenceMatrix ahpTree
-
--- TODO : to implement
-nullDivisionTest :: AHPTree -> Bool
-nullDivisionTest ahpTree = all (/= 0) matrixvalues
-    where matrixvalues = concat . toLists . preferenceMatrix $ ahpTree
-
-nullDivisionError :: AHPTree -> ValidationError
-nullDivisionError ahpTree = NullDivisionError {ahpTree = ahpTree}
+-- ** Tree structure tests
 
 parentSizeMatchChildrenTest :: AHPTree -> Bool
 parentSizeMatchChildrenTest ahpTree = parentSize == childrenSize
@@ -95,10 +78,30 @@ parentSizeMatchChildrenError ahpTree =
     where parentSize = rows . preferenceMatrix $ ahpTree
           childrenSize = length . children $ ahpTree
 
+-- ** Matrix properties tests
+
+nullDivisionTest :: AHPTree -> Bool
+nullDivisionTest ahpTree = all (/= 0) matrixvalues
+    where matrixvalues = concat . toLists . preferenceMatrix $ ahpTree
+
+nullDivisionError :: AHPTree -> ValidationError
+nullDivisionError ahpTree = NullDivisionError {ahpTree = ahpTree}
+
+squareMatrixTest :: AHPTree -> Bool
+squareMatrixTest ahpTree = rows matrix == cols matrix
+    where matrix = preferenceMatrix ahpTree
+
+squareMatrixError :: AHPTree -> ValidationError
+squareMatrixError ahpTree =
+    SquareMatrixError { ahpTree = ahpTree
+                      , errorRows = rows matrix
+                      , errorCols = cols matrix
+                      }
+        where matrix = preferenceMatrix ahpTree
+
 unitaryDiagTest :: AHPTree -> Bool
 unitaryDiagTest ahpTree = all (== 1) (toList . takeDiag $ matrix)
     where matrix = preferenceMatrix ahpTree
 
 unitaryDiagError :: AHPTree -> ValidationError
 unitaryDiagError ahpTree = NotUnitaryDiagError {ahpTree = ahpTree}
-
