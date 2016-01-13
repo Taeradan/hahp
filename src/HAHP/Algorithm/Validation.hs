@@ -6,14 +6,18 @@ import           Numeric.LinearAlgebra.HMatrix
 
 -- * Helper functions
 
+validateInputAHPTree :: AHPTree -> (AHPTree, [ValidationError])
+validateInputAHPTree ahpTree = (ahpTree, catMaybes $ concatMap (recursiveValidator ahpTree) errorsInputList)
+
 validateAHPTree :: AHPTree -> (AHPTree, [ValidationError])
 validateAHPTree ahpTree = (ahpTree, catMaybes $ concatMap (recursiveValidator ahpTree) errorsList)
 
+errorsInputList :: [ ((AHPTree -> Bool), (AHPTree -> ValidationError)) ]
+errorsInputList = [(squareMatrixTest, squareMatrixError)
+                  ]
 errorsList :: [ ((AHPTree -> Bool), (AHPTree -> ValidationError)) ]
 errorsList = [ (consistencyTest, consistencyError)
-             , (squareMatrixTest, squareMatrixError)
              ]
-
 
 recursiveValidator :: AHPTree
                    -> ((AHPTree -> Bool), (AHPTree -> ValidationError))
@@ -30,14 +34,19 @@ recursiveValidator ahpTree (testFnt, errorFnt) =
 -- * Consistency
 
 consistencyTest :: AHPTree -> Bool
-consistencyTest (AHPTree _ _ consistency _ _ _) = isMatrixConsistent (fromJust consistency) validationConsistencyThreshold
+consistencyTest (AHPTree _ _ consistency _ _ _) =
+    case consistency of
+      Nothing -> False
+      Just x -> isMatrixConsistent x validationConsistencyThreshold
 
 consistencyError :: AHPTree -> ValidationError
 consistencyError ahpTree =
-    ConsistencyError { ahpTree = ahpTree
-                     , consistencyThreshold = validationConsistencyThreshold
-                     , consistency = fromJust . consistencyValue $ ahpTree
-                     }
+    case (consistencyValue ahpTree) of
+      Nothing -> NotComputedConsistencyError { ahpTree = ahpTree }
+      Just x ->  ConsistencyError { ahpTree = ahpTree
+                                  , consistencyThreshold = validationConsistencyThreshold
+                                  , consistency = x
+                                  }
 
 validationConsistencyThreshold = 0.1
 

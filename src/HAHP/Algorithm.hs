@@ -14,15 +14,24 @@ import           Numeric.LinearAlgebra.HMatrix
 -- This function call everithing required to configure an execute AHP process.
 -- If something goes wrong, an error is raised.
 simpleAHP :: AHPTree -> [Alternative] -> (AHPTree, [Alternative], [ValidationError])
-simpleAHP ahpTree alts = (completeTree, ranking, errors)
-	where (initializedTree, errors) = initAHP ahpTree
-              (completeTree, ranking) = rankAlternatives alts initializedTree
+simpleAHP ahpTree alts =
+    if null errors
+    then (completeTree, ranking, errors)
+    else (initializedTree, [], errors)
+    where (initializedTree, errors) = initAHP ahpTree
+          (completeTree, ranking) = rankAlternatives alts initializedTree
 
 -- * Part 1 = static part
 
 initAHP :: AHPTree -> (AHPTree, [ValidationError])
-initAHP ahpTree = validateAHPTree newAHPTree
-    where newAHPTree = computeTreePriorityVectors . computeTreeConsistencies $ ahpTree
+initAHP ahpTree =
+    if null inputErrors
+    then (newAHPTree, inputErrors ++ errors)
+    else (ahpTree, inputErrors)
+    where (_, inputErrors) = validateInputAHPTree ahpTree
+          (newAHPTree, errors) = validateAHPTree (computeTreePriorityVectors . computeTreeConsistencies $ ahpTree)
+--initAHP ahpTree = validateAHPTree newAHPTree
+--    where newAHPTree = computeTreePriorityVectors . computeTreeConsistencies $ ahpTree
 
 -- * Part 2 = dynamic part
 
