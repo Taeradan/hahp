@@ -65,6 +65,10 @@ showError :: ValidationError
           -> String
 showError (ConsistencyError ahpTree consistencyTreshold consistency) =
     "* " ++ name ahpTree ++ ", consistency treshold = " ++ show consistencyTreshold ++ ", consistency value = " ++ printf "%.4f" consistency
+showError (NotComputedConsistencyError ahpTree) =
+    "* " ++ name ahpTree ++ ", consistency not computed !"
+showError (SquareMatrixError ahpTree rows cols) =
+    "* " ++ name ahpTree ++ ", matrix not square rows = " ++ show rows ++ ", columns = " ++ show cols
 
 -- * Alternatives printing
 
@@ -127,13 +131,13 @@ showAhpSubTree level (AHPTree name prefMatrix consistency childrenPriority alter
     , tabs
     ]
     ++
-    lines (maybe "N/A" (showMatrix (level + 2)) childrenPriority)
+    lines (maybe ((variableTabs $ level + 2) ++ "N/A") (showMatrix (level + 2)) childrenPriority)
     ++
     [ tabs ++ "\t- alternatives priority vector :"
     , tabs
     ]
     ++
-    lines (maybe "N/A" (showMatrix (level + 2)) alternativesPriority)
+    lines (maybe ((variableTabs $ level + 2) ++ "N/A") (showMatrix (level + 2)) alternativesPriority)
     ++
     lines (concatMap (showAhpSubTree (level + 1)) children)
         where tabs = variableTabs level
@@ -145,7 +149,7 @@ showAhpSubTree level (AHPLeaf name maximize alternativesPriority) = unlines $
     , tabs
     ]
     ++
-    lines (maybe "N/A" (showMatrix (level + 1)) alternativesPriority)
+    lines (maybe ((variableTabs $ level + 2) ++ "N/A") (showMatrix (level + 1)) alternativesPriority)
         where tabs = variableTabs level
 
 -- * Matrix printing
