@@ -16,6 +16,7 @@ errorsInputList :: [ ((AHPTree -> Bool), (AHPTree -> ValidationError)) ]
 errorsInputList = [ (squareMatrixTest, squareMatrixError)
                   , (parentSizeMatchChildrenTest, parentSizeMatchChildrenError)
                   , (unitaryDiagTest, unitaryDiagError)
+                  , (nullDivisionTest, nullDivisionError)
                   ]
 
 errorsList :: [ ((AHPTree -> Bool), (AHPTree -> ValidationError)) ]
@@ -71,6 +72,13 @@ squareMatrixError ahpTree =
                       , errorCols = cols matrix
                       }
         where matrix = preferenceMatrix ahpTree
+
+-- TODO : to implement
+nullDivisionTest :: AHPTree -> Bool
+nullDivisionTest ahpTree = False
+
+nullDivisionError :: AHPTree -> ValidationError
+nullDivisionError ahpTree = NullDivisionError {ahpTree = ahpTree}
 
 parentSizeMatchChildrenTest :: AHPTree -> Bool
 parentSizeMatchChildrenTest ahpTree = parentSize == childrenSize

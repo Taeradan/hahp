@@ -35,6 +35,7 @@ data ValidationError = ConsistencyError { ahpTree              :: AHPTree
                                         }
                      | NotComputedConsistencyError { ahpTree :: AHPTree}
                      | NotUnitaryDiagError { ahpTree :: AHPTree }
+                     | NullDivisionError { ahpTree :: AHPTree}
                      | ParentChildrenSizeMismatchError {ahpTree            :: AHPTree
                                                        , errorParentSize   :: Int
                                                        , errorChildrenSize :: Int

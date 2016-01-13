@@ -69,6 +69,8 @@ showError (NotComputedConsistencyError ahpTree) =
     "* " ++ name ahpTree ++ ", consistency not computed !" ++ "\n"
 showError (NotUnitaryDiagError ahpTree) =
     "* " ++ name ahpTree ++ ", diagonal is not '1'" ++ "\n"
+showError (NullDivisionError ahpTree) =
+    "* " ++ name ahpTree ++ ", divide by zero !" ++ "\n"
 showError (ParentChildrenSizeMismatchError ahpTree parent children) =
     "* " ++ name ahpTree ++ ", parent and child size mismatch, parent size = " ++ show parent ++ ", children size = " ++ show children ++ "\n"
 showError (SquareMatrixError ahpTree rows cols) =
