@@ -6,27 +6,26 @@ import           HAHP.Data
 -- * Helper functions
 
 validateAHPTree :: AHPTree -> (AHPTree, [ValidationError])
-validateAHPTree ahpTree = (ahpTree, catMaybes . concat $
-                          [ validateConsistency ahpTree])
---                          , validateTreeStructure ahpTree])
+validateAHPTree ahpTree = (ahpTree, catMaybes $ concatMap (recursiveValidator ahpTree) errorsList)
 
-recursiveValidator :: (AHPTree -> Bool)
-                   -> (AHPTree -> ValidationError)
-                   -> AHPTree
+errorsList :: [ ((AHPTree -> Bool), (AHPTree -> ValidationError)) ]
+errorsList = [ (consistencyTest, consistencyError)
+             ]
+
+
+recursiveValidator :: AHPTree
+                   -> ((AHPTree -> Bool), (AHPTree -> ValidationError))
                    -> [Maybe ValidationError]
-recursiveValidator testFnt errorFnt ahpTree =
+recursiveValidator ahpTree (testFnt, errorFnt) =
     case ahpTree of
         AHPTree {} -> currentValidity : childrenValidity
             where currentValidity = if testFnt ahpTree
                                     then Nothing
                                     else Just (errorFnt ahpTree)
-                  childrenValidity = concatMap (recursiveValidator testFnt errorFnt) (children ahpTree)
+                  childrenValidity = concatMap (\x -> recursiveValidator x (testFnt, errorFnt)) (children ahpTree)
         AHPLeaf {} -> [Nothing]
 
 -- * Consistency
-
-validateConsistency :: AHPTree -> [Maybe ValidationError]
-validateConsistency ahpTree = recursiveValidator consistencyTest consistencyError ahpTree
 
 consistencyTest :: AHPTree -> Bool
 consistencyTest (AHPTree _ _ consistency _ _ _) = isMatrixConsistent (fromJust consistency) validationConsistencyThreshold
