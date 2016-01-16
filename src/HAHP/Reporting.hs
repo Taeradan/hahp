@@ -73,6 +73,8 @@ showError (NullDivisionError ahpTree) =
     "* " ++ name ahpTree ++ ", divide by zero !" ++ "\n"
 showError (ParentChildrenSizeMismatchError ahpTree parent children) =
     "* " ++ name ahpTree ++ ", parent and child size mismatch, parent size = " ++ show parent ++ ", children size = " ++ show children ++ "\n"
+showError (PositivePreferenceError ahpTree) =
+    "* " ++ name ahpTree ++ ", some (1 or more) preference value is negative (or null) !" ++ "\n"
 showError (SquareMatrixError ahpTree rows cols) =
     "* " ++ name ahpTree ++ ", matrix not square rows = " ++ show rows ++ ", columns = " ++ show cols ++ "\n"
 

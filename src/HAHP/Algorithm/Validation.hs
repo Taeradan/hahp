@@ -17,6 +17,7 @@ errorsInputList = [ (squareMatrixTest, squareMatrixError)
                   , (parentSizeMatchChildrenTest, parentSizeMatchChildrenError)
                   , (unitaryDiagTest, unitaryDiagError)
                   , (nullDivisionTest, nullDivisionError)
+                  , (positivePreferenceTest, positivePreferenceError)
 --                  , (childrenNamesUnicityTest, childrenNamesUnicityError)
                   ]
 
@@ -86,6 +87,14 @@ nullDivisionTest ahpTree = all (/= 0) matrixvalues
 
 nullDivisionError :: AHPTree -> ValidationError
 nullDivisionError ahpTree = NullDivisionError {ahpTree = ahpTree}
+
+positivePreferenceTest :: AHPTree -> Bool
+positivePreferenceTest ahpTree = all (> 0) matrixvalues
+    where matrixvalues = concat . toLists . preferenceMatrix $ ahpTree
+
+positivePreferenceError :: AHPTree -> ValidationError
+positivePreferenceError ahpTree = PositivePreferenceError {ahpTree = ahpTree}
+    where matrixvalues = concat . toLists . preferenceMatrix $ ahpTree
 
 squareMatrixTest :: AHPTree -> Bool
 squareMatrixTest ahpTree = rows matrix == cols matrix

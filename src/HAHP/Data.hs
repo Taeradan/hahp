@@ -40,6 +40,8 @@ data ValidationError = ConsistencyError { ahpTree              :: AHPTree
                                                        , errorParentSize   :: Int
                                                        , errorChildrenSize :: Int
                                                        }
+                     | PositivePreferenceError { ahpTree :: AHPTree
+                                               }
                      | SquareMatrixError { ahpTree   :: AHPTree
                                          , errorRows :: Int
                                          , errorCols :: Int
