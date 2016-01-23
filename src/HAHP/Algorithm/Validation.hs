@@ -66,34 +66,38 @@ parentSizeMatchChildrenTest ahpTree =
                                                  , errorParentSize = parentSize
                                                  , errorChildrenSize = childrenSize
                                                  }
-        where parentSize = rows . preferenceMatrix $ ahpTree
-              childrenSize = length . children $ ahpTree
+  where parentSize = rows . preferenceMatrix $ ahpTree
+        childrenSize = length . children $ ahpTree
 
 -- ** Matrix properties tests
 
 nullDivisionTest :: AHPTree -> Maybe ValidationError
-nullDivisionTest ahpTree = if 0 `notElem` matrixvalues
-                              then Nothing
-                              else Just NullDivisionError {ahpTree = ahpTree}
-    where matrixvalues = concat . toLists . preferenceMatrix $ ahpTree
+nullDivisionTest ahpTree =
+    if 0 `notElem` matrixvalues
+       then Nothing
+       else Just NullDivisionError {ahpTree = ahpTree}
+  where matrixvalues = concat . toLists . preferenceMatrix $ ahpTree
 
 positivePreferenceTest :: AHPTree -> Maybe ValidationError
-positivePreferenceTest ahpTree = if all (> 0) matrixvalues
-                                    then Nothing
-                                    else Just PositivePreferenceError {ahpTree = ahpTree}
-    where matrixvalues = concat . toLists . preferenceMatrix $ ahpTree
+positivePreferenceTest ahpTree =
+    if all (> 0) matrixvalues
+       then Nothing
+       else Just PositivePreferenceError {ahpTree = ahpTree}
+  where matrixvalues = concat . toLists . preferenceMatrix $ ahpTree
 
 squareMatrixTest :: AHPTree -> Maybe ValidationError
-squareMatrixTest ahpTree = if rows matrix == cols matrix
-                              then Nothing
-                              else Just SquareMatrixError { ahpTree = ahpTree
-                                                          , errorRows = rows matrix
-                                                          , errorCols = cols matrix
-                                                          }
-    where matrix = preferenceMatrix ahpTree
+squareMatrixTest ahpTree =
+    if rows matrix == cols matrix
+       then Nothing
+       else Just SquareMatrixError { ahpTree = ahpTree
+                                   , errorRows = rows matrix
+                                   , errorCols = cols matrix
+                                   }
+  where matrix = preferenceMatrix ahpTree
 
 unitaryDiagTest :: AHPTree -> Maybe ValidationError
-unitaryDiagTest ahpTree = if all (== 1) (toList . takeDiag $ matrix)
-                             then Nothing
-                             else Just NotUnitaryDiagError {ahpTree = ahpTree}
-    where matrix = preferenceMatrix ahpTree
+unitaryDiagTest ahpTree =
+    if all (== 1) (toList . takeDiag $ matrix)
+       then Nothing
+       else Just NotUnitaryDiagError {ahpTree = ahpTree}
+  where matrix = preferenceMatrix ahpTree
