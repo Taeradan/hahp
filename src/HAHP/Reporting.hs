@@ -63,20 +63,22 @@ showErrors errors = unlines $
 
 showError :: ValidationError
           -> String
-showError (ConsistencyError ahpTree consistencyTreshold consistency) =
-    "* " ++ name ahpTree ++ ", consistency treshold = " ++ show consistencyTreshold ++ ", consistency value = " ++ printf "%.4f" consistency ++ "\n"
-showError (NotComputedConsistencyError ahpTree) =
-    "* " ++ name ahpTree ++ ", consistency not computed !" ++ "\n"
-showError (NotUnitaryDiagError ahpTree) =
-    "* " ++ name ahpTree ++ ", diagonal is not '1'" ++ "\n"
-showError (NullDivisionError ahpTree) =
-    "* " ++ name ahpTree ++ ", divide by zero !" ++ "\n"
-showError (ParentChildrenSizeMismatchError ahpTree parent children) =
-    "* " ++ name ahpTree ++ ", parent and child size mismatch, parent size = " ++ show parent ++ ", children size = " ++ show children ++ "\n"
-showError (PositivePreferenceError ahpTree) =
-    "* " ++ name ahpTree ++ ", some (1 or more) preference value is negative (or null) !" ++ "\n"
-showError (SquareMatrixError ahpTree rows cols) =
-    "* " ++ name ahpTree ++ ", matrix not square rows = " ++ show rows ++ ", columns = " ++ show cols ++ "\n"
+showError validationError = "* in \"" ++ (name . ahpTree $ validationError) ++ "\": " ++
+    case validationError of
+        (ConsistencyError ahpTree consistencyTreshold consistency) ->
+            "too much unconsistency, $value = " ++ printf "%.4f" consistency ++ "$, $treshold = " ++ show consistencyTreshold ++ "$\n"
+        (NotComputedConsistencyError ahpTree) ->
+            "consistency not computed !" ++ "\n"
+        (NotUnitaryDiagError ahpTree) ->
+            "diagonal is not '1'" ++ "\n"
+        (NullDivisionError ahpTree) ->
+            "divide by zero !" ++ "\n"
+        (ParentChildrenSizeMismatchError ahpTree parent children) ->
+            "parent and child size mismatch, $parent size = " ++ show parent ++ "$, $children size = " ++ show children ++ "$\n"
+        (PositivePreferenceError ahpTree) ->
+            "one or more preference value is $\\leq 0$ !" ++ "\n"
+        (SquareMatrixError ahpTree rows cols) ->
+            "matrix not square, $rows = " ++ show rows ++ "$, $columns = " ++ show cols ++ "$\n"
 
 -- * Alternatives printing
 
