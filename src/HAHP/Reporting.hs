@@ -96,8 +96,8 @@ showAlternative :: Int         -- ^ Deep level. Used to intercalate separators
                 -> Alternative -- ^ Alternative
                 -> String      -- ^ Report about the alternative
 showAlternative level a = unlines $
-    [tabs ++ "1. " ++ altName a]
-    ++
+    (tabs ++ "1. " ++ altName a)
+    :
     lines (showIndicatorValues (level + 1) (indValues a))
   where tabs = variableTabs level
 
@@ -139,13 +139,13 @@ showAhpSubTree level (AHPTree name prefMatrix consistency childrenPriority alter
     , tabs
     ]
     ++
-    lines (maybe ((variableTabs $ level + 2) ++ "N/A") (showMatrix (level + 2)) childrenPriority)
+    lines (maybe (variableTabs (level + 2) ++ "N/A") (showMatrix (level + 2)) childrenPriority)
     ++
     [ tabs ++ "\t- alternatives priority vector :"
     , tabs
     ]
     ++
-    lines (maybe ((variableTabs $ level + 2) ++ "N/A") (showMatrix (level + 2)) alternativesPriority)
+    lines (maybe (variableTabs (level + 2) ++ "N/A") (showMatrix (level + 2)) alternativesPriority)
     ++
     lines (concatMap (showAhpSubTree (level + 1)) children)
         where tabs = variableTabs level
@@ -157,7 +157,7 @@ showAhpSubTree level (AHPLeaf name maximize alternativesPriority) = unlines $
     , tabs
     ]
     ++
-    lines (maybe ((variableTabs $ level + 2) ++ "N/A") (showMatrix (level + 1)) alternativesPriority)
+    lines (maybe (variableTabs (level + 2) ++ "N/A") (showMatrix (level + 1)) alternativesPriority)
         where tabs = variableTabs level
 
 -- * Matrix printing

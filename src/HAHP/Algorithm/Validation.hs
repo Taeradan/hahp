@@ -12,7 +12,7 @@ validateInputAHPTree ahpTree = (ahpTree, catMaybes $ concatMap (recursiveValidat
 validateAHPTree :: AHPTree -> (AHPTree, [ValidationError])
 validateAHPTree ahpTree = (ahpTree, catMaybes $ concatMap (recursiveValidator ahpTree) errorsList)
 
-errorsInputList :: [ (AHPTree -> Maybe ValidationError) ]
+errorsInputList :: [AHPTree -> Maybe ValidationError]
 errorsInputList = [ squareMatrixTest
                   , parentSizeMatchChildrenTest
                   , unitaryDiagTest
@@ -20,7 +20,7 @@ errorsInputList = [ squareMatrixTest
                   , positivePreferenceTest
                   ]
 
-errorsList :: [ (AHPTree -> Maybe ValidationError) ]
+errorsList :: [AHPTree -> Maybe ValidationError]
 errorsList = [ consistencyTest
              ]
 
@@ -31,7 +31,7 @@ recursiveValidator ahpTree testFnt =
     case ahpTree of
         AHPTree {} -> currentValidity : childrenValidity
             where currentValidity = testFnt ahpTree
-                  childrenValidity = concatMap (\ x -> recursiveValidator x testFnt) (children ahpTree)
+                  childrenValidity = concatMap (`recursiveValidator` testFnt) (children ahpTree)
         AHPLeaf {} -> [Nothing]
 
 -- * Tests implementations
@@ -40,7 +40,7 @@ recursiveValidator ahpTree testFnt =
 
 consistencyTest :: AHPTree -> Maybe ValidationError
 consistencyTest ahpTree =
-    case (consistencyValue ahpTree) of
+    case consistencyValue ahpTree of
       Nothing -> Just NotComputedConsistencyError { ahpTree = ahpTree }
       Just x -> if isMatrixConsistent x validationConsistencyThreshold
                    then Nothing
@@ -72,7 +72,7 @@ parentSizeMatchChildrenTest ahpTree =
 -- ** Matrix properties tests
 
 nullDivisionTest :: AHPTree -> Maybe ValidationError
-nullDivisionTest ahpTree = if all (/= 0) matrixvalues
+nullDivisionTest ahpTree = if 0 `notElem` matrixvalues
                               then Nothing
                               else Just NullDivisionError {ahpTree = ahpTree}
     where matrixvalues = concat . toLists . preferenceMatrix $ ahpTree
