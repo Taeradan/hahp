@@ -41,3 +41,4 @@ executable hahp-example
   build-depends:       base >=4.7, hahp, time
   hs-source-dirs:      hahp-example
   default-language:    Haskell2010
+  ghc-options:         -rtsopts -eventlog -threaded
