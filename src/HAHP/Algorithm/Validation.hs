@@ -1,5 +1,6 @@
 module HAHP.Algorithm.Validation where
 
+import           Control.Parallel.Strategies
 import           Data.Maybe
 import           HAHP.Data
 import           Numeric.LinearAlgebra.HMatrix
@@ -7,10 +8,16 @@ import           Numeric.LinearAlgebra.HMatrix
 -- * Helper functions
 
 validateInputAHPTree :: AHPTree -> (AHPTree, [ValidationError])
-validateInputAHPTree ahpTree = (ahpTree, catMaybes $ concatMap (recursiveValidator ahpTree) errorsInputList)
+validateInputAHPTree ahpTree = validate' ahpTree errorsInputList
 
 validateAHPTree :: AHPTree -> (AHPTree, [ValidationError])
-validateAHPTree ahpTree = (ahpTree, catMaybes $ concatMap (recursiveValidator ahpTree) errorsList)
+validateAHPTree ahpTree = validate' ahpTree errorsList
+
+validate' :: AHPTree -> [AHPTree -> Maybe ValidationError] -> (AHPTree, [ValidationError])
+validate' ahpTree checks = ( ahpTree
+                           , catMaybes $ concatMap (recursiveValidator ahpTree) checks
+                           --, catMaybes $ concat $ parMap rseq (recursiveValidator ahpTree) checks
+                           )
 
 errorsInputList :: [AHPTree -> Maybe ValidationError]
 errorsInputList = [ squareMatrixTest
@@ -31,7 +38,8 @@ recursiveValidator ahpTree testFnt =
     case ahpTree of
         AHPTree {} -> currentValidity : childrenValidity
             where currentValidity = testFnt ahpTree
-                  childrenValidity = concatMap (`recursiveValidator` testFnt) (children ahpTree)
+                  --childrenValidity = concatMap (`recursiveValidator` testFnt) (children ahpTree)
+                  childrenValidity = concat $ parMap rseq (`recursiveValidator` testFnt) (children ahpTree)
         AHPLeaf {} -> [Nothing]
 
 -- * Tests implementations

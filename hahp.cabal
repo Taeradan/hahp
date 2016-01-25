@@ -18,7 +18,7 @@ cabal-version:       >=1.10
 library
   -- other-modules:       
   -- other-extensions:    
-  build-depends:       base >=4.7, containers, hmatrix, time
+  build-depends:       base >=4.7, containers, hmatrix, parallel, time
   hs-source-dirs:      src
   default-language:    Haskell2010
   exposed-modules:
