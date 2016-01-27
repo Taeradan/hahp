@@ -80,10 +80,10 @@ nullDivisionTest ahpTree =
 
 positivePreferenceTest :: AHPTree -> Maybe ValidationError
 positivePreferenceTest ahpTree =
-    if all (> 0) matrixvalues
+    if all (> 0) matrixValues
        then Nothing
        else Just PositivePreferenceError {ahpTree = ahpTree}
-  where matrixvalues = concat . toLists . preferenceMatrix $ ahpTree
+  where matrixValues = concat . toLists . preferenceMatrix $ ahpTree
 
 squareMatrixTest :: AHPTree -> Maybe ValidationError
 squareMatrixTest ahpTree =
@@ -97,7 +97,7 @@ squareMatrixTest ahpTree =
 
 unitaryDiagTest :: AHPTree -> Maybe ValidationError
 unitaryDiagTest ahpTree =
-    if all (== 1) (toList . takeDiag $ matrix)
+    if all (== 1) diagonalValues
        then Nothing
        else Just NotUnitaryDiagError {ahpTree = ahpTree}
-  where matrix = preferenceMatrix ahpTree
+  where diagonalValues = toList . takeDiag . preferenceMatrix $ ahpTree
