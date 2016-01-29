@@ -25,7 +25,8 @@ stylish-haskell:
 
 #---- Documentation
 
-doc: sourcegraph haddock
+doc:	sourcegraph haddock
+.PHONY: sourcegraph haddock
 
 haddock:
 	cabal haddock

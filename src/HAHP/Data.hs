@@ -33,6 +33,7 @@ data ValidationError = ConsistencyError { ahpTree              :: AHPTree
                                         , consistencyThreshold :: Double
                                         , consistency          :: Double
                                         }
+                     | InverseError { ahpTree :: AHPTree }
                      | NotComputedConsistencyError { ahpTree :: AHPTree}
                      | NotUnitaryDiagError { ahpTree :: AHPTree }
                      | NullDivisionError { ahpTree :: AHPTree}

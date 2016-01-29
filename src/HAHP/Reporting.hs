@@ -67,6 +67,8 @@ showError validationError = "* in \"" ++ (name . ahpTree $ validationError) ++ "
     case validationError of
         (ConsistencyError ahpTree consistencyTreshold consistency) ->
             "too much unconsistency, $value = " ++ printf "%.4f" consistency ++ "$, $treshold = " ++ show consistencyTreshold ++ "$\n"
+        (InverseError ahpTree) ->
+            "preference values M(i,j) != 1/M(j,i)"
         (NotComputedConsistencyError ahpTree) ->
             "consistency not computed !" ++ "\n"
         (NotUnitaryDiagError ahpTree) ->

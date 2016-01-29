@@ -25,6 +25,7 @@ errorsInputList = [ squareMatrixTest
                   , unitaryDiagTest
                   , nullDivisionTest
                   , positivePreferenceTest
+                  , inverseTest
                   ]
 
 errorsList :: [AHPTree -> Maybe ValidationError]
@@ -78,6 +79,26 @@ parentSizeMatchChildrenTest ahpTree =
         childrenSize = length . children $ ahpTree
 
 -- ** Matrix properties tests
+
+inverseTest :: AHPTree -> Maybe ValidationError
+inverseTest ahpTree =
+    if and (map (inverseTest' . preferenceMatrix $ ahpTree) indices)
+       then Nothing
+       else Just InverseError {ahpTree = ahpTree}
+    where  indices = [ (i, j)
+                     | i <- [1..matrixSize-1]
+                     , j <- [1..matrixSize-1]
+                     , j > i
+                     ]
+           matrixSize = fromIntegral . rows . preferenceMatrix $ ahpTree
+
+inverseTest' :: Matrix Double -> (Int, Int) -> Bool
+inverseTest' matrix (i, j) = m_ij == (1 / m_ji)
+    where
+          m_ij :: Double
+          m_ij = matrix `atIndex` (i, j)
+          m_ji :: Double
+          m_ji = matrix `atIndex` (j, i)
 
 nullDivisionTest :: AHPTree -> Maybe ValidationError
 nullDivisionTest ahpTree =
