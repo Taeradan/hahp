@@ -7,13 +7,14 @@ import           HAHP.Reporting
 import           HAHP.Sample.Config1
 import           HAHP.Sample.Config2
 import           HAHP.Sample.Config3
+import           HAHP.Sample.SquareMatrixError
 
 main :: IO ()
 main = do
     let title = "HAHP library testing"
         author = "Jean-Pierre Prunaret, Yves Dubromelle"
-        configs = [sampleAHPConfig1, sampleAHPConfig2, sampleAHPConfig3]
-        alternatives = [sampleAlternatives1, sampleAlternatives2, sampleAlternatives3]
+        configs =      [sampleAHPConfig1,    sampleAHPConfig2,    sampleAHPConfig3,    smeConfig]
+        alternatives = [sampleAlternatives1, sampleAlternatives2, sampleAlternatives3, smeAlternatives]
         sampleDataSet = zip configs alternatives
 
     time <- getCurrentTime

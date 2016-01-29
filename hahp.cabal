@@ -18,7 +18,7 @@ cabal-version:       >=1.10
 library
   -- other-modules:       
   -- other-extensions:    
-  build-depends:       base >=4.7, containers, hmatrix, time
+  build-depends:       base >=4.7, containers, hmatrix, parallel, time
   hs-source-dirs:      src
   default-language:    Haskell2010
   exposed-modules:
@@ -32,6 +32,7 @@ library
     HAHP.Sample.Config1
     HAHP.Sample.Config2
     HAHP.Sample.Config3
+    HAHP.Sample.SquareMatrixError
 
 executable hahp-example
   main-is:             Main.hs
@@ -40,3 +41,4 @@ executable hahp-example
   build-depends:       base >=4.7, hahp, time
   hs-source-dirs:      hahp-example
   default-language:    Haskell2010
+  ghc-options:         -rtsopts -eventlog -threaded

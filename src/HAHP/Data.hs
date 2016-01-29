@@ -28,3 +28,22 @@ data Alternative = Alternative { altName   :: String
                  deriving (Show)
 
 type IndicatorValues = Map IndicatorName Double
+
+data ValidationError = ConsistencyError { ahpTree              :: AHPTree
+                                        , consistencyThreshold :: Double
+                                        , consistency          :: Double
+                                        }
+                     | NotComputedConsistencyError { ahpTree :: AHPTree}
+                     | NotUnitaryDiagError { ahpTree :: AHPTree }
+                     | NullDivisionError { ahpTree :: AHPTree}
+                     | ParentChildrenSizeMismatchError {ahpTree            :: AHPTree
+                                                       , errorParentSize   :: Int
+                                                       , errorChildrenSize :: Int
+                                                       }
+                     | PositivePreferenceError { ahpTree :: AHPTree
+                                               }
+                     | SquareMatrixError { ahpTree   :: AHPTree
+                                         , errorRows :: Int
+                                         , errorCols :: Int
+                                         }
+                    deriving (Show)

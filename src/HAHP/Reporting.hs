@@ -21,16 +21,17 @@ reportHeader title author time = unlines
     ]
 
 -- | Print a simple report about an AHP tree and ranking result
-simpleSummary :: (AHPTree, [Alternative], Bool) -- ^ AHP tree, some alternatives and the result of tree validation
+simpleSummary :: (AHPTree, [Alternative], [ValidationError]) -- ^ AHP tree, some alternatives and the result of tree validation
               -> String                         -- ^ Report build from input
-simpleSummary (ahpTree, alts, validation) =  treeSummary ++ altSummary
-    where treeSummary = showConfigurationSummary (ahpTree, validation)
+simpleSummary (ahpTree, alts, errors) =  treeSummary ++ altSummary ++ errorSummary ++ "\\newpage \n"
+    where treeSummary = showConfiguration ahpTree
           altSummary = showAlternatives alts
+          errorSummary = showErrors errors
 
 -- | Print an AHP tree and some additional information about it
-showConfigurationSummary :: (AHPTree, Bool) -- ^ AHP tree and the result of its validation
-                         -> String          -- ^ Report about the AHP tree
-showConfigurationSummary (ahpTree, validation) = unlines $
+showConfiguration :: AHPTree -- ^ AHP tree
+                         -> String  -- ^ Report about the AHP tree
+showConfiguration ahpTree = unlines $
     [ "# Configuration \"" ++ name ahpTree ++ "\""
     , ""
     , "## AHP tree preview"
@@ -38,14 +39,46 @@ showConfigurationSummary (ahpTree, validation) = unlines $
     ]
     ++
     lines (showAhpTree ahpTree)
-    ++
+
+-- * Errors
+
+showErrors :: [ValidationError] -- ^ List of errors
+           -> String            -- ^ Report errors
+showErrors errors = unlines $
     [ ""
     , "## AHP tree validity"
     , ""
-    , if validation
-        then "-> this tree is valid"
-        else "-> this tree is NOT valid"
+    , "### Summary"
+    , ""
+    , if null errors
+        then "This tree is valid"
+        else "This tree is NOT valid"
+    , ""
+    , "### List of errors"
+    , ""
     ]
+    ++
+    lines (concatMap showError errors)
+
+
+showError :: ValidationError
+          -> String
+showError validationError = "* in \"" ++ (name . ahpTree $ validationError) ++ "\": " ++
+    case validationError of
+        (ConsistencyError ahpTree consistencyTreshold consistency) ->
+            "too much unconsistency, $value = " ++ printf "%.4f" consistency ++ "$, $treshold = " ++ show consistencyTreshold ++ "$\n"
+        (NotComputedConsistencyError ahpTree) ->
+            "consistency not computed !" ++ "\n"
+        (NotUnitaryDiagError ahpTree) ->
+            "diagonal is not '1'" ++ "\n"
+        (NullDivisionError ahpTree) ->
+            "divide by zero !" ++ "\n"
+        (ParentChildrenSizeMismatchError ahpTree parent children) ->
+            "parent and child size mismatch, $parent size = " ++ show parent ++ "$, $children size = " ++ show children ++ "$\n"
+        (PositivePreferenceError ahpTree) ->
+            "one or more preference value is $\\leq 0$ !" ++ "\n"
+        (SquareMatrixError ahpTree rows cols) ->
+            "matrix not square, $rows = " ++ show rows ++ "$, $columns = " ++ show cols ++ "$\n"
 
 -- * Alternatives printing
 
@@ -65,8 +98,8 @@ showAlternative :: Int         -- ^ Deep level. Used to intercalate separators
                 -> Alternative -- ^ Alternative
                 -> String      -- ^ Report about the alternative
 showAlternative level a = unlines $
-    [tabs ++ "1. " ++ altName a]
-    ++
+    (tabs ++ "1. " ++ altName a)
+    :
     lines (showIndicatorValues (level + 1) (indValues a))
   where tabs = variableTabs level
 
@@ -108,13 +141,13 @@ showAhpSubTree level (AHPTree name prefMatrix consistency childrenPriority alter
     , tabs
     ]
     ++
-    lines (maybe "N/A" (showMatrix (level + 2)) childrenPriority)
+    lines (maybe (variableTabs (level + 2) ++ "N/A") (showMatrix (level + 2)) childrenPriority)
     ++
     [ tabs ++ "\t- alternatives priority vector :"
     , tabs
     ]
     ++
-    lines (maybe "N/A" (showMatrix (level + 2)) alternativesPriority)
+    lines (maybe (variableTabs (level + 2) ++ "N/A") (showMatrix (level + 2)) alternativesPriority)
     ++
     lines (concatMap (showAhpSubTree (level + 1)) children)
         where tabs = variableTabs level
@@ -126,7 +159,7 @@ showAhpSubTree level (AHPLeaf name maximize alternativesPriority) = unlines $
     , tabs
     ]
     ++
-    lines (maybe "N/A" (showMatrix (level + 1)) alternativesPriority)
+    lines (maybe (variableTabs (level + 2) ++ "N/A") (showMatrix (level + 1)) alternativesPriority)
         where tabs = variableTabs level
 
 -- * Matrix printing

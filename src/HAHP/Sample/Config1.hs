@@ -1,8 +1,8 @@
 module HAHP.Sample.Config1 where
 
 import           Data.Map
-import           Numeric.LinearAlgebra.HMatrix
 import           HAHP.Data
+import           Numeric.LinearAlgebra.HMatrix
 
 rootName :: String
 rootName = "Super objective"

@@ -44,9 +44,9 @@ computeAlternativesPriority ahpTree alts = result
 buildAlternativePairwiseMatrix :: AHPTree -> [Alternative] -> Matrix Double
 buildAlternativePairwiseMatrix ahpTree alts = (length alts >< length alts) matrix
         where vals = map (selectIndValue (name ahpTree)) alts
-	      cartesianProduct = [(x, y) | x <- vals, y <- vals]
+              cartesianProduct = [(x, y) | x <- vals, y <- vals]
               matrix = map operator cartesianProduct
-	      operator = if maximize ahpTree
+              operator = if maximize ahpTree
                          -- `uncurry` permit the use of an operator on a pair
                          then uncurry (/)
                          -- `flip` revert the arguments
