@@ -15,8 +15,8 @@ validateAHPTree ahpTree = validate' ahpTree errorsList
 
 validate' :: AHPTree -> [AHPTree -> Maybe ValidationError] -> (AHPTree, [ValidationError])
 validate' ahpTree checks = ( ahpTree
-                           , catMaybes $ concatMap (recursiveValidator ahpTree) checks
-                           --, catMaybes $ concat $ parMap rseq (recursiveValidator ahpTree) checks
+                           --, catMaybes $ concatMap (recursiveValidator ahpTree) checks
+                           , catMaybes $ concat $ parMap rseq (recursiveValidator ahpTree) checks
                            )
 
 errorsInputList :: [AHPTree -> Maybe ValidationError]
