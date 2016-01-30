@@ -2,11 +2,7 @@ module HAHP.Algorithm.Validation.Tree where
 
 import           Control.Parallel.Strategies
 --import           Data.List.Unique
-import           Data.List
-                 ( sort
-                 , sortBy
-                 , group
-                 )
+import           Data.List                     (group, sort, sortBy)
 import           Data.Maybe
 import           HAHP.Data
 import           Numeric.LinearAlgebra.HMatrix
@@ -79,7 +75,7 @@ childrenUnicityTest ahpTree =
        else Just ChildrenUnicityError { ahpTree = ahpTree
                                       , repeatedChildrenNames = repeatedChildrenNames
                                       }
-  where repeatedChildrenNames = repeated . (map name) . children $ ahpTree
+  where repeatedChildrenNames = repeated . map name . children $ ahpTree
 
 parentSizeMatchChildrenTest :: AHPTree -> Maybe TreeError
 parentSizeMatchChildrenTest ahpTree =
@@ -96,7 +92,7 @@ parentSizeMatchChildrenTest ahpTree =
 
 inverseTest :: AHPTree -> Maybe TreeError
 inverseTest ahpTree =
-    if and (map (inverseTest' . preferenceMatrix $ ahpTree) indices)
+    if all (inverseTest' . preferenceMatrix $ ahpTree) indices
        then Nothing
        else Just InverseError {ahpTree = ahpTree}
     where  indices = [ (i, j)

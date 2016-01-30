@@ -2,7 +2,7 @@ module HAHP.Algorithm where
 
 import           Data.List
 import           Data.Maybe
-import           Data.Ord                      (comparing)
+import           Data.Ord                               (comparing)
 import           HAHP.Algorithm.Consistency
 import           HAHP.Algorithm.PriorityVector
 import           HAHP.Algorithm.Ranking

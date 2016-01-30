@@ -33,7 +33,7 @@ data TreeError = ConsistencyError { ahpTree              :: AHPTree
                                   , consistencyThreshold :: Double
                                   , consistency          :: Double
                                   }
-               | ChildrenUnicityError { ahpTree :: AHPTree
+               | ChildrenUnicityError { ahpTree               :: AHPTree
                                       , repeatedChildrenNames :: [String]
                                       }
                | InverseError { ahpTree :: AHPTree }

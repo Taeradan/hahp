@@ -100,7 +100,7 @@ showAltsError :: AlternativesError
               -> String
 showAltsError altError = "* " ++
     case altError of
-        (NoAlternativesError) ->
+        NoAlternativesError ->
             "No Alternatives" ++ "\n"
 
 -- * Alternatives printing
