@@ -67,8 +67,10 @@ showError validationError = "* in \"" ++ (name . ahpTree $ validationError) ++ "
     case validationError of
         (ConsistencyError ahpTree consistencyTreshold consistency) ->
             "too much unconsistency, $value = " ++ printf "%.4f" consistency ++ "$, $treshold = " ++ show consistencyTreshold ++ "$\n"
+        (ChildrenUnicityError ahpTree repeated) ->
+            "repeated children names: " ++ show repeated ++ "\n"
         (InverseError ahpTree) ->
-            "preference values M(i,j) != 1/M(j,i)"
+            "preference values $M(i,j) \\neq \\dfrac{1}{M(j,i)}$" ++ "\n"
         (NotComputedConsistencyError ahpTree) ->
             "consistency not computed !" ++ "\n"
         (NotUnitaryDiagError ahpTree) ->

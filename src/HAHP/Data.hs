@@ -33,6 +33,9 @@ data ValidationError = ConsistencyError { ahpTree              :: AHPTree
                                         , consistencyThreshold :: Double
                                         , consistency          :: Double
                                         }
+                     | ChildrenUnicityError { ahpTree :: AHPTree
+                                            , repeatedChildrenNames :: [String]
+                                            }
                      | InverseError { ahpTree :: AHPTree }
                      | NotComputedConsistencyError { ahpTree :: AHPTree}
                      | NotUnitaryDiagError { ahpTree :: AHPTree }

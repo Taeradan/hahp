@@ -32,6 +32,7 @@ errorsInputList = [ squareMatrixTest
                   , nullDivisionTest
                   , positivePreferenceTest
                   , inverseTest
+                  , childrenUnicityTest
                   ]
 
 errorsList :: [AHPTree -> Maybe ValidationError]
@@ -48,6 +49,7 @@ recursiveValidator ahpTree testFnt =
                   --childrenValidity = concatMap (`recursiveValidator` testFnt) (children ahpTree)
                   childrenValidity = concat $ parMap rseq (`recursiveValidator` testFnt) (children ahpTree)
         AHPLeaf {} -> [Nothing]
+
 
 -- * Tests implementations
 
@@ -72,6 +74,15 @@ isMatrixConsistent consistency threshold
     | otherwise = False
 
 -- ** Tree structure tests
+
+childrenUnicityTest :: AHPTree -> Maybe ValidationError
+childrenUnicityTest ahpTree =
+    if null repeatedChildrenNames
+       then Nothing
+       else Just ChildrenUnicityError { ahpTree = ahpTree
+                                      , repeatedChildrenNames = repeatedChildrenNames
+                                      }
+  where repeatedChildrenNames = repeated . (map name) . children $ ahpTree
 
 parentSizeMatchChildrenTest :: AHPTree -> Maybe ValidationError
 parentSizeMatchChildrenTest ahpTree =
