@@ -19,6 +19,8 @@ smeConfig = AHPTree
                        Nothing
                        [ AHPLeaf "d" True Nothing
                        , AHPLeaf "Tp" True Nothing
+                       , AHPLeaf "Tp" True Nothing
+                       , AHPLeaf "Id" False Nothing
                        , AHPLeaf "Id" False Nothing
                        ]
 
