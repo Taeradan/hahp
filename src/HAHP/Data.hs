@@ -51,3 +51,7 @@ data ValidationError = ConsistencyError { ahpTree              :: AHPTree
                                          , errorCols :: Int
                                          }
                     deriving (Show)
+
+data AlternativesError = NoAlternativesError {}
+                    deriving (Show)
+

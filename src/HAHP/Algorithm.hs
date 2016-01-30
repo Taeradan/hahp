@@ -6,7 +6,8 @@ import           Data.Ord                      (comparing)
 import           HAHP.Algorithm.Consistency
 import           HAHP.Algorithm.PriorityVector
 import           HAHP.Algorithm.Ranking
-import           HAHP.Algorithm.Validation
+import           HAHP.Algorithm.Validation.Alternatives
+import           HAHP.Algorithm.Validation.Tree
 import           HAHP.Data
 import           Numeric.LinearAlgebra.HMatrix
 
@@ -36,8 +37,9 @@ initAHP ahpTree =
 rankAlternatives :: [Alternative] -> AHPTree -> (AHPTree, [Alternative])
 rankAlternatives alts ahpTree = (rankedAhpTree, reverse sortedRankedAlternatives)
     where ranks = concat . toLists . fromJust $ alternativesPriority rankedAhpTree
-          rankedAhpTree = computeTreeAlternativesPriorities alts ahpTree
+          rankedAhpTree = computeTreeAlternativesPriorities validatedAlts ahpTree
           sortedRankedAlternatives = map fst . sortOn' snd $ zip alts ranks
+          (validatedAlts, _ ) = validateAlternatives alts
 
 -- | Sort a list by comparing the results of a key function applied to each
 -- element.  @sortOn f@ is equivalent to @sortBy . comparing f@, but has the

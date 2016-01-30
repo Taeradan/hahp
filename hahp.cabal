@@ -26,7 +26,8 @@ library
     HAHP.Algorithm.Consistency
     HAHP.Algorithm.PriorityVector
     HAHP.Algorithm.Ranking
-    HAHP.Algorithm.Validation
+    HAHP.Algorithm.Validation.Alternatives
+    HAHP.Algorithm.Validation.Tree
     HAHP.Data
     HAHP.Reporting
     HAHP.Sample.Config1
