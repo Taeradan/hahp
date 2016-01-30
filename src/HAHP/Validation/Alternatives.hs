@@ -1,4 +1,4 @@
-module HAHP.Algorithm.Validation.Alternatives where
+module HAHP.Validation.Alternatives where
 
 import           Control.Parallel.Strategies
 import           Data.Maybe

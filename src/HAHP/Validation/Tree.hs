@@ -1,4 +1,4 @@
-module HAHP.Algorithm.Validation.Tree where
+module HAHP.Validation.Tree where
 
 import           Control.Parallel.Strategies
 --import           Data.List.Unique
