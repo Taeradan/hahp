@@ -4,13 +4,11 @@ import           Control.Parallel.Strategies
 import           Data.Maybe
 import           HAHP.Data
 
-validateAlternatives :: [Alternative] -> ([Alternative], [AlternativesError])
+validateAlternatives :: [Alternative] -> [AlternativesError]
 validateAlternatives alts = validate' alts testsList
 
-validate' :: [Alternative] -> [[Alternative] -> Maybe AlternativesError] -> ([Alternative], [AlternativesError])
-validate' alts checks = ( alts
-                        , catMaybes $ parMap rseq (\check -> check alts) checks
-                        )
+validate' :: [Alternative] -> [[Alternative] -> Maybe AlternativesError] -> [AlternativesError]
+validate' alts checks = catMaybes $ parMap rseq (\check -> check alts) checks
 
 testsList :: [[Alternative] -> Maybe AlternativesError]
 testsList = [ noAlternativesTest

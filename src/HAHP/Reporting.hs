@@ -21,16 +21,16 @@ reportHeader title author time = unlines
     ]
 
 -- | Print a simple report about an AHP tree and ranking result
-simpleSummary :: (AHPTree, [Alternative], [TreeError]) -- ^ AHP tree, some alternatives and the result of tree validation
-              -> String                         -- ^ Report build from input
-simpleSummary (ahpTree, alts, errors) =  treeSummary ++ altSummary ++ errorSummary ++ "\\newpage \n"
+simpleSummary :: (AHPTree, [Alternative], [TreeError], [AlternativesError]) -- ^ AHP tree, some alternatives and the result of tree validation
+              -> String                                                     -- ^ Report build from input
+simpleSummary (ahpTree, alts, treeErrors, altsErrors) =  treeSummary ++ altSummary ++ errorSummary ++ "\\newpage \n"
     where treeSummary = showConfiguration ahpTree
           altSummary = showAlternatives alts
-          errorSummary = showErrors errors
+          errorSummary = showErrors treeErrors altsErrors
 
 -- | Print an AHP tree and some additional information about it
 showConfiguration :: AHPTree -- ^ AHP tree
-                         -> String  -- ^ Report about the AHP tree
+                  -> String  -- ^ Report about the AHP tree
 showConfiguration ahpTree = unlines $
     [ "# Configuration \"" ++ name ahpTree ++ "\""
     , ""
@@ -42,28 +42,40 @@ showConfiguration ahpTree = unlines $
 
 -- * Errors
 
-showErrors :: [TreeError] -- ^ List of errors
-           -> String      -- ^ Report errors
-showErrors errors = unlines $
+showErrors :: [TreeError]         -- ^ List of errors
+           -> [AlternativesError] -- ^ List of errors
+           -> String              -- ^ Report errors
+showErrors treeErrors altsErrors = unlines $
     [ ""
-    , "## AHP tree validity"
+    , "## Input data validation"
     , ""
     , "### Summary"
     , ""
-    , if null errors
+    , if null treeErrors
         then "This tree is valid"
         else "This tree is NOT valid"
     , ""
-    , "### List of errors"
+    , if null altsErrors
+        then "Theses alternatives are valid"
+        else "Theses alternatives are NOT valid"
+    , ""
+    , "### Tree errors"
     , ""
     ]
     ++
-    lines (concatMap showError errors)
+    lines (concatMap showTreeError treeErrors)
+    ++
+    [ ""
+    , "### Alternatives errors"
+    , ""
+    ]
+    ++
+    lines (concatMap showAltsError altsErrors)
 
 
-showError :: TreeError
-          -> String
-showError validationError = "* in \"" ++ (name . ahpTree $ validationError) ++ "\": " ++
+showTreeError :: TreeError
+              -> String
+showTreeError validationError = "* in \"" ++ (name . ahpTree $ validationError) ++ "\": " ++
     case validationError of
         (ConsistencyError ahpTree consistencyTreshold consistency) ->
             "too much unconsistency, $value = " ++ printf "%.4f" consistency ++ "$, $treshold = " ++ show consistencyTreshold ++ "$\n"
@@ -83,6 +95,13 @@ showError validationError = "* in \"" ++ (name . ahpTree $ validationError) ++ "
             "one or more preference value is $\\leq 0$ !" ++ "\n"
         (SquareMatrixError ahpTree rows cols) ->
             "matrix not square, $rows = " ++ show rows ++ "$, $columns = " ++ show cols ++ "$\n"
+
+showAltsError :: AlternativesError
+              -> String
+showAltsError altError = "* " ++
+    case altError of
+        (NoAlternativesError) ->
+            "No Alternatives" ++ "\n"
 
 -- * Alternatives printing
 

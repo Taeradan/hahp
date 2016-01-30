@@ -13,17 +13,14 @@ import           Numeric.LinearAlgebra.HMatrix
 
 -- * Helper functions
 
-validateInputAHPTree :: AHPTree -> (AHPTree, [TreeError])
+validateInputAHPTree :: AHPTree -> [TreeError]
 validateInputAHPTree ahpTree = validate' ahpTree errorsInputList
 
-validateAHPTree :: AHPTree -> (AHPTree, [TreeError])
+validateAHPTree :: AHPTree -> [TreeError]
 validateAHPTree ahpTree = validate' ahpTree errorsList
 
-validate' :: AHPTree -> [AHPTree -> Maybe TreeError] -> (AHPTree, [TreeError])
-validate' ahpTree checks = ( ahpTree
-                           --, catMaybes $ concatMap (recursiveValidator ahpTree) checks
-                           , catMaybes $ concat $ parMap rseq (recursiveValidator ahpTree) checks
-                           )
+validate' :: AHPTree -> [AHPTree -> Maybe TreeError] -> [TreeError]
+validate' ahpTree checks = catMaybes $ concat $ parMap rseq (recursiveValidator ahpTree) checks
 
 errorsInputList :: [AHPTree -> Maybe TreeError]
 errorsInputList = [ squareMatrixTest
