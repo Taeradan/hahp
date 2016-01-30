@@ -3,6 +3,7 @@ module HAHP.Validation.Alternatives where
 import           Control.Parallel.Strategies
 import           Data.Maybe
 import           HAHP.Data
+import           HAHP.Validation.Unique
 
 validateAlternatives :: [Alternative] -> [AlternativesError]
 validateAlternatives alts = validate' alts testsList
