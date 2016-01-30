@@ -21,7 +21,7 @@ reportHeader title author time = unlines
     ]
 
 -- | Print a simple report about an AHP tree and ranking result
-simpleSummary :: (AHPTree, [Alternative], [ValidationError]) -- ^ AHP tree, some alternatives and the result of tree validation
+simpleSummary :: (AHPTree, [Alternative], [TreeError]) -- ^ AHP tree, some alternatives and the result of tree validation
               -> String                         -- ^ Report build from input
 simpleSummary (ahpTree, alts, errors) =  treeSummary ++ altSummary ++ errorSummary ++ "\\newpage \n"
     where treeSummary = showConfiguration ahpTree
@@ -42,8 +42,8 @@ showConfiguration ahpTree = unlines $
 
 -- * Errors
 
-showErrors :: [ValidationError] -- ^ List of errors
-           -> String            -- ^ Report errors
+showErrors :: [TreeError] -- ^ List of errors
+           -> String      -- ^ Report errors
 showErrors errors = unlines $
     [ ""
     , "## AHP tree validity"
@@ -61,7 +61,7 @@ showErrors errors = unlines $
     lines (concatMap showError errors)
 
 
-showError :: ValidationError
+showError :: TreeError
           -> String
 showError validationError = "* in \"" ++ (name . ahpTree $ validationError) ++ "\": " ++
     case validationError of

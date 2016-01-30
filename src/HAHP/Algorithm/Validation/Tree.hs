@@ -13,19 +13,19 @@ import           Numeric.LinearAlgebra.HMatrix
 
 -- * Helper functions
 
-validateInputAHPTree :: AHPTree -> (AHPTree, [ValidationError])
+validateInputAHPTree :: AHPTree -> (AHPTree, [TreeError])
 validateInputAHPTree ahpTree = validate' ahpTree errorsInputList
 
-validateAHPTree :: AHPTree -> (AHPTree, [ValidationError])
+validateAHPTree :: AHPTree -> (AHPTree, [TreeError])
 validateAHPTree ahpTree = validate' ahpTree errorsList
 
-validate' :: AHPTree -> [AHPTree -> Maybe ValidationError] -> (AHPTree, [ValidationError])
+validate' :: AHPTree -> [AHPTree -> Maybe TreeError] -> (AHPTree, [TreeError])
 validate' ahpTree checks = ( ahpTree
                            --, catMaybes $ concatMap (recursiveValidator ahpTree) checks
                            , catMaybes $ concat $ parMap rseq (recursiveValidator ahpTree) checks
                            )
 
-errorsInputList :: [AHPTree -> Maybe ValidationError]
+errorsInputList :: [AHPTree -> Maybe TreeError]
 errorsInputList = [ squareMatrixTest
                   , parentSizeMatchChildrenTest
                   , unitaryDiagTest
@@ -35,13 +35,13 @@ errorsInputList = [ squareMatrixTest
                   , childrenUnicityTest
                   ]
 
-errorsList :: [AHPTree -> Maybe ValidationError]
+errorsList :: [AHPTree -> Maybe TreeError]
 errorsList = [ consistencyTest
              ]
 
 recursiveValidator :: AHPTree
-                   -> (AHPTree -> Maybe ValidationError)
-                   -> [Maybe ValidationError]
+                   -> (AHPTree -> Maybe TreeError)
+                   -> [Maybe TreeError]
 recursiveValidator ahpTree testFnt =
     case ahpTree of
         AHPTree {} -> currentValidity : childrenValidity
@@ -55,7 +55,7 @@ recursiveValidator ahpTree testFnt =
 
 -- ** Consistency test
 
-consistencyTest :: AHPTree -> Maybe ValidationError
+consistencyTest :: AHPTree -> Maybe TreeError
 consistencyTest ahpTree =
     case consistencyValue ahpTree of
       Nothing -> Just NotComputedConsistencyError { ahpTree = ahpTree }
@@ -75,7 +75,7 @@ isMatrixConsistent consistency threshold
 
 -- ** Tree structure tests
 
-childrenUnicityTest :: AHPTree -> Maybe ValidationError
+childrenUnicityTest :: AHPTree -> Maybe TreeError
 childrenUnicityTest ahpTree =
     if null repeatedChildrenNames
        then Nothing
@@ -84,7 +84,7 @@ childrenUnicityTest ahpTree =
                                       }
   where repeatedChildrenNames = repeated . (map name) . children $ ahpTree
 
-parentSizeMatchChildrenTest :: AHPTree -> Maybe ValidationError
+parentSizeMatchChildrenTest :: AHPTree -> Maybe TreeError
 parentSizeMatchChildrenTest ahpTree =
     if parentSize == childrenSize
        then Nothing
@@ -97,7 +97,7 @@ parentSizeMatchChildrenTest ahpTree =
 
 -- ** Matrix properties tests
 
-inverseTest :: AHPTree -> Maybe ValidationError
+inverseTest :: AHPTree -> Maybe TreeError
 inverseTest ahpTree =
     if and (map (inverseTest' . preferenceMatrix $ ahpTree) indices)
        then Nothing
@@ -117,21 +117,21 @@ inverseTest' matrix (i, j) = m_ij == (1 / m_ji)
           m_ji :: Double
           m_ji = matrix `atIndex` (j, i)
 
-nullDivisionTest :: AHPTree -> Maybe ValidationError
+nullDivisionTest :: AHPTree -> Maybe TreeError
 nullDivisionTest ahpTree =
     if 0 `notElem` matrixvalues
        then Nothing
        else Just NullDivisionError {ahpTree = ahpTree}
   where matrixvalues = concat . toLists . preferenceMatrix $ ahpTree
 
-positivePreferenceTest :: AHPTree -> Maybe ValidationError
+positivePreferenceTest :: AHPTree -> Maybe TreeError
 positivePreferenceTest ahpTree =
     if all (> 0) matrixValues
        then Nothing
        else Just PositivePreferenceError {ahpTree = ahpTree}
   where matrixValues = concat . toLists . preferenceMatrix $ ahpTree
 
-squareMatrixTest :: AHPTree -> Maybe ValidationError
+squareMatrixTest :: AHPTree -> Maybe TreeError
 squareMatrixTest ahpTree =
     if rows matrix == cols matrix
        then Nothing
@@ -141,7 +141,7 @@ squareMatrixTest ahpTree =
                                    }
   where matrix = preferenceMatrix ahpTree
 
-unitaryDiagTest :: AHPTree -> Maybe ValidationError
+unitaryDiagTest :: AHPTree -> Maybe TreeError
 unitaryDiagTest ahpTree =
     if all (== 1) diagonalValues
        then Nothing

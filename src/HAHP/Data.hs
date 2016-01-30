@@ -29,28 +29,28 @@ data Alternative = Alternative { altName   :: String
 
 type IndicatorValues = Map IndicatorName Double
 
-data ValidationError = ConsistencyError { ahpTree              :: AHPTree
-                                        , consistencyThreshold :: Double
-                                        , consistency          :: Double
-                                        }
-                     | ChildrenUnicityError { ahpTree :: AHPTree
-                                            , repeatedChildrenNames :: [String]
-                                            }
-                     | InverseError { ahpTree :: AHPTree }
-                     | NotComputedConsistencyError { ahpTree :: AHPTree}
-                     | NotUnitaryDiagError { ahpTree :: AHPTree }
-                     | NullDivisionError { ahpTree :: AHPTree}
-                     | ParentChildrenSizeMismatchError {ahpTree            :: AHPTree
-                                                       , errorParentSize   :: Int
-                                                       , errorChildrenSize :: Int
-                                                       }
-                     | PositivePreferenceError { ahpTree :: AHPTree
-                                               }
-                     | SquareMatrixError { ahpTree   :: AHPTree
-                                         , errorRows :: Int
-                                         , errorCols :: Int
+data TreeError = ConsistencyError { ahpTree              :: AHPTree
+                                  , consistencyThreshold :: Double
+                                  , consistency          :: Double
+                                  }
+               | ChildrenUnicityError { ahpTree :: AHPTree
+                                      , repeatedChildrenNames :: [String]
+                                      }
+               | InverseError { ahpTree :: AHPTree }
+               | NotComputedConsistencyError { ahpTree :: AHPTree}
+               | NotUnitaryDiagError { ahpTree :: AHPTree }
+               | NullDivisionError { ahpTree :: AHPTree}
+               | ParentChildrenSizeMismatchError {ahpTree            :: AHPTree
+                                                 , errorParentSize   :: Int
+                                                 , errorChildrenSize :: Int
+                                                 }
+               | PositivePreferenceError { ahpTree :: AHPTree
                                          }
-                    deriving (Show)
+               | SquareMatrixError { ahpTree   :: AHPTree
+                                   , errorRows :: Int
+                                   , errorCols :: Int
+                                   }
+               deriving (Show)
 
 data AlternativesError = NoAlternativesError {}
                     deriving (Show)

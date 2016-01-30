@@ -14,7 +14,7 @@ import           Numeric.LinearAlgebra.HMatrix
 -- |This function is a quick way to rank a set of alternatives with AHP algorithm.
 -- This function call everithing required to configure an execute AHP process.
 -- If something goes wrong, an error is raised.
-simpleAHP :: AHPTree -> [Alternative] -> (AHPTree, [Alternative], [ValidationError])
+simpleAHP :: AHPTree -> [Alternative] -> (AHPTree, [Alternative], [TreeError])
 simpleAHP ahpTree alts =
     if null errors
     then (completeTree, ranking, errors)
@@ -24,7 +24,7 @@ simpleAHP ahpTree alts =
 
 -- * Part 1 = static part
 
-initAHP :: AHPTree -> (AHPTree, [ValidationError])
+initAHP :: AHPTree -> (AHPTree, [TreeError])
 initAHP ahpTree =
     if null inputErrors
     then (newAHPTree, errors)
