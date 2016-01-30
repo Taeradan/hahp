@@ -101,7 +101,9 @@ showAltsError :: AlternativesError
 showAltsError altError = "* " ++
     case altError of
         NoAlternativesError ->
-            "No Alternatives" ++ "\n"
+            "no alternatives !" ++ "\n"
+        (AlternativesUnicityError names) ->
+            "repeated alternatives names: " ++ show names ++ "\n"
 
 -- * Alternatives printing
 

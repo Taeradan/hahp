@@ -13,6 +13,7 @@ validate' alts checks = catMaybes $ parMap rseq (\check -> check alts) checks
 
 testsList :: [[Alternative] -> Maybe AlternativesError]
 testsList = [ noAlternativesTest
+            , alternativesUnicityTest
             ]
 
 noAlternativesTest :: [Alternative] -> Maybe AlternativesError
@@ -21,3 +22,10 @@ noAlternativesTest alts =
        then Nothing
        else Just NoAlternativesError
 
+alternativesUnicityTest :: [Alternative]
+                        -> Maybe AlternativesError
+alternativesUnicityTest alts =
+    if null repeatedAlternativesNames
+       then Nothing
+       else Just AlternativesUnicityError {repeatedAlternativesNames = repeatedAlternativesNames}
+  where repeatedAlternativesNames = repeated . map altName $ alts

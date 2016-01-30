@@ -53,5 +53,6 @@ data TreeError = ConsistencyError { ahpTree              :: AHPTree
                deriving (Show)
 
 data AlternativesError = NoAlternativesError {}
+                       | AlternativesUnicityError {repeatedAlternativesNames :: [String]}
                     deriving (Show)
 

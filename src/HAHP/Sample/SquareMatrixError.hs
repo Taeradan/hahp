@@ -48,5 +48,6 @@ smeIndicatorValues'' = insert "d" 1
 smeAlternatives :: [Alternative]
 smeAlternatives = [ Alternative "alternative A" smeIndicatorValues
                   , Alternative "alternative B" smeIndicatorValues'
+                  , Alternative "alternative B" smeIndicatorValues'
                   , Alternative "alternative C" smeIndicatorValues''
                   ]
