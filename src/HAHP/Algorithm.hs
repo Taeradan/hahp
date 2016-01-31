@@ -25,7 +25,7 @@ simpleAHP ahpTree alts =
           (completeTree, ranking) = rankAlternatives initializedTree alts
           ---
           inputTreeErrors = validateInputAHPTree ahpTree
-          altsErrors = validateAlternatives alts
+          altsErrors = validateAlternatives ahpTree alts
           treeErrors = if null inputTreeErrors
                          then validateAHPTree initializedTree
                          else []

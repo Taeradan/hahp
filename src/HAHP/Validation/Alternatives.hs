@@ -5,26 +5,34 @@ import           Data.Maybe
 import           HAHP.Data
 import           HAHP.Validation.Unique
 
-validateAlternatives :: [Alternative] -> [AlternativesError]
-validateAlternatives alts = validate' alts testsList
+validateAlternatives :: AHPTree
+                     -> [Alternative]
+                     -> [AlternativesError]
+validateAlternatives ahpTree alts = validate' ahpTree alts testsList
 
-validate' :: [Alternative] -> [[Alternative] -> Maybe AlternativesError] -> [AlternativesError]
-validate' alts checks = catMaybes $ parMap rseq (\check -> check alts) checks
+validate' :: AHPTree
+          -> [Alternative]
+          -> [AHPTree -> [Alternative] -> Maybe AlternativesError]
+          -> [AlternativesError]
+validate' ahpTree alts checks = catMaybes $ parMap rseq (\check -> check ahpTree alts) checks
 
-testsList :: [[Alternative] -> Maybe AlternativesError]
+testsList :: [AHPTree -> [Alternative] -> Maybe AlternativesError]
 testsList = [ noAlternativesTest
             , alternativesUnicityTest
             ]
 
-noAlternativesTest :: [Alternative] -> Maybe AlternativesError
-noAlternativesTest alts =
+noAlternativesTest :: AHPTree
+                   -> [Alternative]
+                   -> Maybe AlternativesError
+noAlternativesTest _ alts =
     if not . null $ alts
        then Nothing
        else Just NoAlternativesError
 
-alternativesUnicityTest :: [Alternative]
+alternativesUnicityTest :: AHPTree
+                        -> [Alternative]
                         -> Maybe AlternativesError
-alternativesUnicityTest alts =
+alternativesUnicityTest _ alts =
     if null repeatedAlternativesNames
        then Nothing
        else Just AlternativesUnicityError {repeatedAlternativesNames = repeatedAlternativesNames}
