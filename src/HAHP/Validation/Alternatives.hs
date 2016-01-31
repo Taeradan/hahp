@@ -1,6 +1,7 @@
 module HAHP.Validation.Alternatives where
 
 import           Control.Parallel.Strategies
+import qualified Data.Map                      as M
 import           Data.Maybe
 import           HAHP.Data
 import           HAHP.Validation.Unique
@@ -19,6 +20,7 @@ validate' ahpTree alts checks = catMaybes $ parMap rseq (\check -> check ahpTree
 testsList :: [AHPTree -> [Alternative] -> Maybe AlternativesError]
 testsList = [ noAlternativesTest
             , alternativesUnicityTest
+            , indicatorsValuesExistenceTest
             ]
 
 noAlternativesTest :: AHPTree
@@ -37,3 +39,17 @@ alternativesUnicityTest _ alts =
        then Nothing
        else Just AlternativesUnicityError {repeatedAlternativesNames = repeatedAlternativesNames}
   where repeatedAlternativesNames = repeated . map altName $ alts
+
+indicatorsValuesExistenceTest :: AHPTree
+                              -> [Alternative]
+                              -> Maybe AlternativesError
+indicatorsValuesExistenceTest ahpTree alts =
+    if null errors
+       then Nothing
+       else Just IndicatorsValuesExistenceError { indValuesErrors = errors}
+  where indicatorsNames = map name (getTreeLeaves ahpTree)
+        errors = [ (alt, ind)
+                 | alt <- alts
+                 , ind <- indicatorsNames
+                 , M.notMember ind . indValues $ alt
+                 ]

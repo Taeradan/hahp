@@ -104,6 +104,8 @@ showAltsError altError = "* " ++
             "no alternatives !" ++ "\n"
         (AlternativesUnicityError names) ->
             "repeated alternatives names: " ++ show names ++ "\n"
+        (IndicatorsValuesExistenceError errors) ->
+            "missing indicators values:" ++ show (map (\x -> ((altName . fst) x, snd x)) errors) ++ "\n"
 
 -- * Alternatives printing
 

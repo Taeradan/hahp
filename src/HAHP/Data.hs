@@ -60,6 +60,7 @@ data TreeError = ConsistencyError { ahpTree              :: AHPTree
 
 data AlternativesError = NoAlternativesError {}
                        | AlternativesUnicityError {repeatedAlternativesNames :: [String]}
+                       | IndicatorsValuesExistenceError { indValuesErrors :: [(Alternative, String)] }
                     deriving (Show)
 
 -- * Data retrieve functions
