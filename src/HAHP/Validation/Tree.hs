@@ -1,47 +1,41 @@
-module HAHP.Algorithm.Validation where
+module HAHP.Validation.Tree where
 
 import           Control.Parallel.Strategies
 --import           Data.List.Unique
-import           Data.List
-                 ( sort
-                 , sortBy
-                 , group
-                 )
+import           Data.List                     (group, sort, sortBy)
 import           Data.Maybe
 import           HAHP.Data
+import           HAHP.Validation.Unique
 import           Numeric.LinearAlgebra.HMatrix
 
 -- * Helper functions
 
-validateInputAHPTree :: AHPTree -> (AHPTree, [ValidationError])
-validateInputAHPTree ahpTree = validate' ahpTree errorsInputList
+validateInputAHPTree :: AHPTree -> [TreeError]
+validateInputAHPTree ahpTree = validate' ahpTree inputTestsList
 
-validateAHPTree :: AHPTree -> (AHPTree, [ValidationError])
-validateAHPTree ahpTree = validate' ahpTree errorsList
+validateAHPTree :: AHPTree -> [TreeError]
+validateAHPTree ahpTree = validate' ahpTree testsList
 
-validate' :: AHPTree -> [AHPTree -> Maybe ValidationError] -> (AHPTree, [ValidationError])
-validate' ahpTree checks = ( ahpTree
-                           --, catMaybes $ concatMap (recursiveValidator ahpTree) checks
-                           , catMaybes $ concat $ parMap rseq (recursiveValidator ahpTree) checks
-                           )
+validate' :: AHPTree -> [AHPTree -> Maybe TreeError] -> [TreeError]
+validate' ahpTree checks = catMaybes $ concat $ parMap rseq (recursiveValidator ahpTree) checks
 
-errorsInputList :: [AHPTree -> Maybe ValidationError]
-errorsInputList = [ squareMatrixTest
-                  , parentSizeMatchChildrenTest
-                  , unitaryDiagTest
-                  , nullDivisionTest
-                  , positivePreferenceTest
-                  , inverseTest
-                  , childrenUnicityTest
-                  ]
+inputTestsList :: [AHPTree -> Maybe TreeError]
+inputTestsList = [ squareMatrixTest
+                 , parentSizeMatchChildrenTest
+                 , unitaryDiagTest
+                 , nullDivisionTest
+                 , positivePreferenceTest
+                 , inverseTest
+                 , childrenUnicityTest
+                 ]
 
-errorsList :: [AHPTree -> Maybe ValidationError]
-errorsList = [ consistencyTest
-             ]
+testsList :: [AHPTree -> Maybe TreeError]
+testsList = [ consistencyTest
+            ]
 
 recursiveValidator :: AHPTree
-                   -> (AHPTree -> Maybe ValidationError)
-                   -> [Maybe ValidationError]
+                   -> (AHPTree -> Maybe TreeError)
+                   -> [Maybe TreeError]
 recursiveValidator ahpTree testFnt =
     case ahpTree of
         AHPTree {} -> currentValidity : childrenValidity
@@ -55,7 +49,7 @@ recursiveValidator ahpTree testFnt =
 
 -- ** Consistency test
 
-consistencyTest :: AHPTree -> Maybe ValidationError
+consistencyTest :: AHPTree -> Maybe TreeError
 consistencyTest ahpTree =
     case consistencyValue ahpTree of
       Nothing -> Just NotComputedConsistencyError { ahpTree = ahpTree }
@@ -75,16 +69,16 @@ isMatrixConsistent consistency threshold
 
 -- ** Tree structure tests
 
-childrenUnicityTest :: AHPTree -> Maybe ValidationError
+childrenUnicityTest :: AHPTree -> Maybe TreeError
 childrenUnicityTest ahpTree =
     if null repeatedChildrenNames
        then Nothing
        else Just ChildrenUnicityError { ahpTree = ahpTree
                                       , repeatedChildrenNames = repeatedChildrenNames
                                       }
-  where repeatedChildrenNames = repeated . (map name) . children $ ahpTree
+  where repeatedChildrenNames = repeated . map name . children $ ahpTree
 
-parentSizeMatchChildrenTest :: AHPTree -> Maybe ValidationError
+parentSizeMatchChildrenTest :: AHPTree -> Maybe TreeError
 parentSizeMatchChildrenTest ahpTree =
     if parentSize == childrenSize
        then Nothing
@@ -97,9 +91,9 @@ parentSizeMatchChildrenTest ahpTree =
 
 -- ** Matrix properties tests
 
-inverseTest :: AHPTree -> Maybe ValidationError
+inverseTest :: AHPTree -> Maybe TreeError
 inverseTest ahpTree =
-    if and (map (inverseTest' . preferenceMatrix $ ahpTree) indices)
+    if all (inverseTest' . preferenceMatrix $ ahpTree) indices
        then Nothing
        else Just InverseError {ahpTree = ahpTree}
     where  indices = [ (i, j)
@@ -117,21 +111,21 @@ inverseTest' matrix (i, j) = m_ij == (1 / m_ji)
           m_ji :: Double
           m_ji = matrix `atIndex` (j, i)
 
-nullDivisionTest :: AHPTree -> Maybe ValidationError
+nullDivisionTest :: AHPTree -> Maybe TreeError
 nullDivisionTest ahpTree =
     if 0 `notElem` matrixvalues
        then Nothing
        else Just NullDivisionError {ahpTree = ahpTree}
   where matrixvalues = concat . toLists . preferenceMatrix $ ahpTree
 
-positivePreferenceTest :: AHPTree -> Maybe ValidationError
+positivePreferenceTest :: AHPTree -> Maybe TreeError
 positivePreferenceTest ahpTree =
     if all (> 0) matrixValues
        then Nothing
        else Just PositivePreferenceError {ahpTree = ahpTree}
   where matrixValues = concat . toLists . preferenceMatrix $ ahpTree
 
-squareMatrixTest :: AHPTree -> Maybe ValidationError
+squareMatrixTest :: AHPTree -> Maybe TreeError
 squareMatrixTest ahpTree =
     if rows matrix == cols matrix
        then Nothing
@@ -141,35 +135,10 @@ squareMatrixTest ahpTree =
                                    }
   where matrix = preferenceMatrix ahpTree
 
-unitaryDiagTest :: AHPTree -> Maybe ValidationError
+unitaryDiagTest :: AHPTree -> Maybe TreeError
 unitaryDiagTest ahpTree =
     if all (== 1) diagonalValues
        then Nothing
        else Just NotUnitaryDiagError {ahpTree = ahpTree}
   where diagonalValues = toList . takeDiag . preferenceMatrix $ ahpTree
-
--- * Unique
-
--- TO REMOVE
--- https://hackage.haskell.org/package/Unique-0.4.2/docs/src/Data-List-Unique.html#repeated
-
-sg :: Ord a => [a] -> [[a]]
-sg = group . sort
-
-filterByLength :: Ord a => (Int -> Bool) -> [a] -> [[a]]
-filterByLength p = filter (p . length) . sg
-
--- | 'repeated' finds only the elements that are present more than once in the list. Example:
---
--- > repeated  "foo bar" == "o"
-
-repeated :: Ord a => [a] -> [a]
-repeated = repeatedBy (>1)
-
--- | The repeatedBy function behaves just like repeated, except it uses a user-supplied equality predicate.
---
--- > repeatedBy (>2) "This is the test line" == " eist"
-
-repeatedBy :: Ord a => (Int -> Bool) -> [a] -> [a]
-repeatedBy p = map head . filterByLength p
 

@@ -6,35 +6,42 @@ import           Data.Ord                      (comparing)
 import           HAHP.Algorithm.Consistency
 import           HAHP.Algorithm.PriorityVector
 import           HAHP.Algorithm.Ranking
-import           HAHP.Algorithm.Validation
 import           HAHP.Data
+import           HAHP.Validation.Alternatives
+import           HAHP.Validation.Tree
 import           Numeric.LinearAlgebra.HMatrix
 
 -- |This function is a quick way to rank a set of alternatives with AHP algorithm.
 -- This function call everithing required to configure an execute AHP process.
 -- If something goes wrong, an error is raised.
-simpleAHP :: AHPTree -> [Alternative] -> (AHPTree, [Alternative], [ValidationError])
+simpleAHP :: AHPTree
+          -> [Alternative]
+          -> (AHPTree, [Alternative], [TreeError], [AlternativesError])
 simpleAHP ahpTree alts =
-    if null errors
-    then (completeTree, ranking, errors)
-    else (initializedTree, [], errors)
-    where (initializedTree, errors) = initAHP ahpTree
-          (completeTree, ranking) = rankAlternatives alts initializedTree
+    if null inputTreeErrors && null altsErrors
+      then (completeTree, ranking, treeErrors, [])
+      else (ahpTree, alts, inputTreeErrors ++ treeErrors, altsErrors)
+    where initializedTree = initAHP ahpTree
+          (completeTree, ranking) = rankAlternatives initializedTree alts
+          ---
+          inputTreeErrors = validateInputAHPTree ahpTree
+          altsErrors = validateAlternatives ahpTree alts
+          treeErrors = if null inputTreeErrors
+                         then validateAHPTree initializedTree
+                         else []
 
 -- * Part 1 = static part
 
-initAHP :: AHPTree -> (AHPTree, [ValidationError])
-initAHP ahpTree =
-    if null inputErrors
-    then (newAHPTree, errors)
-    else (ahpTree, inputErrors)
-    where (_, inputErrors) = validateInputAHPTree ahpTree
-          (newAHPTree, errors) = validateAHPTree (computeTreePriorityVectors . computeTreeConsistencies $ ahpTree)
+initAHP :: AHPTree
+        -> AHPTree
+initAHP ahpTree = computeTreePriorityVectors . computeTreeConsistencies $ ahpTree
 
 -- * Part 2 = dynamic part
 
-rankAlternatives :: [Alternative] -> AHPTree -> (AHPTree, [Alternative])
-rankAlternatives alts ahpTree = (rankedAhpTree, reverse sortedRankedAlternatives)
+rankAlternatives :: AHPTree
+                 -> [Alternative]
+                 -> (AHPTree, [Alternative])
+rankAlternatives ahpTree alts = (rankedAhpTree, reverse sortedRankedAlternatives)
     where ranks = concat . toLists . fromJust $ alternativesPriority rankedAhpTree
           rankedAhpTree = computeTreeAlternativesPriorities alts ahpTree
           sortedRankedAlternatives = map fst . sortOn' snd $ zip alts ranks

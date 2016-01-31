@@ -19,7 +19,7 @@ smeConfig = AHPTree
                        Nothing
                        [ AHPLeaf "d" True Nothing
                        , AHPLeaf "Tp" True Nothing
-                       , AHPLeaf "Tp" True Nothing
+                       , AHPLeaf "Tf" True Nothing
                        , AHPLeaf "Id" False Nothing
                        , AHPLeaf "Id" False Nothing
                        ]
@@ -45,8 +45,15 @@ smeIndicatorValues'' = insert "d" 1
                      . insert "Id" 2000
                      $ empty
 
+smeIndicatorValues''' :: IndicatorValues
+smeIndicatorValues''' = insert "d" 1
+                     . insert "Tp" 10
+                     . insert "Id" 2000
+                     $ empty
+
 smeAlternatives :: [Alternative]
 smeAlternatives = [ Alternative "alternative A" smeIndicatorValues
                   , Alternative "alternative B" smeIndicatorValues'
-                  , Alternative "alternative C" smeIndicatorValues''
+                  , Alternative "alternative B" smeIndicatorValues''
+                  , Alternative "alternative C" smeIndicatorValues'''
                   ]

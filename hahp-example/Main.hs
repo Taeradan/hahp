@@ -13,17 +13,16 @@ main :: IO ()
 main = do
     let title = "HAHP library testing"
         author = "Jean-Pierre Prunaret, Yves Dubromelle"
-        configs =      [sampleAHPConfig1,    sampleAHPConfig2,    sampleAHPConfig3,    smeConfig]
-        alternatives = [sampleAlternatives1, sampleAlternatives2, sampleAlternatives3, smeAlternatives]
-        sampleDataSet = zip configs alternatives
+        inputDataSets = [ (sampleAHPConfig1, sampleAlternatives1)
+                        , (sampleAHPConfig2, sampleAlternatives2)
+                        , (sampleAHPConfig3, sampleAlternatives3)
+                        , (smeConfig, smeAlternatives)
+                        ]
 
     time <- getCurrentTime
     putStrLn $ reportHeader title author time
     putStrLn ""
-    mapM_ (putStrLn . simpleAHPSummary) sampleDataSet
-    --mapM_ (putStrLn . showConfigurationSummary . initAHP) configs
-    --putStrLn . showConfigurationSummary $ (completeTree, validation)
-    --putStr $ showAlternatives ranking
+    mapM_ (putStrLn . simpleAHPSummary) inputDataSets
 
 simpleAHPSummary :: (AHPTree, [Alternative]) -> String
 simpleAHPSummary (ahpTree, alts) = simpleSummary $ simpleAHP ahpTree alts
