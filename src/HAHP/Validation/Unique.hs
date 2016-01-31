@@ -1,7 +1,7 @@
 module HAHP.Validation.Unique where
 
 --import           Data.List.Unique
-import           Data.List                     (group, sort, sortBy)
+import           Data.List (group, sort, sortBy)
 
 -- * Unique
 

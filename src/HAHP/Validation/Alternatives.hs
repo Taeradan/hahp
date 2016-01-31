@@ -1,7 +1,7 @@
 module HAHP.Validation.Alternatives where
 
 import           Control.Parallel.Strategies
-import qualified Data.Map                      as M
+import           Data.Map                    (notMember)
 import           Data.Maybe
 import           HAHP.Data
 import           HAHP.Validation.Unique
@@ -51,5 +51,5 @@ indicatorsValuesExistenceTest ahpTree alts =
         errors = [ (alt, ind)
                  | alt <- alts
                  , ind <- indicatorsNames
-                 , M.notMember ind . indValues $ alt
+                 , notMember ind . indValues $ alt
                  ]
