@@ -11,27 +11,27 @@ import           Numeric.LinearAlgebra.HMatrix
 -- * Helper functions
 
 validateInputAHPTree :: AHPTree -> [TreeError]
-validateInputAHPTree ahpTree = validate' ahpTree errorsInputList
+validateInputAHPTree ahpTree = validate' ahpTree inputTestsList
 
 validateAHPTree :: AHPTree -> [TreeError]
-validateAHPTree ahpTree = validate' ahpTree errorsList
+validateAHPTree ahpTree = validate' ahpTree testsList
 
 validate' :: AHPTree -> [AHPTree -> Maybe TreeError] -> [TreeError]
 validate' ahpTree checks = catMaybes $ concat $ parMap rseq (recursiveValidator ahpTree) checks
 
-errorsInputList :: [AHPTree -> Maybe TreeError]
-errorsInputList = [ squareMatrixTest
-                  , parentSizeMatchChildrenTest
-                  , unitaryDiagTest
-                  , nullDivisionTest
-                  , positivePreferenceTest
-                  , inverseTest
-                  , childrenUnicityTest
-                  ]
+inputTestsList :: [AHPTree -> Maybe TreeError]
+inputTestsList = [ squareMatrixTest
+                 , parentSizeMatchChildrenTest
+                 , unitaryDiagTest
+                 , nullDivisionTest
+                 , positivePreferenceTest
+                 , inverseTest
+                 , childrenUnicityTest
+                 ]
 
-errorsList :: [AHPTree -> Maybe TreeError]
-errorsList = [ consistencyTest
-             ]
+testsList :: [AHPTree -> Maybe TreeError]
+testsList = [ consistencyTest
+            ]
 
 recursiveValidator :: AHPTree
                    -> (AHPTree -> Maybe TreeError)
