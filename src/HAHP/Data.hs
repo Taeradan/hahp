@@ -3,6 +3,8 @@ module HAHP.Data where
 import           Data.Map                      (Map)
 import           Numeric.LinearAlgebra.HMatrix
 
+-- * AHP tree definition
+
 data AHPTree = AHPTree { name                 :: String
                        , preferenceMatrix     :: PairwiseMatrix
                        , consistencyValue     :: Maybe Double
@@ -22,12 +24,16 @@ type PairwiseMatrix = Matrix Double
 
 type PriorityVector = Matrix Double
 
+-- * Alternatives definition
+
 data Alternative = Alternative { altName   :: String
                                , indValues :: IndicatorValues
                                }
                  deriving (Show)
 
 type IndicatorValues = Map IndicatorName Double
+
+-- * Errors definition
 
 data TreeError = ConsistencyError { ahpTree              :: AHPTree
                                   , consistencyThreshold :: Double
@@ -56,3 +62,11 @@ data AlternativesError = NoAlternativesError {}
                        | AlternativesUnicityError {repeatedAlternativesNames :: [String]}
                     deriving (Show)
 
+-- * Data retrieve functions
+
+getTreeLeaves :: AHPTree   -- ^ Input tree
+              -> [AHPTree] -- ^ List of the leaves
+getTreeLeaves ahpTree =
+    case ahpTree of
+      AHPTree {} -> concatMap getTreeLeaves (children ahpTree)
+      AHPLeaf {} -> [ahpTree]
