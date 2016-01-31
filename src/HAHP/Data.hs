@@ -43,6 +43,9 @@ data TreeError = ConsistencyError { ahpTree              :: AHPTree
                                       , repeatedChildrenNames :: [String]
                                       }
                | InverseError { ahpTree :: AHPTree }
+               | LeavesUnicityError { ahpTree             :: AHPTree
+                                    , repeatedLeavesNames :: [String]
+                                    }
                | NotComputedConsistencyError { ahpTree :: AHPTree}
                | NotUnitaryDiagError { ahpTree :: AHPTree }
                | NullDivisionError { ahpTree :: AHPTree}

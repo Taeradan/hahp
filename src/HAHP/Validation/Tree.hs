@@ -27,6 +27,7 @@ inputTestsList = [ squareMatrixTest
                  , positivePreferenceTest
                  , inverseTest
                  , childrenUnicityTest
+                 , leavesUnicityTest
                  ]
 
 testsList :: [AHPTree -> Maybe TreeError]
@@ -77,6 +78,15 @@ childrenUnicityTest ahpTree =
                                       , repeatedChildrenNames = repeatedChildrenNames
                                       }
   where repeatedChildrenNames = repeated . map name . children $ ahpTree
+
+leavesUnicityTest :: AHPTree -> Maybe TreeError
+leavesUnicityTest ahpTree =
+    if null repeatedLeavesNames
+       then Nothing
+       else Just LeavesUnicityError { ahpTree = ahpTree
+                                      , repeatedLeavesNames = repeatedLeavesNames
+                                      }
+  where repeatedLeavesNames = repeated . map name . getTreeLeaves $ ahpTree
 
 parentSizeMatchChildrenTest :: AHPTree -> Maybe TreeError
 parentSizeMatchChildrenTest ahpTree =

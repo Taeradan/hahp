@@ -83,6 +83,8 @@ showTreeError validationError = "* in \"" ++ (name . ahpTree $ validationError) 
             "repeated children names: " ++ show repeated ++ "\n"
         (InverseError ahpTree) ->
             "preference values $M(i,j) \\neq \\dfrac{1}{M(j,i)}$" ++ "\n"
+        (LeavesUnicityError ahpTree repeated) ->
+            "repeated leaves names: " ++ show repeated ++ "\n"
         (NotComputedConsistencyError ahpTree) ->
             "consistency not computed !" ++ "\n"
         (NotUnitaryDiagError ahpTree) ->

@@ -21,7 +21,18 @@ smeConfig = AHPTree
                        , AHPLeaf "Tp" True Nothing
                        , AHPLeaf "Tf" True Nothing
                        , AHPLeaf "Id" False Nothing
-                       , AHPLeaf "Id" False Nothing
+                       , AHPTree
+                            "Id"
+                            ( (2><2) [   1, 9
+                                     , 1/9, 1
+                                     ]
+                            )
+                            Nothing
+                            Nothing
+                            Nothing
+                            [ AHPLeaf "d" True Nothing
+                            , AHPLeaf "Tf" True Nothing
+                            ]
                        ]
 
 smeIndicatorValues :: IndicatorValues
