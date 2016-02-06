@@ -21,9 +21,9 @@ reportHeader title author time = unlines
     ]
 
 -- | Print a simple report about an AHP tree and ranking result
-simpleSummary :: (AHPTree, [Alternative], [TreeError], [AlternativesError]) -- ^ AHP tree, some alternatives and the result of tree validation
+simpleSummary :: (AHPDataSet, [TreeError], [AlternativesError]) -- ^ AHP tree, some alternatives and the result of tree validation
               -> String                                                     -- ^ Report build from input
-simpleSummary (ahpTree, alts, treeErrors, altsErrors) =  treeSummary ++ altSummary ++ errorSummary ++ "\\newpage \n"
+simpleSummary ((ahpTree, alts), treeErrors, altsErrors) =  treeSummary ++ altSummary ++ errorSummary ++ "\\newpage \n"
     where treeSummary = showConfiguration ahpTree
           altSummary = showAlternatives alts
           errorSummary = showErrors treeErrors altsErrors

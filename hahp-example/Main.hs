@@ -28,5 +28,5 @@ main = do
     putStrLn ""
     mapM_ (putStrLn . simpleAHPSummary) inputDataSets
 
-simpleAHPSummary :: (AHPTree, [Alternative]) -> String
-simpleAHPSummary (ahpTree, alts) = simpleSummary $ simpleAHP ahpTree alts
+simpleAHPSummary :: AHPDataSet -> String
+simpleAHPSummary dataSet = simpleSummary . simpleAHP $ dataSet

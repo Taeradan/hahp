@@ -3,6 +3,10 @@ module HAHP.Data where
 import           Data.Map                      (Map)
 import           Numeric.LinearAlgebra.HMatrix
 
+-- * Data set macro type
+
+type AHPDataSet = (AHPTree, [Alternative])
+
 -- * AHP tree definition
 
 data AHPTree = AHPTree { name                 :: String
