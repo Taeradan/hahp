@@ -7,16 +7,18 @@ import           HAHP.Reporting
 import           HAHP.Sample.Config1
 import           HAHP.Sample.Config2
 import           HAHP.Sample.Config3
+import           HAHP.Sample.LeaderChoice
 import           HAHP.Sample.SquareMatrixError
 
 main :: IO ()
 main = do
     let title = "HAHP library testing"
         author = "Jean-Pierre Prunaret, Yves Dubromelle"
-        inputDataSets = [ (sampleAHPConfig1, sampleAlternatives1)
-                        , (sampleAHPConfig2, sampleAlternatives2)
-                        , (sampleAHPConfig3, sampleAlternatives3)
-                        , (smeConfig, smeAlternatives)
+        inputDataSets = [ --(sampleAHPConfig1, sampleAlternatives1)
+                        --, (sampleAHPConfig2, sampleAlternatives2)
+                        --, (sampleAHPConfig3, sampleAlternatives3)
+                        --, (smeConfig, smeAlternatives)
+                        (leaderChoiceTree, leaderChoiceAlternatives)
                         ]
 
     time <- getCurrentTime
