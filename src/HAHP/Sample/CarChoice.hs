@@ -1,7 +1,7 @@
 module HAHP.Sample.CarChoice where
 
-import Data.Map
-import    HAHP.Data
+import           Data.Map
+import           HAHP.Data
 import           Numeric.LinearAlgebra.HMatrix
 
 carChoiceTree :: AHPTree
