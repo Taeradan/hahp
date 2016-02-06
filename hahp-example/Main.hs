@@ -7,6 +7,7 @@ import           HAHP.Reporting
 import           HAHP.Sample.Config1
 import           HAHP.Sample.Config2
 import           HAHP.Sample.Config3
+import           HAHP.Sample.CarChoice
 import           HAHP.Sample.LeaderChoice
 import           HAHP.Sample.SquareMatrixError
 
@@ -19,6 +20,7 @@ main = do
                         --, (sampleAHPConfig3, sampleAlternatives3)
                         --, (smeConfig, smeAlternatives)
                         (leaderChoiceTree, leaderChoiceAlternatives)
+                        , (carChoiceTree, carChoiceAlternatives)
                         ]
 
     time <- getCurrentTime

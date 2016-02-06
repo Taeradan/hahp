@@ -10,6 +10,7 @@ build:
 pdf: build
 	$(EXECUTABLE) > out.md
 	pandoc out.md -o out.pdf -V geometry:a4paper -V geometry:margin=2cm
+	date
 
 #---- Improvement
 
