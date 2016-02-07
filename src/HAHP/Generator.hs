@@ -1,7 +1,9 @@
 module HAHP.Generator where
 
+import           Data.List (insert)
 import           Data.Map (empty, singleton, fromList)
 import           HAHP.Data
+import           Numeric.LinearAlgebra.Data (ident, (><))
 import           System.IO.Unsafe
 import           System.Random
 
@@ -17,7 +19,35 @@ generateDataSet params = (ahpTree, alternatives)
 
 generateAHPTree :: GeneratorParameters
                 ->AHPTree
-generateAHPTree _ = AHPLeaf "Dummy tree" True Nothing
+generateAHPTree params = generateAHPTree' params levels []
+    where levels = if randomSize params
+                      then unsafeRandomRIO (1, maxTreeLevels params)
+                      else maxTreeLevels params
+
+generateAHPTree' :: GeneratorParameters
+                 -> Int
+                 -> [Int]
+                 -> AHPTree
+generateAHPTree' params maxlevels parentIndexes = if (length parentIndexes) + 1 >= maxlevels
+                                             then AHPLeaf treeName True Nothing
+                                             else AHPTree { name = treeName
+                                                          , preferenceMatrix = generateMatrix (childNum)
+                                                          , consistencyValue = Nothing
+                                                          , childrenPriority = Nothing
+                                                          , alternativesPriority = Nothing
+                                                          , children = children
+                                                          }
+  where treeName = if null parentIndexes
+                      then "Global Objective"
+                      else "Node " ++ (concatMap (\x -> show x ++ ".") parentIndexes)
+        childNum = if randomSize params
+                      then unsafeRandomRIO (1, maxLevelChildren params)
+                      else maxLevelChildren params
+        children = take childNum $ map (\x -> generateAHPTree' params maxlevels (parentIndexes ++ [x])) [1..]
+
+generateMatrix :: Int
+               -> PairwiseMatrix
+generateMatrix size = (size><size) $ repeat 1
 
 -- * Alternatives generator
 

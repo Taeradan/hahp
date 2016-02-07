@@ -22,7 +22,8 @@ main = do
                         --, (smeConfig, smeAlternatives)
                         --, (leaderChoiceTree, leaderChoiceAlternatives)
                         --, (carChoiceTree, carChoiceAlternatives)
-                        generateDataSet $ GeneratorParameters True 3 5 10
+                        generateDataSet $ GeneratorParameters True 5 10 10
+                        ,generateDataSet $ GeneratorParameters False 2 3 4
                         ]
 
     time <- getCurrentTime
