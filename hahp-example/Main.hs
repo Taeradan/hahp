@@ -3,6 +3,7 @@ module Main where
 import           Data.Time
 import           HAHP.Algorithm
 import           HAHP.Data
+import           HAHP.Generator
 import           HAHP.Reporting
 import           HAHP.Sample.Config1
 import           HAHP.Sample.Config2
@@ -19,8 +20,9 @@ main = do
                         --, (sampleAHPConfig2, sampleAlternatives2)
                         --, (sampleAHPConfig3, sampleAlternatives3)
                         --, (smeConfig, smeAlternatives)
-                        (leaderChoiceTree, leaderChoiceAlternatives)
-                        , (carChoiceTree, carChoiceAlternatives)
+                        --, (leaderChoiceTree, leaderChoiceAlternatives)
+                        --, (carChoiceTree, carChoiceAlternatives)
+                        generateDataSet $ GeneratorParameters True 3 5 10
                         ]
 
     time <- getCurrentTime

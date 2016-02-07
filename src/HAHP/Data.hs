@@ -7,6 +7,12 @@ import           Numeric.LinearAlgebra.HMatrix
 
 type AHPDataSet = (AHPTree, [Alternative])
 
+data GeneratorParameters = GeneratorParameters { randomSize :: Bool
+                                               , maxTreeLevels :: Int
+                                               , maxLevelChildren :: Int
+                                               , maxAlternatives :: Int
+                                               }
+
 -- * AHP tree definition
 
 data AHPTree = AHPTree { name                 :: String
