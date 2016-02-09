@@ -4,6 +4,7 @@ module HAHP.Algorithm.PriorityVector
     priorityVector
     ) where
 
+import           Control.Parallel.Strategies
 import           HAHP.Data
 import           Numeric.LinearAlgebra.HMatrix
 
@@ -12,7 +13,8 @@ computeTreePriorityVectors ahpTree =
     case ahpTree of
         (AHPTree _ prefMat _ _ _ children) -> ahpTree
             { childrenPriority = Just $ priorityVector prefMat
-            , children = map computeTreePriorityVectors children
+            , children = parMap rseq computeTreePriorityVectors children
+            --, children = map computeTreePriorityVectors children
             }
         AHPLeaf {} -> ahpTree
 

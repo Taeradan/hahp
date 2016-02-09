@@ -3,6 +3,7 @@ module HAHP.Algorithm.Consistency
     computeTreeConsistencies
     ) where
 
+import           Control.Parallel.Strategies
 import           HAHP.Data
 import           Numeric.LinearAlgebra.HMatrix
 
@@ -13,7 +14,7 @@ computeTreeConsistencies ahpTree =
     case ahpTree of
         (AHPTree _ prefMat _ _ _ children) -> ahpTree
             { consistencyValue = Just $ matrixConsistency prefMat
-            , children = map computeTreeConsistencies children
+            , children = parMap rseq computeTreeConsistencies children
             }
         AHPLeaf {} -> ahpTree
 
