@@ -2,7 +2,7 @@
 -- see http://haskell.org/cabal/users-guide/
 
 name:                hahp
-version:             0.1.2
+version:             0.1.3
 synopsis:            Analytic Hierarchy Process
 description:         Analytic Hierarchy Process implementation.
 license:             AGPL-3
@@ -41,6 +41,7 @@ library
     HAHP.Sample.SquareMatrixError
     HAHP.Validation.Alternatives
     HAHP.Validation.Tree
+    HAHP.Validation.Unique
 
 executable hahp-example
   main-is:             Main.hs
