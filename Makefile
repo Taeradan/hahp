@@ -2,13 +2,12 @@ EXECUTABLE:=dist/build/hahp-example/hahp-example +RTS -lf -N2 -l
 
 run:	build
 	date
-	$(EXECUTABLE)
+	$(EXECUTABLE) > out.md
 
 build:
 	cabal build
 
-pdf: build
-	$(EXECUTABLE) > out.md
+pdf: run
 	pandoc out.md -o out.pdf -V geometry:a4paper -V geometry:margin=2cm
 	date
 
@@ -17,8 +16,7 @@ pdf: build
 hlint:
 	hlint -r src
 
-profile: build
-	$(EXECUTABLE)
+profile: run
 	threadscope hahp-example.eventlog
 
 stylish-haskell:

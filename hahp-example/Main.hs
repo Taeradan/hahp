@@ -3,6 +3,7 @@ module Main where
 import           Data.Time
 import           HAHP.Algorithm
 import           HAHP.Data
+import           HAHP.Generator
 import           HAHP.Reporting
 import           HAHP.Sample.Config1
 import           HAHP.Sample.Config2
@@ -19,8 +20,10 @@ main = do
                         --, (sampleAHPConfig2, sampleAlternatives2)
                         --, (sampleAHPConfig3, sampleAlternatives3)
                         --, (smeConfig, smeAlternatives)
-                        (leaderChoiceTree, leaderChoiceAlternatives)
-                        , (carChoiceTree, carChoiceAlternatives)
+                        --, (leaderChoiceTree, leaderChoiceAlternatives)
+                        --, (carChoiceTree, carChoiceAlternatives)
+                        generateDataSet $ GeneratorParameters True 3 3 100
+                        ,generateDataSet $ GeneratorParameters False 3 3 100
                         ]
 
     time <- getCurrentTime
@@ -28,5 +31,5 @@ main = do
     putStrLn ""
     mapM_ (putStrLn . simpleAHPSummary) inputDataSets
 
-simpleAHPSummary :: (AHPTree, [Alternative]) -> String
-simpleAHPSummary (ahpTree, alts) = simpleSummary $ simpleAHP ahpTree alts
+simpleAHPSummary :: AHPDataSet -> String
+simpleAHPSummary dataSet = simpleSummary . simpleAHP $ dataSet

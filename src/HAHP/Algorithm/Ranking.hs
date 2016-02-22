@@ -1,5 +1,6 @@
 module HAHP.Algorithm.Ranking where
 
+import           Control.Parallel.Strategies
 import           Data.List
 import qualified Data.Map                      as M
 import           Data.Maybe
@@ -25,14 +26,14 @@ agregateTreeAlternativesPriorities ahpTree = ahpTree {
 
 computeChildrenTreeAlternativesPriorities :: [Alternative] -> AHPTree -> AHPTree
 computeChildrenTreeAlternativesPriorities alts ahpTree = ahpTree {
-        children = map (computeTreeAlternativesPriorities alts) (children ahpTree)
+        children = parMap rseq (computeTreeAlternativesPriorities alts) (children ahpTree)
     }
 
 -- * Computation function
 
 agregatePriorities :: AHPTree -> PriorityVector
 agregatePriorities ahpTree = catChildVectors <> childPriorities
-    where childVectors = map (fromJust . alternativesPriority) (children ahpTree)
+    where childVectors = parMap rseq (fromJust . alternativesPriority) (children ahpTree)
           catChildVectors = foldl1 (|||) childVectors
           childPriorities = fromJust . childrenPriority $ ahpTree
 
@@ -43,8 +44,9 @@ computeAlternativesPriority ahpTree alts = result
 
 buildAlternativePairwiseMatrix :: AHPTree -> [Alternative] -> Matrix Double
 buildAlternativePairwiseMatrix ahpTree alts = (length alts >< length alts) matrix
-        where vals = map (selectIndValue (name ahpTree)) alts
+        where vals = parMap rseq (selectIndValue (name ahpTree)) alts
               cartesianProduct = [(x, y) | x <- vals, y <- vals]
+              -- matrix = parMap rseq operator cartesianProduct
               matrix = map operator cartesianProduct
               operator = if maximize ahpTree
                          -- `uncurry` permit the use of an operator on a pair

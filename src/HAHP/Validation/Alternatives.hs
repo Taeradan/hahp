@@ -6,44 +6,39 @@ import           Data.Maybe
 import           HAHP.Data
 import           HAHP.Validation.Unique
 
-validateAlternatives :: AHPTree
-                     -> [Alternative]
+validateAlternatives :: AHPDataSet
                      -> [AlternativesError]
-validateAlternatives ahpTree alts = validate' ahpTree alts testsList
+validateAlternatives dataSet = validate' dataSet testsList
 
-validate' :: AHPTree
-          -> [Alternative]
-          -> [AHPTree -> [Alternative] -> Maybe AlternativesError]
+validate' :: AHPDataSet
+          -> [AHPDataSet -> Maybe AlternativesError]
           -> [AlternativesError]
-validate' ahpTree alts checks = catMaybes $ parMap rseq (\check -> check ahpTree alts) checks
+validate' dataSet checks = catMaybes $ parMap rseq (\check -> check dataSet) checks
 
-testsList :: [AHPTree -> [Alternative] -> Maybe AlternativesError]
+testsList :: [AHPDataSet -> Maybe AlternativesError]
 testsList = [ noAlternativesTest
             , alternativesUnicityTest
             , indicatorsValuesExistenceTest
             ]
 
-noAlternativesTest :: AHPTree
-                   -> [Alternative]
+noAlternativesTest :: AHPDataSet
                    -> Maybe AlternativesError
-noAlternativesTest _ alts =
+noAlternativesTest (_, alts) =
     if not . null $ alts
        then Nothing
        else Just NoAlternativesError
 
-alternativesUnicityTest :: AHPTree
-                        -> [Alternative]
+alternativesUnicityTest :: AHPDataSet
                         -> Maybe AlternativesError
-alternativesUnicityTest _ alts =
+alternativesUnicityTest (_, alts) =
     if null repeatedAlternativesNames
        then Nothing
        else Just AlternativesUnicityError {repeatedAlternativesNames = repeatedAlternativesNames}
   where repeatedAlternativesNames = repeated . map altName $ alts
 
-indicatorsValuesExistenceTest :: AHPTree
-                              -> [Alternative]
+indicatorsValuesExistenceTest :: AHPDataSet
                               -> Maybe AlternativesError
-indicatorsValuesExistenceTest ahpTree alts =
+indicatorsValuesExistenceTest (ahpTree, alts) =
     if null errors
        then Nothing
        else Just IndicatorsValuesExistenceError { indValuesErrors = errors}

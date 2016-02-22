@@ -3,6 +3,16 @@ module HAHP.Data where
 import           Data.Map                      (Map)
 import           Numeric.LinearAlgebra.HMatrix
 
+-- * Data set macro type
+
+type AHPDataSet = (AHPTree, [Alternative])
+
+data GeneratorParameters = GeneratorParameters { randomSize :: Bool
+                                               , maxTreeLevels :: Int
+                                               , maxLevelChildren :: Int
+                                               , maxAlternatives :: Int
+                                               }
+
 -- * AHP tree definition
 
 data AHPTree = AHPTree { name                 :: String
