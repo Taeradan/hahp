@@ -1,9 +1,13 @@
 module Main where
 
+import           Data.Aeson
+import           Data.Aeson.Encode.Pretty
+import           Data.ByteString.Lazy.Char8 (unpack)
 import           Data.Time
 import           HAHP.Algorithm
 import           HAHP.Data
 import           HAHP.Generator
+import           HAHP.IO.JSON
 import           HAHP.Reporting
 import           HAHP.Sample.Config1
 import           HAHP.Sample.Config2
@@ -20,16 +24,19 @@ main = do
                         --, (sampleAHPConfig2, sampleAlternatives2)
                         --, (sampleAHPConfig3, sampleAlternatives3)
                         --, (smeConfig, smeAlternatives)
-                        --, (leaderChoiceTree, leaderChoiceAlternatives)
-                        --, (carChoiceTree, carChoiceAlternatives)
-                        generateDataSet $ GeneratorParameters True 3 3 100
-                        ,generateDataSet $ GeneratorParameters False 3 3 100
+                         (leaderChoiceTree, leaderChoiceAlternatives)
+                        , (carChoiceTree, carChoiceAlternatives)
+                        --, generateDataSet $ GeneratorParameters True 3 3 100
+                        --, generateDataSet $ GeneratorParameters False 3 3 100
                         ]
+        firstAlternatives = snd . head $ inputDataSets
 
     time <- getCurrentTime
     putStrLn $ reportHeader title author time
     putStrLn ""
     mapM_ (putStrLn . simpleAHPSummary) inputDataSets
+    writeFile "alts.json" $ unpack . encode $ firstAlternatives
+    writeFile "alts-pretty.json" $ unpack . encodePretty $ firstAlternatives
 
 simpleAHPSummary :: AHPDataSet -> String
 simpleAHPSummary dataSet = simpleSummary . simpleAHP $ dataSet

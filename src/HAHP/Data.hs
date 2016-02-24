@@ -1,6 +1,7 @@
 module HAHP.Data where
 
 import           Data.Map                      (Map)
+import           GHC.Generics
 import           Numeric.LinearAlgebra.HMatrix
 
 -- * Data set macro type
@@ -39,7 +40,7 @@ type PriorityVector = Matrix Double
 data Alternative = Alternative { altName   :: String
                                , indValues :: IndicatorValues
                                }
-                 deriving (Show)
+                 deriving (Generic, Show)
 
 type IndicatorValues = Map IndicatorName Double
 
