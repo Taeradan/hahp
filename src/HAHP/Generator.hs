@@ -1,7 +1,7 @@
 module HAHP.Generator where
 
-import           Data.List (insert)
-import           Data.Map (empty, singleton, fromList)
+import           Data.List                  (insert)
+import           Data.Map                   (empty, fromList, singleton)
 import           HAHP.Data
 import           Numeric.LinearAlgebra.Data (ident, (><))
 import           System.IO.Unsafe
