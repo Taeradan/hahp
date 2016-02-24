@@ -8,3 +8,5 @@ import           Numeric.LinearAlgebra.HMatrix
 instance ToJSON Alternative where
     toEncoding = genericToEncoding defaultOptions
 
+instance FromJSON Alternative
+    -- default implementation

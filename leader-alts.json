@@ -1,0 +1,29 @@
+[
+    {
+        "indValues": {
+            "Education": 0.188,
+            "Age": 0.265,
+            "Charisma": 0.743,
+            "Experience": 0.217
+        },
+        "altName": "Tom"
+    },
+    {
+        "indValues": {
+            "Education": 8.1e-2,
+            "Age": 0.672,
+            "Charisma": 0.194,
+            "Experience": 0.717
+        },
+        "altName": "Dick"
+    },
+    {
+        "indValues": {
+            "Education": 0.731,
+            "Age": 6.3e-2,
+            "Charisma": 6.3e-2,
+            "Experience": 6.6e-2
+        },
+        "altName": "Harry"
+    }
+]

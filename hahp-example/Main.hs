@@ -2,7 +2,8 @@ module Main where
 
 import           Data.Aeson
 import           Data.Aeson.Encode.Pretty
-import           Data.ByteString.Lazy.Char8 (unpack)
+import qualified Data.ByteString.Lazy.Char8 as B
+import           Data.Maybe
 import           Data.Time
 import           HAHP.Algorithm
 import           HAHP.Data
@@ -35,8 +36,14 @@ main = do
     putStrLn $ reportHeader title author time
     putStrLn ""
     mapM_ (putStrLn . simpleAHPSummary) inputDataSets
-    writeFile "alts.json" $ unpack . encode $ firstAlternatives
-    writeFile "alts-pretty.json" $ unpack . encodePretty $ firstAlternatives
+    B.writeFile "alts.json" $ encode firstAlternatives
+    B.writeFile "alts-pretty.json" $ encodePretty firstAlternatives
+
+    putStrLn $ fromMaybe "erreur decode" $ decode $ encode firstAlternatives
+
+    leaderAltsJson <- B.readFile "leader-alts.json"
+    let leaderAlts = (eitherDecode leaderAltsJson) :: Either String [Alternative]
+    putStrLn $ either show showAlternatives leaderAlts
 
 simpleAHPSummary :: AHPDataSet -> String
 simpleAHPSummary dataSet = simpleSummary . simpleAHP $ dataSet
