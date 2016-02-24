@@ -29,7 +29,7 @@ matrixConsistency prefMat
           matrixSize = fromIntegral . rows $ prefMat
 
 maxEigenValue :: PairwiseMatrix -> Double
-maxEigenValue prefMat = realPart . maxElement . eigenvalues $ prefMat
+maxEigenValue = realPart . maxElement . eigenvalues
 
 randomIndex :: Double -> Double
 randomIndex size

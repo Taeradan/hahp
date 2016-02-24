@@ -28,10 +28,10 @@ generateAHPTree' :: GeneratorParameters
                  -> Int
                  -> [Int]
                  -> AHPTree
-generateAHPTree' params maxlevels parentIndexes = if (length parentIndexes) + 1 >= maxlevels
+generateAHPTree' params maxlevels parentIndexes = if length parentIndexes + 1 >= maxlevels
                                              then AHPLeaf treeName True Nothing
                                              else AHPTree { name = treeName
-                                                          , preferenceMatrix = generateMatrix (childNum)
+                                                          , preferenceMatrix = generateMatrix childNum
                                                           , consistencyValue = Nothing
                                                           , childrenPriority = Nothing
                                                           , alternativesPriority = Nothing
@@ -39,7 +39,7 @@ generateAHPTree' params maxlevels parentIndexes = if (length parentIndexes) + 1 
                                                           }
   where treeName = if null parentIndexes
                       then "Global Objective"
-                      else "Node " ++ (concatMap (\x -> show x ++ ".") parentIndexes)
+                      else "Node " ++ concatMap (\x -> show x ++ ".") parentIndexes
         childNum = if randomSize params
                       then unsafeRandomRIO (1, maxLevelChildren params)
                       else maxLevelChildren params
@@ -72,4 +72,4 @@ generateAlternative indNames index = Alternative name values
 -- * Tools
 
 unsafeRandomRIO :: (Random a) => (a, a) -> a
-unsafeRandomRIO range = unsafePerformIO . randomRIO $ range
+unsafeRandomRIO = unsafePerformIO . randomRIO
