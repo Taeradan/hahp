@@ -31,16 +31,20 @@ main = do
                         --, generateDataSet $ GeneratorParameters False 3 3 100
                         ]
         firstAlternatives = snd . head $ inputDataSets
+        firstTree = fst . head $ inputDataSets
 
+-- processing of the input data sets
     time <- getCurrentTime
     putStrLn $ reportHeader title author time
     putStrLn ""
     mapM_ (putStrLn . simpleAHPSummary) inputDataSets
+
+-- JSON export of the first dataset
     B.writeFile "alts.json" $ encode firstAlternatives
     B.writeFile "alts-pretty.json" $ encodePretty firstAlternatives
+    B.writeFile "tree-pretty.json" $ encodePretty firstTree
 
-    putStrLn $ fromMaybe "erreur decode" $ decode $ encode firstAlternatives
-
+-- JSON import of sample alternatives
     leaderAltsJson <- B.readFile "leader-alts.json"
     let leaderAlts = (eitherDecode leaderAltsJson) :: Either String [Alternative]
     putStrLn $ either show showAlternatives leaderAlts

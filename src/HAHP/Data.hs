@@ -27,7 +27,7 @@ data AHPTree = AHPTree { name                 :: String
                         , maximize             :: Bool
                         , alternativesPriority :: Maybe PriorityVector
                         }
-             deriving (Show)
+             deriving (Generic, Show)
 
 type IndicatorName = String
 

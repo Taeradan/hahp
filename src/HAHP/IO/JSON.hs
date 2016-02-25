@@ -10,3 +10,10 @@ instance ToJSON Alternative where
 
 instance FromJSON Alternative
     -- default implementation
+
+
+instance ToJSON AHPTree where
+    toEncoding = genericToEncoding defaultOptions
+
+instance ToJSON (Matrix Double) where
+    toJSON m = object [ "matrix" .= (toLists $ m)]
