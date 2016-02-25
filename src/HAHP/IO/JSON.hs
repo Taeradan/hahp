@@ -14,5 +14,11 @@ instance FromJSON Alternative
 instance ToJSON AHPTree where
     -- default implementation
 
+instance FromJSON AHPTree where
+--    fromJSON (Object v) = AHPTree
+
 instance ToJSON (Matrix Double) where
     toJSON m = object [ "matrix" .= toLists m]
+
+instance FromJSON (Matrix Double) where
+    parseJSON (Object v) = fromLists <$> (v .: "matrix")

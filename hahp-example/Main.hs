@@ -49,5 +49,10 @@ main = do
     let leaderAlts = (eitherDecode leaderAltsJson) :: Either String [Alternative]
     putStrLn $ either show showAlternatives leaderAlts
 
+-- JSON import of sample AHP tree
+    leaderTreeJson <- B.readFile "leader-tree.json"
+    let leaderTree = (eitherDecode leaderTreeJson) :: Either String AHPTree
+    putStrLn $ either show showAhpTree leaderTree
+
 simpleAHPSummary :: AHPDataSet -> String
 simpleAHPSummary dataSet = simpleSummary . simpleAHP $ dataSet
