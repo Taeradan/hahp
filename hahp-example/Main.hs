@@ -39,7 +39,7 @@ main = do
     putStrLn ""
     mapM_ (putStrLn . simpleAHPSummary) inputDataSets
 
--- JSON export of the first dataset
+-- JSON exports
     B.writeFile "alts.json" $ encode firstAlternatives
     B.writeFile "alts-pretty.json" $ encodePretty firstAlternatives
     B.writeFile "tree-pretty.json" $ encodePretty firstTree
@@ -56,6 +56,12 @@ main = do
     let leaderTree :: Either String AHPTree
         leaderTree = eitherDecode leaderTreeJson
     putStrLn $ either show showAhpTree leaderTree
+
+-- Json import of a whole list of datasets
+    importedDataSetsJson  <- B.readFile "datasets-pretty.json"
+    let importedDataSets :: Either String [AHPDataSet]
+        importedDataSets = eitherDecode importedDataSetsJson
+    either putStrLn (mapM_ (putStrLn . simpleAHPSummary)) importedDataSets
 
 simpleAHPSummary :: AHPDataSet -> String
 simpleAHPSummary dataSet = simpleSummary . simpleAHP $ dataSet
