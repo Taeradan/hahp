@@ -1,16 +1,17 @@
 module HAHP.Data where
 
 import           Data.Map                      (Map)
+import           GHC.Generics
 import           Numeric.LinearAlgebra.HMatrix
 
 -- * Data set macro type
 
 type AHPDataSet = (AHPTree, [Alternative])
 
-data GeneratorParameters = GeneratorParameters { randomSize :: Bool
-                                               , maxTreeLevels :: Int
+data GeneratorParameters = GeneratorParameters { randomSize       :: Bool
+                                               , maxTreeLevels    :: Int
                                                , maxLevelChildren :: Int
-                                               , maxAlternatives :: Int
+                                               , maxAlternatives  :: Int
                                                }
 
 -- * AHP tree definition
@@ -26,7 +27,7 @@ data AHPTree = AHPTree { name                 :: String
                         , maximize             :: Bool
                         , alternativesPriority :: Maybe PriorityVector
                         }
-             deriving (Show)
+             deriving (Generic, Show)
 
 type IndicatorName = String
 
@@ -39,7 +40,7 @@ type PriorityVector = Matrix Double
 data Alternative = Alternative { altName   :: String
                                , indValues :: IndicatorValues
                                }
-                 deriving (Show)
+                 deriving (Generic, Show)
 
 type IndicatorValues = Map IndicatorName Double
 

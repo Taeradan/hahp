@@ -34,7 +34,7 @@ simpleAHP inputDataSet =
 
 initAHP :: AHPTree
         -> AHPTree
-initAHP ahpTree = computeTreePriorityVectors . computeTreeConsistencies $ ahpTree
+initAHP = computeTreePriorityVectors . computeTreeConsistencies
 
 -- * Part 2 = dynamic part
 
