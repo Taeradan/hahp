@@ -46,12 +46,14 @@ main = do
 
 -- JSON import of sample alternatives
     leaderAltsJson <- B.readFile "leader-alts.json"
-    let leaderAlts = (eitherDecode leaderAltsJson) :: Either String [Alternative]
+    let leaderAlts :: Either String [Alternative]
+        leaderAlts = eitherDecode leaderAltsJson
     putStrLn $ either show showAlternatives leaderAlts
 
 -- JSON import of sample AHP tree
     leaderTreeJson <- B.readFile "leader-tree.json"
-    let leaderTree = (eitherDecode leaderTreeJson) :: Either String AHPTree
+    let leaderTree :: Either String AHPTree
+        leaderTree = eitherDecode leaderTreeJson
     putStrLn $ either show showAhpTree leaderTree
 
 simpleAHPSummary :: AHPDataSet -> String
