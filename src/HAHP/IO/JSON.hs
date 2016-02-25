@@ -6,14 +6,13 @@ import           HAHP.Data
 import           Numeric.LinearAlgebra.HMatrix
 
 instance ToJSON Alternative where
-    toEncoding = genericToEncoding defaultOptions
+    -- default implementation
 
 instance FromJSON Alternative
     -- default implementation
 
-
 instance ToJSON AHPTree where
-    toEncoding = genericToEncoding defaultOptions
+    -- default implementation
 
 instance ToJSON (Matrix Double) where
-    toJSON m = object [ "matrix" .= (toLists $ m)]
+    toJSON m = object [ "matrix" .= toLists m]
