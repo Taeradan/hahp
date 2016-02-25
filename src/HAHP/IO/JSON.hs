@@ -5,17 +5,13 @@ import           GHC.Generics
 import           HAHP.Data
 import           Numeric.LinearAlgebra.HMatrix
 
-instance ToJSON Alternative where
-    -- default implementation
+instance ToJSON Alternative
 
 instance FromJSON Alternative
-    -- default implementation
 
-instance ToJSON AHPTree where
-    -- default implementation
+instance ToJSON AHPTree
 
-instance FromJSON AHPTree where
---    fromJSON (Object v) = AHPTree
+instance FromJSON AHPTree
 
 instance ToJSON (Matrix Double) where
     toJSON m = object [ "matrix" .= toLists m]
