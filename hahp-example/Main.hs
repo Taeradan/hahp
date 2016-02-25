@@ -43,6 +43,7 @@ main = do
     B.writeFile "alts.json" $ encode firstAlternatives
     B.writeFile "alts-pretty.json" $ encodePretty firstAlternatives
     B.writeFile "tree-pretty.json" $ encodePretty firstTree
+    B.writeFile "datasets-pretty.json" $ encodePretty inputDataSets
 
 -- JSON import of sample alternatives
     leaderAltsJson <- B.readFile "leader-alts.json"
