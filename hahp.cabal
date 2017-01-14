@@ -64,4 +64,5 @@ test-suite test
   ghc-options:         -rtsopts -eventlog -threaded
   build-depends:        base >= 4 && < 5, tasty, tasty-hunit, tasty-smallcheck, tasty-quickcheck, hahp, hmatrix
   other-modules:
+    HAHP.HUnit.Test
     Tasty.Sandbox
