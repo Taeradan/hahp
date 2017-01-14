@@ -20,9 +20,9 @@ pdf: run
 
 test:
 	@echo "--------------------------------------------------------------------"
-	@stack test || true
-	@#stack test --test-arguments "--hide-successes"
-	@#stack test --test-arguments "-j$(NPROCS) --smallcheck-depth $(SMALLCHECK_DEPTH) --quickcheck-tests $(QUICKCHECK_TESTS)"
+	@#stack test || true
+	@#stack test --test-arguments "--hide-successes" || true
+	@stack test --test-arguments "-j$(NPROCS) --smallcheck-depth $(SMALLCHECK_DEPTH) --quickcheck-tests $(QUICKCHECK_TESTS)" || true
 	@date
 
 #---- Improvement
