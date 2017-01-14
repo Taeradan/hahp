@@ -34,7 +34,7 @@ profile: run
 	threadscope hahp-example.eventlog
 
 stylish-haskell:
-	find src -name "*.hs" -exec stylish-haskell -i {} \;
+	find src -name "*.hs" -exec stylish-haskell -c stylish-haskell.yaml -i {} \;
 
 #---- Documentation
 
