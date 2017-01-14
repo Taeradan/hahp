@@ -15,10 +15,31 @@ getTreeLeaves ahpTree =
       AHPTree {} -> concatMap getTreeLeaves (children ahpTree)
       AHPLeaf {} -> [ahpTree]
 
--- TODO: implémenter
-getIndicatorCurrentLevelCount :: AHPTree -> Int
-getIndicatorCurrentLevelCount tree = length $ children tree
+getIndicatorCurrentLevelCount   :: AHPTree  -- ^ Input tree
+                                -> Int
+getIndicatorCurrentLevelCount ahpTree = length leaves
+    where leaves = filter isLeaf (children ahpTree)
 
--- TODO: implémenter
 getIndicatorRecursiveCount :: AHPTree -> Int
-getIndicatorRecursiveCount tree = length $ children tree
+getIndicatorRecursiveCount ahpTree =
+    case ahpTree of
+        AHPLeaf {} -> 1
+        AHPTree {} -> currentLevel + countSubLevel
+    where trees = filter isTree (children ahpTree)
+          currentLevel = getIndicatorCurrentLevelCount ahpTree
+          countSubLevel = sum $ map getIndicatorRecursiveCount trees
+
+isLeaf :: AHPTree -> Bool
+isLeaf ahpTree =
+    case ahpTree of
+        AHPLeaf {} -> True
+        AHPTree {} -> False
+
+isTree :: AHPTree -> Bool
+isTree = not . isLeaf
+
+data IndicatorCountTree  =
+    IndicatorCountTree  { indCurrentCount :: Int
+                        , indChildren :: [IndicatorCountTree]
+                        }
+
