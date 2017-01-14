@@ -94,8 +94,8 @@ libUnitTestsConfig2 = testGroup "Config2"
         , testCase "evaluated decision tree valid" $ True @=? (null $ validateAHPTree tree)
         ]
     , testGroup "Dynamic part"
-        [ -- dynamic part
-          testCase "" $ False @=? True
+        [ testCase "alternatives initial order is knwown" $ [alt2John, alt2David, alt2Marc, alt2Steve] @=? alts
+        , testCase "alternatives ranked  order is knwown" $ [alt2Marc, alt2David, alt2John, alt2Steve] @=? dynAlts
         ]
     ]
     where tree = initAHP sampleAHPConfig2
