@@ -49,10 +49,14 @@ libUnitTestsConfig1 = testGroup "Config1"
         , testCase "decision tree valid" $ True @=? (null $ validateInputAHPTree tree)
         , testCase "alternatives are valid" $ True @=? (null $ validateAlternatives (tree, alts) )
         , testCase "evaluated decision tree valid" $ True @=? (null $ validateAHPTree tree)
+        , testCase "tree are changed" $ False @=? (tree == dynTree)
+        , testCase "alts content is unchanged" $ True @=? (sort alts == sort dynAlts)
+        , testCase "alts order is changed" $ False @=? (alts == dynAlts)
+        , testCase "there is no tree error" $ True @=? (null $ treeErr)
+        , testCase "there is no alt error" $ True @=? (null $ altErr)
         ]
     , testGroup "Static part"
-        [ -- static part
-          testCase "tree name" $ "Super objective" @=? (name tree)
+        [ testCase "tree name" $ "Super objective" @=? (name tree)
         , testCase "preference matrix size" $ 2 @=? (rows $ preferenceMatrix tree)
         , testCase "preference matrix value" $ fromLists [ [1,1], [1,1]] @=? preferenceMatrix tree
         , testCase "indicators count - top level" $ 2 @=? (length $ children tree)
@@ -60,11 +64,8 @@ libUnitTestsConfig1 = testGroup "Config1"
         , testCase "alternatives count" $ 6 @=? length alts
         ]
     , testGroup "Dynamic part"
-        [ testCase "tree are changed" $ False @=? (tree == dynTree)
-        , testCase "alts content is unchanged" $ True @=? (sort alts == sort dynAlts)
-        , testCase "alts are sorted" $ True @=? (alts == dynAlts)
-        , testCase "there is no tree error" $ True @=? (null $ treeErr)
-        , testCase "there is no alt error" $ True @=? (null $ altErr)
+        [ testCase "alternatives initial order is knwown" $ [alt1A, alt1B, alt1C, alt1D, alt1E, alt1F] @=? alts
+        , testCase "alternatives ranked  order is knwown" $ [alt1D, alt1C, alt1F, alt1B, alt1A, alt1E] @=? dynAlts
         ]
     ]
     where tree = initAHP sampleAHPConfig1
