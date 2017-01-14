@@ -1,3 +1,7 @@
+SMALLCHECK_DEPTH:=5
+QUICKCHECK_TESTS:=200000
+
+
 EXECUTABLE:=.stack-work/install/x86_64-linux-nix/lts-7.15/8.0.1/bin/hahp-example +RTS -lf -N2 -l
 
 run:	build
@@ -10,6 +14,9 @@ build:
 pdf: run
 	pandoc out.md -o out.pdf -V geometry:a4paper -V geometry:margin=2cm
 	date
+
+test:	build
+	stack test
 
 #---- Improvement
 
