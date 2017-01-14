@@ -2,7 +2,7 @@ EXECUTABLE:=.stack-work/install/x86_64-linux-nix/lts-7.15/8.0.1/bin/hahp-example
 
 run:	build
 	date
-	$(EXECUTABLE) > out.md
+	$(EXECUTABLE) | tee out.md
 
 build:
 	stack build
