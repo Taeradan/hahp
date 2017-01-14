@@ -52,11 +52,18 @@ sampleIndicatorValues1''''' = insert "Indicator 1" 100
                     . insert "Indicator 2" 100
                         $ empty
 
+alt1A = Alternative "alternative A" sampleIndicatorValues1
+alt1B = Alternative "alternative B" sampleIndicatorValues1'
+alt1C = Alternative "alternative C" sampleIndicatorValues1''
+alt1D = Alternative "alternative D" sampleIndicatorValues1'''
+alt1E = Alternative "alternative E" sampleIndicatorValues1''''
+alt1F = Alternative "alternative F" sampleIndicatorValues1'''''
+
 sampleAlternatives1 :: [Alternative]
-sampleAlternatives1 = [ Alternative "alternative A" sampleIndicatorValues1
-                      , Alternative "alternative B" sampleIndicatorValues1'
-                      , Alternative "alternative C" sampleIndicatorValues1''
-                      , Alternative "alternative D" sampleIndicatorValues1'''
-                      , Alternative "alternative E" sampleIndicatorValues1''''
-                      , Alternative "alternative F" sampleIndicatorValues1'''''
-                      ]
+sampleAlternatives1 =   [ alt1A
+                        , alt1B
+                        , alt1C
+                        , alt1D
+                        , alt1E
+                        , alt1F
+                        ]
