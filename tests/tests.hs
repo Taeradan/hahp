@@ -10,6 +10,7 @@ import Data.Ord
 import Numeric.LinearAlgebra.HMatrix
 
 -- HAHP
+import HAHP.Algorithm
 import HAHP.Data
 import HAHP.Validation.Alternatives
 import HAHP.Validation.Tree
@@ -40,47 +41,76 @@ libQcProps = testGroup "(checked by QuickCheck)"
     ]
 
 libUnitTests = testGroup "Library Unit tests" [ libUnitTestsConfig1, libUnitTestsConfig2, libUnitTestsConfig3]
+--libUnitTests = testGroup "Library Unit tests" [ libUnitTestsConfig1]
 
 libUnitTestsConfig1 = testGroup "Config1"
-    [ testCase "tree name" $ "Super objective" @=? (name tree)
-    , testCase "preference matrix size" $ 2 @=? (rows $ preferenceMatrix tree)
-    , testCase "preference matrix is square" $ True @=? (cols $ preferenceMatrix tree) == (rows $ preferenceMatrix tree)
-    , testCase "preference matrix value" $ fromLists [ [1,1], [1,1]] @=? preferenceMatrix tree
-    , testCase "indicators count - top level" $ 2 @=? (length $ children tree)
-    , testCase "indicators count - total" $ 2 @=? (length $ children tree)
-    , testCase "decision tree valid" $ True @=? (null $ validateInputAHPTree tree)
-    , testCase "alternatives count" $ 6 @=? length alts
-    , testCase "alternatives are valid" $ True @=? (null $ validateAlternatives (tree, alts) )
+    [ testGroup "Invariants"
+        [ testCase "preference matrix is square" $ True @=? (cols $ preferenceMatrix tree) == (rows $ preferenceMatrix tree)
+        , testCase "decision tree valid" $ True @=? (null $ validateInputAHPTree tree)
+        , testCase "alternatives are valid" $ True @=? (null $ validateAlternatives (tree, alts) )
+        , testCase "evaluated decision tree valid" $ True @=? (null $ validateAHPTree tree)
+        ]
+    , testGroup "Static part"
+        [ -- static part
+          testCase "tree name" $ "Super objective" @=? (name tree)
+        , testCase "preference matrix size" $ 2 @=? (rows $ preferenceMatrix tree)
+        , testCase "preference matrix value" $ fromLists [ [1,1], [1,1]] @=? preferenceMatrix tree
+        , testCase "indicators count - top level" $ 2 @=? (length $ children tree)
+        , testCase "indicators count - total" $ 2 @=? (length $ children tree)
+        , testCase "alternatives count" $ 6 @=? length alts
+        ]
+    , testGroup "Dynamic part"
+        [
+        ]
     ]
-    where tree = sampleAHPConfig1
+    where tree = initAHP sampleAHPConfig1
           alts = sampleAlternatives1
 
 libUnitTestsConfig2 = testGroup "Config2"
-    [ testCase "tree name" $ "Become the world's master, Pinky and the Brain" @=? (name tree)
-    , testCase "preference matrix size" $ 3 @=? (rows $ preferenceMatrix tree)
-    , testCase "preference matrix is square" $ True @=? (cols $ preferenceMatrix tree) == (rows $ preferenceMatrix tree)
-    , testCase "preference matrix value" $ fromLists [ [1,0.25,4], [4,1,9], [0.25,0.1111111111111111,1]] @=? preferenceMatrix tree
-    , testCase "indicators count - top level" $ 2 @=? (length $ children tree)
-    , testCase "indicators count - total" $ 5 @=? (length $ children tree)
-    , testCase "decision tree valid" $ True @=? (null $ validateInputAHPTree tree)
-    , testCase "alternatives count" $ 4 @=? length alts
-    , testCase "alternatives are valid" $ True @=? (null $ validateAlternatives (tree, alts) )
+    [ testGroup "Invariants"
+        [ testCase "preference matrix is square" $ True @=? (cols $ preferenceMatrix tree) == (rows $ preferenceMatrix tree)
+        , testCase "decision tree valid" $ True @=? (null $ validateInputAHPTree tree)
+        , testCase "alternatives are valid" $ True @=? (null $ validateAlternatives (tree, alts) )
+        , testCase "evaluated decision tree valid" $ True @=? (null $ validateAHPTree tree)
+        ]
+    , testGroup "Static part"
+        [ testCase "tree name" $ "Become the world's master, Pinky and the Brain" @=? (name tree)
+        , testCase "preference matrix size" $ 3 @=? (rows $ preferenceMatrix tree)
+        , testCase "preference matrix value" $ fromLists [ [1,0.25,4], [4,1,9], [0.25,0.1111111111111111,1]] @=? preferenceMatrix tree
+        , testCase "indicators count - top level" $ 2 @=? (length $ children tree)
+        , testCase "indicators count - total" $ 5 @=? (length $ children tree) -- Comment compter le nombre d'indicateurs ?
+        , testCase "alternatives count" $ 4 @=? length alts
+        , testCase "evaluated decision tree valid" $ True @=? (null $ validateAHPTree tree)
+        ]
+    , testGroup "Dynamic part"
+        [ -- dynamic part
+          testCase "" $ False @=? True
+        ]
     ]
-    where tree = sampleAHPConfig2
+    where tree = initAHP sampleAHPConfig2
           alts = sampleAlternatives2
 
 libUnitTestsConfig3 = testGroup "Config3"
-    [ testCase "tree name" $ "Testing the Priority vectors computation" @=? (name tree)
-    , testCase "preference matrix size" $ 4 @=? (rows $ preferenceMatrix tree)
-    , testCase "preference matrix is square" $ True @=? (cols $ preferenceMatrix tree) == (rows $ preferenceMatrix tree)
-    , testCase "preference matrix value" $ fromLists [ [1,1/5,1,3], [5,1,3,5], [1,1/3,1,3], [1/3,1/5,1/3,1]] @=? preferenceMatrix tree
-    , testCase "indicators count - top level" $ 4 @=? (length $ children tree)
-    , testCase "indicators count - total" $ 4 @=? (length $ children tree)
-    , testCase "decision tree valid" $ True @=? (null $ validateInputAHPTree tree)
-    , testCase "alternatives count" $ 3 @=? length alts
-    , testCase "alternatives are valid" $ True @=? (null $ validateAlternatives (tree, alts) )
+    [ testGroup "Invariants"
+        [ testCase "preference matrix is square" $ True @=? (cols $ preferenceMatrix tree) == (rows $ preferenceMatrix tree)
+        , testCase "decision tree valid" $ True @=? (null $ validateInputAHPTree tree)
+        , testCase "alternatives are valid" $ True @=? (null $ validateAlternatives (tree, alts) )
+        , testCase "evaluated decision tree valid" $ True @=? (null $ validateAHPTree tree)
+        ]
+    , testGroup "Static part"
+        [ testCase "tree name" $ "Testing the Priority vectors computation" @=? (name tree)
+        , testCase "preference matrix size" $ 4 @=? (rows $ preferenceMatrix tree)
+        , testCase "preference matrix value" $ fromLists [ [1,1/5,1,3], [5,1,3,5], [1,1/3,1,3], [1/3,1/5,1/3,1]] @=? preferenceMatrix tree
+        , testCase "indicators count - top level" $ 4 @=? (length $ children tree)
+        , testCase "indicators count - total" $ 4 @=? (length $ children tree)
+        , testCase "alternatives count" $ 3 @=? length alts
+        ]
+    , testGroup "Dynamic part"
+        [ -- dynamic part
+          testCase "" $ False @=? True
+        ]
     ]
-    where tree = sampleAHPConfig3
+    where tree = initAHP sampleAHPConfig3
           alts = sampleAlternatives3
 
 -- ----------------------------------------------------------------------------
