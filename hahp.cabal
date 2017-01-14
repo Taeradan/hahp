@@ -65,7 +65,8 @@ test-suite test
   hs-source-dirs:       tests
   main-is:              tests.hs
   ghc-options:         -rtsopts -eventlog -threaded
-  build-depends:        base >= 4 && < 5, tasty, tasty-hunit, tasty-smallcheck, tasty-quickcheck, hahp, hmatrix
+  build-depends:        base >= 4 && < 5, tasty, tasty-hunit, tasty-smallcheck, tasty-quickcheck, hahp,
+                        containers, hmatrix
   other-modules:
     HAHP.HUnit.Test
     Tasty.Sandbox

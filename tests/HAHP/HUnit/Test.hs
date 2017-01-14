@@ -8,6 +8,7 @@ import Test.Tasty.HUnit
 
 -- External dependencies
 import Data.List
+import qualified Data.Map                      as M
 import Data.Ord
 import Numeric.LinearAlgebra.HMatrix
 
@@ -44,6 +45,8 @@ libUnitTestsConfig1 = testGroup "Config1"
         , testCase "there is no tree error -" $ "" @=? (concatMap showTreeError treeErr)
         , testCase "there is no alt error" $ True @=? (null $ altErr)
         , testCase "there is no alt error -" $ "" @=? (concatMap showAltsError altErr)
+        , testCase "there is more alternatives values than indicator count" $ (altValuesCount $ head alts) @=? getIndicatorRecursiveCount tree
+        , testCase "each alternatives have same values count" $ minValuesCount alts @=? maxValuesCount alts
         ]
     , testGroup "Static part"
         [ testCase "tree name" $ "Super objective" @=? (name tree)
@@ -75,6 +78,8 @@ libUnitTestsConfig2 = testGroup "Config2"
         , testCase "there is no tree error -" $ "" @=? (concatMap showTreeError treeErr)
         , testCase "there is no alt error" $ True @=? (null $ altErr)
         , testCase "there is no alt error -" $ "" @=? (concatMap showAltsError altErr)
+        , testCase "there is more alternatives values than indicator count" $ (altValuesCount $ head alts) @=? getIndicatorRecursiveCount tree
+        , testCase "each alternatives have same values count" $ minValuesCount alts @=? maxValuesCount alts
         ]
     , testGroup "Static part"
         [ testCase "tree name" $ "Become the world's master, Pinky and the Brain" @=? (name tree)
@@ -106,6 +111,8 @@ libUnitTestsConfig3 = testGroup "Config3"
         , testCase "there is no tree error -" $ "" @=? (concatMap showTreeError treeErr)
         , testCase "there is no alt error" $ True @=? (null $ altErr)
         , testCase "there is no alt error -" $ "" @=? (concatMap showAltsError altErr)
+        , testCase "there is more alternatives values than indicator count" $ (altValuesCount $ head alts) @=? getIndicatorRecursiveCount tree
+        , testCase "each alternatives have same values count" $ minValuesCount alts @=? maxValuesCount alts
         ]
     , testGroup "Static part"
         [ testCase "tree name" $ "Testing the Priority vectors computation" @=? (name tree)
@@ -125,3 +132,13 @@ libUnitTestsConfig3 = testGroup "Config3"
           ( (dynTree, dynAlts), treeErr, altErr) = simpleAHP (tree, alts)
 
 -- ----------------------------------------------------------------------------
+
+altValuesCount :: Alternative -> Int
+altValuesCount alt = length . M.toList . indValues $ alt
+
+minValuesCount :: [Alternative] -> Int
+minValuesCount alts = minimum $ map altValuesCount alts
+
+maxValuesCount :: [Alternative] -> Int
+maxValuesCount alts = maximum $ map altValuesCount alts
+--
