@@ -78,6 +78,11 @@ libUnitTestsConfig2 = testGroup "Config2"
         , testCase "decision tree valid" $ True @=? (null $ validateInputAHPTree tree)
         , testCase "alternatives are valid" $ True @=? (null $ validateAlternatives (tree, alts) )
         , testCase "evaluated decision tree valid" $ True @=? (null $ validateAHPTree tree)
+        , testCase "tree are changed" $ False @=? (tree == dynTree)
+        , testCase "alts content is unchanged" $ True @=? (sort alts == sort dynAlts)
+        , testCase "alts order is changed" $ False @=? (alts == dynAlts)
+        , testCase "there is no tree error" $ True @=? (null $ treeErr)
+        , testCase "there is no alt error" $ True @=? (null $ altErr)
         ]
     , testGroup "Static part"
         [ testCase "tree name" $ "Become the world's master, Pinky and the Brain" @=? (name tree)
@@ -95,6 +100,7 @@ libUnitTestsConfig2 = testGroup "Config2"
     ]
     where tree = initAHP sampleAHPConfig2
           alts = sampleAlternatives2
+          ( (dynTree, dynAlts), treeErr, altErr) = simpleAHP (tree, alts)
 
 libUnitTestsConfig3 = testGroup "Config3"
     [ testGroup "Invariants"
@@ -102,6 +108,11 @@ libUnitTestsConfig3 = testGroup "Config3"
         , testCase "decision tree valid" $ True @=? (null $ validateInputAHPTree tree)
         , testCase "alternatives are valid" $ True @=? (null $ validateAlternatives (tree, alts) )
         , testCase "evaluated decision tree valid" $ True @=? (null $ validateAHPTree tree)
+        , testCase "tree are changed" $ False @=? (tree == dynTree)
+        , testCase "alts content is unchanged" $ True @=? (sort alts == sort dynAlts)
+        , testCase "alts order is changed" $ False @=? (alts == dynAlts)
+        , testCase "there is no tree error" $ True @=? (null $ treeErr)
+        , testCase "there is no alt error" $ True @=? (null $ altErr)
         ]
     , testGroup "Static part"
         [ testCase "tree name" $ "Testing the Priority vectors computation" @=? (name tree)
@@ -118,6 +129,7 @@ libUnitTestsConfig3 = testGroup "Config3"
     ]
     where tree = initAHP sampleAHPConfig3
           alts = sampleAlternatives3
+          ( (dynTree, dynAlts), treeErr, altErr) = simpleAHP (tree, alts)
 
 -- ----------------------------------------------------------------------------
 
