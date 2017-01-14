@@ -60,11 +60,16 @@ libUnitTestsConfig1 = testGroup "Config1"
         , testCase "alternatives count" $ 6 @=? length alts
         ]
     , testGroup "Dynamic part"
-        [
+        [ testCase "tree are changed" $ False @=? (tree == dynTree)
+        , testCase "alts content is unchanged" $ True @=? (sort alts == sort dynAlts)
+        , testCase "alts are sorted" $ True @=? (alts == dynAlts)
+        , testCase "there is no tree error" $ True @=? (null $ treeErr)
+        , testCase "there is no alt error" $ True @=? (null $ altErr)
         ]
     ]
     where tree = initAHP sampleAHPConfig1
           alts = sampleAlternatives1
+          ( (dynTree, dynAlts), treeErr, altErr) = simpleAHP (tree, alts)
 
 libUnitTestsConfig2 = testGroup "Config2"
     [ testGroup "Invariants"
