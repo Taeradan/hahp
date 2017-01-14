@@ -1,6 +1,9 @@
 SMALLCHECK_DEPTH:=5
 QUICKCHECK_TESTS:=200000
 
+# a remplacer par la découverte auto du nombre de coeurs
+NPROCS:=8
+
 
 EXECUTABLE:=.stack-work/install/x86_64-linux-nix/lts-7.15/8.0.1/bin/hahp-example +RTS -lf -N2 -l
 
@@ -15,8 +18,12 @@ pdf: run
 	pandoc out.md -o out.pdf -V geometry:a4paper -V geometry:margin=2cm
 	date
 
-test:	build
-	stack test
+test:
+	@echo "--------------------------------------------------------------------"
+	@stack test || true
+	@#stack test --test-arguments "--hide-successes"
+	@#stack test --test-arguments "-j$(NPROCS) --smallcheck-depth $(SMALLCHECK_DEPTH) --quickcheck-tests $(QUICKCHECK_TESTS)"
+	@date
 
 #---- Improvement
 
