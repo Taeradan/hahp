@@ -7,6 +7,8 @@ import           HAHP.Algorithm.Consistency
 import           HAHP.Algorithm.PriorityVector
 import           HAHP.Algorithm.Ranking
 import           HAHP.Data
+import           HAHP.Data.Core
+import           HAHP.Data.Errors
 import           HAHP.Validation.Alternatives
 import           HAHP.Validation.Tree
 import           Numeric.LinearAlgebra.HMatrix

@@ -5,6 +5,9 @@ import           Control.Parallel.Strategies
 import           Data.List                     (group, sort, sortBy)
 import           Data.Maybe
 import           HAHP.Data
+import           HAHP.Data.Core
+import           HAHP.Data.Errors
+import           HAHP.Data.Utils
 import           HAHP.Validation.Unique
 import           Numeric.LinearAlgebra.HMatrix
 

@@ -4,6 +4,9 @@ import           Control.Parallel.Strategies
 import           Data.Map                    (notMember)
 import           Data.Maybe
 import           HAHP.Data
+import           HAHP.Data.Core
+import           HAHP.Data.Errors
+import           HAHP.Data.Utils
 import           HAHP.Validation.Unique
 
 validateAlternatives :: AHPDataSet

@@ -2,6 +2,7 @@ module HAHP.Sample.LeaderChoice where
 
 import           Data.Map
 import           HAHP.Data
+import           HAHP.Data.Core
 import           Numeric.LinearAlgebra.HMatrix
 
 leaderChoiceTree :: AHPTree

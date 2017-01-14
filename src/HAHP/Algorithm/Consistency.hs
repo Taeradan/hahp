@@ -5,6 +5,7 @@ module HAHP.Algorithm.Consistency
 
 import           Control.Parallel.Strategies
 import           HAHP.Data
+import           HAHP.Data.Core
 import           Numeric.LinearAlgebra.HMatrix
 
 -- trick : http://stackoverflow.com/a/7897595

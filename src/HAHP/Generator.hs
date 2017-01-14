@@ -3,6 +3,9 @@ module HAHP.Generator where
 import           Data.List                  (insert)
 import           Data.Map                   (empty, fromList, singleton)
 import           HAHP.Data
+import           HAHP.Data.Core
+import           HAHP.Data.Errors
+import           HAHP.Data.Utils
 import           Numeric.LinearAlgebra.Data (ident, (><))
 import           System.IO.Unsafe
 import           System.Random

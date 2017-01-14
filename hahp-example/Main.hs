@@ -7,6 +7,7 @@ import           Data.Maybe
 import           Data.Time
 import           HAHP.Algorithm
 import           HAHP.Data
+import           HAHP.Data.Core
 import           HAHP.Generator
 import           HAHP.IO.JSON
 import           HAHP.Reporting

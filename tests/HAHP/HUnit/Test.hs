@@ -14,6 +14,7 @@ import Numeric.LinearAlgebra.HMatrix
 -- HAHP
 import HAHP.Algorithm
 import HAHP.Data
+import HAHP.Data.Core
 import HAHP.Generator
 import HAHP.Reporting
 import HAHP.Validation.Alternatives

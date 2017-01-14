@@ -33,6 +33,9 @@ library
     HAHP.Algorithm.PriorityVector
     HAHP.Algorithm.Ranking
     HAHP.Data
+    HAHP.Data.Core
+    HAHP.Data.Errors
+    HAHP.Data.Utils
     HAHP.Generator
     HAHP.IO.JSON
     HAHP.Reporting

@@ -2,6 +2,7 @@ module HAHP.Sample.Config1 where
 
 import           Data.Map
 import           HAHP.Data
+import           HAHP.Data.Core
 import           Numeric.LinearAlgebra.HMatrix
 
 rootName :: String
