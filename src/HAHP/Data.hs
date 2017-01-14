@@ -40,7 +40,7 @@ type PriorityVector = Matrix Double
 data Alternative = Alternative { altName   :: String
                                , indValues :: IndicatorValues
                                }
-                 deriving (Generic, Show, Eq)
+                 deriving (Generic, Show, Eq, Ord)
 
 type IndicatorValues = Map IndicatorName Double
 
