@@ -39,8 +39,3 @@ isLeaf ahpTree =
 isTree :: AHPTree -> Bool
 isTree = not . isLeaf
 
-data IndicatorCountTree  =
-    IndicatorCountTree  { indCurrentCount :: Int
-                        , indChildren     :: [IndicatorCountTree]
-                        }
-
