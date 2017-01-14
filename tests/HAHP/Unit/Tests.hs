@@ -1,4 +1,4 @@
-module HAHP.HUnit.Test where
+module HAHP.Unit.Tests where
 
 -- Test framework
 import Test.Tasty
