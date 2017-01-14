@@ -12,6 +12,7 @@ import Numeric.LinearAlgebra.HMatrix
 -- HAHP
 import HAHP.Algorithm
 import HAHP.Data
+import HAHP.Reporting
 import HAHP.Validation.Alternatives
 import HAHP.Validation.Tree
 import HAHP.Validation.Unique
@@ -53,7 +54,9 @@ libUnitTestsConfig1 = testGroup "Config1"
         , testCase "alts content is unchanged" $ True @=? (sort alts == sort dynAlts)
         , testCase "alts order is changed" $ False @=? (alts == dynAlts)
         , testCase "there is no tree error" $ True @=? (null $ treeErr)
+        , testCase "there is no tree error -" $ "" @=? (concatMap showTreeError treeErr)
         , testCase "there is no alt error" $ True @=? (null $ altErr)
+        , testCase "there is no alt error -" $ "" @=? (concatMap showAltsError altErr)
         ]
     , testGroup "Static part"
         [ testCase "tree name" $ "Super objective" @=? (name tree)
@@ -82,7 +85,9 @@ libUnitTestsConfig2 = testGroup "Config2"
         , testCase "alts content is unchanged" $ True @=? (sort alts == sort dynAlts)
         , testCase "alts order is changed" $ False @=? (alts == dynAlts)
         , testCase "there is no tree error" $ True @=? (null $ treeErr)
+        , testCase "there is no tree error -" $ "" @=? (concatMap showTreeError treeErr)
         , testCase "there is no alt error" $ True @=? (null $ altErr)
+        , testCase "there is no alt error -" $ "" @=? (concatMap showAltsError altErr)
         ]
     , testGroup "Static part"
         [ testCase "tree name" $ "Become the world's master, Pinky and the Brain" @=? (name tree)
@@ -112,7 +117,9 @@ libUnitTestsConfig3 = testGroup "Config3"
         , testCase "alts content is unchanged" $ True @=? (sort alts == sort dynAlts)
         , testCase "alts order is changed" $ False @=? (alts == dynAlts)
         , testCase "there is no tree error" $ True @=? (null $ treeErr)
+        , testCase "there is no tree error -" $ "" @=? (concatMap showTreeError treeErr)
         , testCase "there is no alt error" $ True @=? (null $ altErr)
+        , testCase "there is no alt error -" $ "" @=? (concatMap showAltsError altErr)
         ]
     , testGroup "Static part"
         [ testCase "tree name" $ "Testing the Priority vectors computation" @=? (name tree)
