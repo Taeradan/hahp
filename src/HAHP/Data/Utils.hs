@@ -14,3 +14,11 @@ getTreeLeaves ahpTree =
     case ahpTree of
       AHPTree {} -> concatMap getTreeLeaves (children ahpTree)
       AHPLeaf {} -> [ahpTree]
+
+-- TODO: implémenter
+getIndicatorCurrentLevelCount :: AHPTree -> Int
+getIndicatorCurrentLevelCount tree = length $ children tree
+
+-- TODO: implémenter
+getIndicatorRecursiveCount :: AHPTree -> Int
+getIndicatorRecursiveCount tree = length $ children tree

@@ -15,6 +15,7 @@ import Numeric.LinearAlgebra.HMatrix
 import HAHP.Algorithm
 import HAHP.Data
 import HAHP.Data.Core
+import HAHP.Data.Utils
 import HAHP.Generator
 import HAHP.Reporting
 import HAHP.Validation.Alternatives
@@ -48,8 +49,8 @@ libUnitTestsConfig1 = testGroup "Config1"
         [ testCase "tree name" $ "Super objective" @=? (name tree)
         , testCase "preference matrix size" $ 2 @=? (rows $ preferenceMatrix tree)
         , testCase "preference matrix value" $ fromLists [ [1,1], [1,1]] @=? preferenceMatrix tree
-        , testCase "indicators count - top level" $ 2 @=? (length $ children tree)
-        , testCase "indicators count - total" $ 2 @=? (length $ children tree)
+        , testCase "indicators count - top level" $ 2 @=? getIndicatorCurrentLevelCount tree
+        , testCase "indicators count - total" $ 2 @=? getIndicatorRecursiveCount tree
         , testCase "alternatives count" $ 6 @=? length alts
         ]
     , testGroup "Dynamic part"
@@ -79,8 +80,8 @@ libUnitTestsConfig2 = testGroup "Config2"
         [ testCase "tree name" $ "Become the world's master, Pinky and the Brain" @=? (name tree)
         , testCase "preference matrix size" $ 3 @=? (rows $ preferenceMatrix tree)
         , testCase "preference matrix value" $ fromLists [ [1,0.25,4], [4,1,9], [0.25,0.1111111111111111,1]] @=? preferenceMatrix tree
-        , testCase "indicators count - top level" $ 2 @=? (length $ children tree)
-        , testCase "indicators count - total" $ 5 @=? (length $ children tree) -- Comment compter le nombre d'indicateurs ?
+        , testCase "indicators count - top level" $ 2 @=? getIndicatorCurrentLevelCount tree
+        , testCase "indicators count - total" $ 5 @=? getIndicatorRecursiveCount tree
         , testCase "alternatives count" $ 4 @=? length alts
         ]
     , testGroup "Dynamic part"
@@ -110,8 +111,8 @@ libUnitTestsConfig3 = testGroup "Config3"
         [ testCase "tree name" $ "Testing the Priority vectors computation" @=? (name tree)
         , testCase "preference matrix size" $ 4 @=? (rows $ preferenceMatrix tree)
         , testCase "preference matrix value" $ fromLists [ [1,1/5,1,3], [5,1,3,5], [1,1/3,1,3], [1/3,1/5,1/3,1]] @=? preferenceMatrix tree
-        , testCase "indicators count - top level" $ 4 @=? (length $ children tree)
-        , testCase "indicators count - total" $ 4 @=? (length $ children tree)
+        , testCase "indicators count - top level" $ 4 @=? getIndicatorCurrentLevelCount tree
+        , testCase "indicators count - total" $ 4 @=? getIndicatorRecursiveCount tree
         , testCase "alternatives count" $ 3 @=? length alts
         ]
     , testGroup "Dynamic part"
