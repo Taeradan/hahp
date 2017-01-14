@@ -40,6 +40,6 @@ isTree = not . isLeaf
 
 data IndicatorCountTree  =
     IndicatorCountTree  { indCurrentCount :: Int
-                        , indChildren :: [IndicatorCountTree]
+                        , indChildren     :: [IndicatorCountTree]
                         }
 
