@@ -27,7 +27,7 @@ data AHPTree = AHPTree { name                 :: String
                         , maximize             :: Bool
                         , alternativesPriority :: Maybe PriorityVector
                         }
-             deriving (Generic, Show)
+             deriving (Generic, Show, Eq)
 
 type IndicatorName = String
 
@@ -40,7 +40,7 @@ type PriorityVector = Matrix Double
 data Alternative = Alternative { altName   :: String
                                , indValues :: IndicatorValues
                                }
-                 deriving (Generic, Show)
+                 deriving (Generic, Show, Eq)
 
 type IndicatorValues = Map IndicatorName Double
 
