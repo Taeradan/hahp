@@ -1,11 +1,11 @@
-EXECUTABLE:=dist/build/hahp-example/hahp-example +RTS -lf -N2 -l
+EXECUTABLE:=.stack-work/install/x86_64-linux-nix/lts-7.15/8.0.1/bin/hahp-example +RTS -lf -N2 -l
 
 run:	build
 	date
-	$(EXECUTABLE) > out.md
+	$(EXECUTABLE) | tee out.md
 
 build:
-	cabal build
+	stack build
 
 pdf: run
 	pandoc out.md -o out.pdf -V geometry:a4paper -V geometry:margin=2cm

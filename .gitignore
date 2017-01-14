@@ -26,3 +26,5 @@ SourceGraph
 /report.html
 
 *.eventlog
+
+/.stack-work
