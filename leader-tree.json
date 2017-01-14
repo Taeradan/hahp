@@ -1,0 +1,61 @@
+{
+    "tag": "AHPTree",
+    "consistencyValue": null,
+    "preferenceMatrix": {
+        "matrix": [
+            [
+                1,
+                4,
+                3,
+                7
+            ],
+            [
+                0.25,
+                1,
+                0.3333333333333333,
+                3
+            ],
+            [
+                0.3333333333333333,
+                3,
+                1,
+                5
+            ],
+            [
+                0.14285714285714285,
+                0.3333333333333333,
+                0.2,
+                1
+            ]
+        ]
+    },
+    "children": [
+        {
+            "tag": "AHPLeaf",
+            "name": "Experience",
+            "maximize": true,
+            "alternativesPriority": null
+        },
+        {
+            "tag": "AHPLeaf",
+            "name": "Education",
+            "maximize": true,
+            "alternativesPriority": null
+        },
+        {
+            "tag": "AHPLeaf",
+            "name": "Charisma",
+            "maximize": true,
+            "alternativesPriority": null
+        },
+        {
+            "tag": "AHPLeaf",
+            "name": "Age",
+            "maximize": true,
+            "alternativesPriority": null
+        }
+    ],
+    "childrenPriority": null,
+    "name": "Choose the Most Suitable Leader",
+    "alternativesPriority": null
+}
