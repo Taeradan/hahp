@@ -16,11 +16,12 @@ getTreeLeaves ahpTree =
       AHPLeaf {} -> [ahpTree]
 
 getIndicatorCurrentLevelCount   :: AHPTree  -- ^ Input tree
-                                -> Int
+                                -> Int      -- ^ Indicator (AHPLeaf) count. Current level only
 getIndicatorCurrentLevelCount ahpTree = length leaves
     where leaves = filter isLeaf (children ahpTree)
 
-getIndicatorRecursiveCount :: AHPTree -> Int
+getIndicatorRecursiveCount  :: AHPTree -- ^ Input tree
+                            -> Int     -- ^ Indicator (AHPLeaf) recursively counted
 getIndicatorRecursiveCount ahpTree =
     case ahpTree of
         AHPLeaf {} -> 1
