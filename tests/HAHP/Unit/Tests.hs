@@ -33,23 +33,12 @@ import HAHP.Sample.Config3
 libUnitTests = testGroup "Library Unit tests" [ libUnitTestsConfig1, libUnitTestsConfig2, libUnitTestsConfig3]
 
 libUnitTestsConfig1 = testGroup "Config1"
-    [ testGroup "Invariants"
-        [ testCase "preference matrix is square" $ True @=? (cols $ preferenceMatrix tree) == (rows $ preferenceMatrix tree)
-        , testCase "decision tree valid" $ True @=? (null $ validateInputAHPTree tree)
-        , testCase "alternatives are valid" $ True @=? (null $ validateAlternatives (tree, alts) )
-        , testCase "evaluated decision tree valid" $ True @=? (null $ validateAHPTree tree)
-        , testCase "tree are changed" $ False @=? (tree == dynTree)
-        , testCase "alts content is unchanged" $ True @=? (sort alts == sort dynAlts)
-        , testCase "alts order is changed" $ False @=? (alts == dynAlts)
-        , testCase "there is no tree error" $ True @=? (null $ treeErr)
-        , testCase "there is no tree error -" $ "" @=? (concatMap showTreeError treeErr)
-        , testCase "there is no alt error" $ True @=? (null $ altErr)
-        , testCase "there is no alt error -" $ "" @=? (concatMap showAltsError altErr)
-        , testCase "there is more alternatives values than indicator count" $ (altValuesCount $ head alts) @=? getIndicatorRecursiveCount tree
-        , testCase "each alternatives have same values count" $ minValuesCount alts @=? maxValuesCount alts
-        ]
+    [ invariantTestGroup tree alts
     , testGroup "Static part"
         [ testCase "tree name" $ "Super objective" @=? (name tree)
+        , testCase "evaluated decision tree valid" $ True @=? (null $ validateAHPTree tree)
+        , testCase "there is no tree error" $ True @=? (null $ treeErr)
+        , testCase "there is no tree error -" $ "" @=? (concatMap showTreeError treeErr)
         , testCase "preference matrix size" $ 2 @=? (rows $ preferenceMatrix tree)
         , testCase "preference matrix value" $ fromLists [ [1,1], [1,1]] @=? preferenceMatrix tree
         , testCase "indicators count - top level" $ 2 @=? getIndicatorCurrentLevelCount tree
@@ -66,23 +55,12 @@ libUnitTestsConfig1 = testGroup "Config1"
           ( (dynTree, dynAlts), treeErr, altErr) = simpleAHP (tree, alts)
 
 libUnitTestsConfig2 = testGroup "Config2"
-    [ testGroup "Invariants"
-        [ testCase "preference matrix is square" $ True @=? (cols $ preferenceMatrix tree) == (rows $ preferenceMatrix tree)
-        , testCase "decision tree valid" $ True @=? (null $ validateInputAHPTree tree)
-        , testCase "alternatives are valid" $ True @=? (null $ validateAlternatives (tree, alts) )
-        , testCase "evaluated decision tree valid" $ True @=? (null $ validateAHPTree tree)
-        , testCase "tree are changed" $ False @=? (tree == dynTree)
-        , testCase "alts content is unchanged" $ True @=? (sort alts == sort dynAlts)
-        , testCase "alts order is changed" $ False @=? (alts == dynAlts)
-        , testCase "there is no tree error" $ True @=? (null $ treeErr)
-        , testCase "there is no tree error -" $ "" @=? (concatMap showTreeError treeErr)
-        , testCase "there is no alt error" $ True @=? (null $ altErr)
-        , testCase "there is no alt error -" $ "" @=? (concatMap showAltsError altErr)
-        , testCase "there is more alternatives values than indicator count" $ (altValuesCount $ head alts) @=? getIndicatorRecursiveCount tree
-        , testCase "each alternatives have same values count" $ minValuesCount alts @=? maxValuesCount alts
-        ]
+    [ invariantTestGroup tree alts
     , testGroup "Static part"
         [ testCase "tree name" $ "Become the world's master, Pinky and the Brain" @=? (name tree)
+        , testCase "evaluated decision tree is NOT valid" $ False @=? (null $ validateAHPTree tree)
+        , testCase "there IS tree error" $ False @=? (null $ treeErr)
+        --, testCase "there is no tree error -" $ "" @=? (concatMap showTreeError treeErr)
         , testCase "preference matrix size" $ 3 @=? (rows $ preferenceMatrix tree)
         , testCase "preference matrix value" $ fromLists [ [1,0.25,4], [4,1,9], [0.25,0.1111111111111111,1]] @=? preferenceMatrix tree
         , testCase "indicators count - top level" $ 2 @=? getIndicatorCurrentLevelCount tree
@@ -99,23 +77,12 @@ libUnitTestsConfig2 = testGroup "Config2"
           ( (dynTree, dynAlts), treeErr, altErr) = simpleAHP (tree, alts)
 
 libUnitTestsConfig3 = testGroup "Config3"
-    [ testGroup "Invariants"
-        [ testCase "preference matrix is square" $ True @=? (cols $ preferenceMatrix tree) == (rows $ preferenceMatrix tree)
-        , testCase "decision tree valid" $ True @=? (null $ validateInputAHPTree tree)
-        , testCase "alternatives are valid" $ True @=? (null $ validateAlternatives (tree, alts) )
-        , testCase "evaluated decision tree valid" $ True @=? (null $ validateAHPTree tree)
-        , testCase "tree are changed" $ False @=? (tree == dynTree)
-        , testCase "alts content is unchanged" $ True @=? (sort alts == sort dynAlts)
-        , testCase "alts order is changed" $ False @=? (alts == dynAlts)
-        , testCase "there is no tree error" $ True @=? (null $ treeErr)
-        , testCase "there is no tree error -" $ "" @=? (concatMap showTreeError treeErr)
-        , testCase "there is no alt error" $ True @=? (null $ altErr)
-        , testCase "there is no alt error -" $ "" @=? (concatMap showAltsError altErr)
-        , testCase "there is more alternatives values than indicator count" $ (altValuesCount $ head alts) @=? getIndicatorRecursiveCount tree
-        , testCase "each alternatives have same values count" $ minValuesCount alts @=? maxValuesCount alts
-        ]
+    [ invariantTestGroup tree alts
     , testGroup "Static part"
         [ testCase "tree name" $ "Testing the Priority vectors computation" @=? (name tree)
+        , testCase "evaluated decision tree valid" $ True @=? (null $ validateAHPTree tree)
+        , testCase "there is no tree error" $ True @=? (null $ treeErr)
+        , testCase "there is no tree error -" $ "" @=? (concatMap showTreeError treeErr)
         , testCase "preference matrix size" $ 4 @=? (rows $ preferenceMatrix tree)
         , testCase "preference matrix value" $ fromLists [ [1,1/5,1,3], [5,1,3,5], [1,1/3,1,3], [1/3,1/5,1/3,1]] @=? preferenceMatrix tree
         , testCase "indicators count - top level" $ 4 @=? getIndicatorCurrentLevelCount tree
@@ -130,6 +97,23 @@ libUnitTestsConfig3 = testGroup "Config3"
     where tree = initAHP sampleAHPConfig3
           alts = sampleAlternatives3
           ( (dynTree, dynAlts), treeErr, altErr) = simpleAHP (tree, alts)
+
+invariantTestGroup tree alts = testGroup "Invariants"
+    [ testCase "preference matrix is square" $ True @=? (cols $ preferenceMatrix tree) == (rows $ preferenceMatrix tree)
+    , testCase "decision tree valid" $ True @=? (null $ validateInputAHPTree tree)
+    , testCase "alternatives are valid" $ True @=? (null $ validateAlternatives (tree, alts) )
+    --, testCase "evaluated decision tree valid" $ True @=? (null $ validateAHPTree tree)
+    , testCase "tree are changed" $ False @=? (tree == dynTree)
+    , testCase "alts content is unchanged" $ True @=? (sort alts == sort dynAlts)
+    , testCase "alts order is changed" $ False @=? (alts == dynAlts)
+    --, testCase "there is no tree error" $ True @=? (null $ treeErr)
+    --, testCase "there is no tree error -" $ "" @=? (concatMap showTreeError treeErr)
+    , testCase "there is no alt error" $ True @=? (null $ altErr)
+    , testCase "there is no alt error -" $ "" @=? (concatMap showAltsError altErr)
+    , testCase "there is more alternatives values than indicator count" $ (altValuesCount $ head alts) @=? getIndicatorRecursiveCount tree
+    , testCase "each alternatives have same values count" $ minValuesCount alts @=? maxValuesCount alts
+    ]
+    where ( (dynTree, dynAlts), treeErr, altErr) = simpleAHP (tree, alts)
 
 -- ----------------------------------------------------------------------------
 
