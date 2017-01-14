@@ -96,7 +96,6 @@ libUnitTestsConfig2 = testGroup "Config2"
         , testCase "indicators count - top level" $ 2 @=? (length $ children tree)
         , testCase "indicators count - total" $ 5 @=? (length $ children tree) -- Comment compter le nombre d'indicateurs ?
         , testCase "alternatives count" $ 4 @=? length alts
-        , testCase "evaluated decision tree valid" $ True @=? (null $ validateAHPTree tree)
         ]
     , testGroup "Dynamic part"
         [ testCase "alternatives initial order is knwown" $ [alt2John, alt2David, alt2Marc, alt2Steve] @=? alts
@@ -130,8 +129,8 @@ libUnitTestsConfig3 = testGroup "Config3"
         , testCase "alternatives count" $ 3 @=? length alts
         ]
     , testGroup "Dynamic part"
-        [ -- dynamic part
-          testCase "" $ False @=? True
+        [ testCase "alternatives initial order is knwown" $ [alt3A, alt3B, alt3C] @=? alts
+        , testCase "alternatives ranked  order is knwown" $ [alt3B, alt3A, alt3C] @=? dynAlts
         ]
     ]
     where tree = initAHP sampleAHPConfig3

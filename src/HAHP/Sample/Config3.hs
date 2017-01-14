@@ -44,8 +44,12 @@ sampleIndicatorValues3'' = insert "d" 1
                     . insert "Id" 2000
                         $ empty
 
-sampleAlternatives3 :: [Alternative]
-sampleAlternatives3 = [ Alternative "alternative A" sampleIndicatorValues3
-                      , Alternative "alternative B" sampleIndicatorValues3'
-                      , Alternative "alternative C" sampleIndicatorValues3''
-                      ]
+alt3A = Alternative "alternative A" sampleIndicatorValues3
+alt3B = Alternative "alternative B" sampleIndicatorValues3'
+alt3C = Alternative "alternative C" sampleIndicatorValues3''
+
+sampleAlternatives3 ::  [Alternative]
+sampleAlternatives3 =   [ alt3A
+                        , alt3B
+                        , alt3C
+                        ]
