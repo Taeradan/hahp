@@ -1,5 +1,5 @@
 SMALLCHECK_DEPTH:=5
-QUICKCHECK_TESTS:=200000
+QUICKCHECK_TESTS:=20000
 
 # a remplacer par la découverte auto du nombre de coeurs
 NPROCS:=8
@@ -22,7 +22,7 @@ test:
 	@echo "--------------------------------------------------------------------"
 	@#stack test || true
 	@#stack test --test-arguments "--hide-successes" || true
-	@stack test --test-arguments "-j$(NPROCS) --smallcheck-depth $(SMALLCHECK_DEPTH) --quickcheck-tests $(QUICKCHECK_TESTS)" || true
+	@stack test --test-arguments "-j$(NPROCS) --smallcheck-depth $(SMALLCHECK_DEPTH) --quickcheck-tests $(QUICKCHECK_TESTS) --hide-successes" || true
 	@date
 
 #---- Improvement
