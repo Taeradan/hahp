@@ -1,3 +1,10 @@
+SMALLCHECK_DEPTH:=5
+QUICKCHECK_TESTS:=20000
+
+# a remplacer par la découverte auto du nombre de coeurs
+NPROCS:=8
+
+
 EXECUTABLE:=.stack-work/install/x86_64-linux-nix/lts-8.2/8.0.2/bin/hahp-example +RTS -lf -N2 -l
 
 run:	build
@@ -11,6 +18,13 @@ pdf: run
 	pandoc out.md -o out.pdf -V geometry:a4paper -V geometry:margin=2cm
 	date
 
+test:
+	@echo "--------------------------------------------------------------------"
+	@#stack test || true
+	@#stack test --test-arguments "--hide-successes" || true
+	@stack test --test-arguments "-j$(NPROCS) --smallcheck-depth $(SMALLCHECK_DEPTH) --quickcheck-tests $(QUICKCHECK_TESTS) --hide-successes" || true
+	@date
+
 #---- Improvement
 
 hlint:
@@ -20,7 +34,7 @@ profile: run
 	threadscope hahp-example.eventlog
 
 stylish-haskell:
-	find src -name "*.hs" -exec stylish-haskell -i {} \;
+	find src -name "*.hs" -exec stylish-haskell -c stylish-haskell.yaml -i {} \;
 
 #---- Documentation
 

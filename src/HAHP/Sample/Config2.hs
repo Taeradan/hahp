@@ -3,6 +3,7 @@ module HAHP.Sample.Config2 where
 
 import           Data.Map
 import           HAHP.Data
+import           HAHP.Data.Core
 import           Numeric.LinearAlgebra.HMatrix
 
 sampleAHPConfig2 :: AHPTree
@@ -66,9 +67,14 @@ sampleIndicatorValues2''' = insert "Power" 1000
                     . insert "Capital" 100
                         $ empty
 
-sampleAlternatives2 :: [Alternative]
-sampleAlternatives2 = [ Alternative "John" sampleIndicatorValues2
-                      , Alternative "David" sampleIndicatorValues2'
-                      , Alternative "Marc" sampleIndicatorValues2''
-                      , Alternative "Steve" sampleIndicatorValues2'''
-                      ]
+alt2John  = Alternative "John" sampleIndicatorValues2
+alt2David = Alternative "David" sampleIndicatorValues2'
+alt2Marc  = Alternative "Marc" sampleIndicatorValues2''
+alt2Steve = Alternative "Steve" sampleIndicatorValues2'''
+
+sampleAlternatives2 ::  [Alternative]
+sampleAlternatives2 =   [ alt2John
+                        , alt2David
+                        , alt2Marc
+                        , alt2Steve
+                        ]

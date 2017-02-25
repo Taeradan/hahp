@@ -6,6 +6,7 @@ module HAHP.Algorithm.PriorityVector
 
 import           Control.Parallel.Strategies
 import           HAHP.Data
+import           HAHP.Data.Core
 import           Numeric.LinearAlgebra.HMatrix
 
 computeTreePriorityVectors :: AHPTree -> AHPTree

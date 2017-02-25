@@ -7,6 +7,8 @@ import           Data.Maybe
 import           Debug.Trace
 import           HAHP.Algorithm.PriorityVector
 import           HAHP.Data
+import           HAHP.Data.Core
+import           HAHP.Data.Errors
 import           Numeric.LinearAlgebra.HMatrix
 
 computeTreeAlternativesPriorities :: [Alternative] -> AHPTree -> AHPTree

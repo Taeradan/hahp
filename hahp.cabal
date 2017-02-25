@@ -20,19 +20,20 @@ source-repository head
  location:           https://github.com/Taeradan/hahp.git
 
 library
-  -- other-modules:       
-  -- other-extensions:    
-  build-depends:       aeson, base >=4.7 && <5 , containers, hmatrix, parallel, random, time
-  hs-source-dirs:      src
-  default-language:    Haskell2010
-  default-extensions:  DeriveGeneric, OverloadedStrings, FlexibleInstances
-  extra-libraries: openblas, lapack
+  hs-source-dirs:       src
+  default-language:     Haskell2010
+  default-extensions:   DeriveGeneric, OverloadedStrings, FlexibleInstances
+  build-depends:        aeson, base >=4.7 && <5 , containers, hmatrix, parallel, random, time
+  extra-libraries:      openblas, lapack
   exposed-modules:
     HAHP.Algorithm
     HAHP.Algorithm.Consistency
     HAHP.Algorithm.PriorityVector
     HAHP.Algorithm.Ranking
     HAHP.Data
+    HAHP.Data.Core
+    HAHP.Data.Errors
+    HAHP.Data.Utils
     HAHP.Generator
     HAHP.IO.JSON
     HAHP.Reporting
@@ -45,12 +46,32 @@ library
     HAHP.Validation.Alternatives
     HAHP.Validation.Tree
     HAHP.Validation.Unique
+  -- other-modules:       
+  -- other-extensions:    
 
 executable hahp-example
-  main-is:             Main.hs
+  hs-source-dirs:       hahp-example
+  main-is:              Main.hs
+  default-language:     Haskell2010
+  ghc-options:          -rtsopts -eventlog -threaded
+  build-depends:        base >=4.7 && <5,
+                        hahp,
+                        aeson, aeson-pretty, bytestring, time
   -- other-modules:
   -- other-extensions:
-  build-depends:       aeson, aeson-pretty, base >=4.7 && <5, bytestring, hahp, time
-  hs-source-dirs:      hahp-example
-  default-language:    Haskell2010
+
+-- http://documentup.com/feuerbach/tasty
+test-suite test
+  hs-source-dirs:       tests
+  main-is:              tests.hs
+  default-language:     Haskell2010
   ghc-options:         -rtsopts -eventlog -threaded
+  default-extensions:   DeriveGeneric, OverloadedStrings, FlexibleInstances
+  build-depends:        base >= 4.7 && < 5, tasty, tasty-hunit, tasty-smallcheck, tasty-quickcheck,
+                        hahp,
+                        containers, hmatrix
+  type:                 exitcode-stdio-1.0
+  other-modules:
+    HAHP.Props.Tests
+    HAHP.Unit.Tests
+    Tasty.Sandbox
