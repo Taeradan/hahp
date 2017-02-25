@@ -14,7 +14,7 @@ import           HAHP.Validation.Tree
 import           Numeric.LinearAlgebra.HMatrix
 
 -- |This function is a quick way to rank a set of alternatives with AHP algorithm.
--- This function call everithing required to configure an execute AHP process.
+-- This function call everything required to configure an execute AHP process.
 -- If something goes wrong, an error is raised.
 simpleAHP :: AHPDataSet
           -> (AHPDataSet, [TreeError], [AlternativesError])
