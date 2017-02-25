@@ -1,4 +1,4 @@
-EXECUTABLE:=.stack-work/install/x86_64-linux-nix/lts-7.15/8.0.1/bin/hahp-example +RTS -lf -N2 -l
+EXECUTABLE:=.stack-work/install/x86_64-linux-nix/lts-8.2/8.0.2/bin/hahp-example +RTS -lf -N2 -l
 
 run:	build
 	date
