@@ -28,7 +28,7 @@ test:
 #---- Improvement
 
 hlint:
-	hlint -r src
+	hlint -r src hahp-example tests
 
 profile: run
 	threadscope hahp-example.eventlog
