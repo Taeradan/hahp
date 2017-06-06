@@ -4,7 +4,8 @@
 }:
 mkDerivation {
   pname = "hahp";
-  version = "0.1.3.1";
+  #version = "0.1.3.1";
+  version = "snapshot";
   src = ./.;
   isLibrary = true;
   isExecutable = true;
