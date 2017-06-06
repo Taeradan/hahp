@@ -3,6 +3,11 @@
 let
 config = {
     packageOverrides = pkgs: rec {
+        docker-container-hahp = pkgs.dockerTools.buildImage {
+            name = "hahp-container";
+            config.Cmd = [ "${haskellPackages.hahp-hydra}/bin/hahp-example" ];
+        };
+
         haskellPackages = pkgs.haskellPackages.override {
             overrides = haskellPackagesNew: haskellPackagesOld: rec {
                 hahp-hydra =
@@ -19,4 +24,5 @@ pkgs = import <nixpkgs> { inherit config; };
 
 in
 { hahp-hydra = pkgs.haskellPackages.hahp-hydra;
+  hahp-container = pkgs.docker-container-hahp;
 }
