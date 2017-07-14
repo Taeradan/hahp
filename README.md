@@ -34,3 +34,13 @@ To produce PDF report : `cabal install pandoc`
 
 (TODO)
 
+
+## How to start web API ?
+
+* `strack build` : compile web server
+* ` stack exe hahp-server` : launch service on 8081 port.
+
+Start a web browser on :
+
+* http://localhost:8081/ahp/trees
+* http://localhost:8081/ahp/tree

@@ -67,4 +67,4 @@ extra-package-dbs: []
 #
 nix:
     enable: true
-    packages: [ blas, haskellPackages.hmatrix, openblasCompat, liblapack ]
+    packages: [ blas, haskellPackages.hmatrix, openblasCompat, liblapack, zlib ]
