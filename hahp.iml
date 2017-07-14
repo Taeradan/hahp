@@ -7,6 +7,7 @@
       <sourceFolder url="file://$MODULE_DIR$/hahp-example" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/tests" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/diagram" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/hahp-server" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/.ideaHaskellLib" />
       <excludeFolder url="file://$MODULE_DIR$/.stack-work" />
       <excludeFolder url="file://$MODULE_DIR$/SourceGraph" />
