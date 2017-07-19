@@ -104,7 +104,9 @@ server = return ahpSwagger :<|> return leaderChoiceTree
 writeSwaggerJSON :: IO ()
 writeSwaggerJSON = BL8.writeFile "example/swagger.json" (encodePretty ahpSwagger)
 
+serverSettings = setPort 8081 . setHost "*4" $ defaultSettings
+
 main :: IO ()
 main = do
   putStrLn "Running on port 8081"
-  run 8081 $ serve (Proxy :: Proxy API) server
+  runSettings serverSettings $ serve (Proxy :: Proxy API) server
