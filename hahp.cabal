@@ -83,7 +83,7 @@ executable hahp-server
                         , markdown-unlit
                         , mtl
                         , random
-                        , servant , servant-server, servant-client, servant-docs , servant-js, servant-swagger
+                        , servant , servant-server, servant-client, servant-docs , servant-js, servant-swagger, servant-swagger-ui
                         , string-conversions
                         , swagger2
                         , text

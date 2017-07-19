@@ -41,6 +41,7 @@ import           Network.Wai.Handler.Warp
 import           Numeric.LinearAlgebra.HMatrix
 import           Servant
 import           Servant.Swagger
+import           Servant.Swagger.UI
 import           System.Directory
 import           Text.Blaze
 import qualified Text.Blaze.Html
@@ -61,7 +62,7 @@ type AhpAPI = "ahp" :> "tree" :>  Get '[JSON] AHPTree
           :<|> "ahp" :> "trees" :>  Get '[JSON] [AHPTree]
 
 -- | API for serving @swagger.json@.
-type SwaggerAPI = "swagger.json" :> Get '[JSON] Swagger
+type SwaggerAPI = SwaggerSchemaUI "swagger-ui" "swagger.json"
 
 -- | Combined API of a Ahp service with Swagger documentation.
 type API = SwaggerAPI :<|> AhpAPI
@@ -92,7 +93,7 @@ ahpSwagger = toSwagger ahpAPI
 
 -- | Combined server of a Ahp service with Swagger documentation.
 server :: Server API
-server = return ahpSwagger :<|> return leaderChoiceTree
+server = swaggerSchemaUIServer ahpSwagger :<|> return leaderChoiceTree
             :<|> return [ sampleAHPConfig1
                         , sampleAHPConfig2
                         , sampleAHPConfig3
