@@ -2,7 +2,7 @@ module Main where
 
 import           Data.Aeson
 import           Data.Aeson.Encode.Pretty
-import qualified Data.ByteString.Lazy.Char8 as B
+import qualified Data.ByteString.Lazy.Char8    as B
 import           Data.Maybe
 import           Data.Time
 import           HAHP.Algorithm
@@ -11,10 +11,10 @@ import           HAHP.Data.Core
 import           HAHP.Generator
 import           HAHP.IO.JSON
 import           HAHP.Reporting
+import           HAHP.Sample.CarChoice
 import           HAHP.Sample.Config1
 import           HAHP.Sample.Config2
 import           HAHP.Sample.Config3
-import           HAHP.Sample.CarChoice
 import           HAHP.Sample.LeaderChoice
 import           HAHP.Sample.SquareMatrixError
 
