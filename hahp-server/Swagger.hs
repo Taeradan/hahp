@@ -1,10 +1,10 @@
-{-# LANGUAGE DataKinds                  #-}
+{-# LANGUAGE DataKinds #-}
 
 module Swagger (API, server, ahpSwagger) where
 
 import           Control.Lens
-import           Data.Swagger
 import           Data.Aeson.Types
+import           Data.Swagger
 import           GHC.Generics
 import           Numeric.LinearAlgebra.HMatrix
 import           Servant

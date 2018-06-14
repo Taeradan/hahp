@@ -1,9 +1,9 @@
-{-# LANGUAGE TypeOperators              #-}
+{-# LANGUAGE TypeOperators #-}
 
 module Main where
 
-import           Data.Aeson.Encode.Pretty      (encodePretty)
-import qualified Data.ByteString.Lazy.Char8    as BL8
+import           Data.Aeson.Encode.Pretty   (encodePretty)
+import qualified Data.ByteString.Lazy.Char8 as BL8
 import           Network.Wai.Handler.Warp
 import           Servant
 

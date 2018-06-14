@@ -1,5 +1,5 @@
-{-# LANGUAGE DataKinds                  #-}
-{-# LANGUAGE TypeOperators              #-}
+{-# LANGUAGE DataKinds     #-}
+{-# LANGUAGE TypeOperators #-}
 
 module AHP (API, server) where
 
