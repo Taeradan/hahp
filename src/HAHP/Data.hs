@@ -5,8 +5,6 @@ import           GHC.Generics
 import           Numeric.LinearAlgebra.HMatrix
 
 import           HAHP.Data.Core
-import           HAHP.Data.Errors
-import           HAHP.Data.Utils
 
 -- * Data set macro type
 
@@ -17,4 +15,3 @@ data GeneratorParameters = GeneratorParameters { randomSize       :: Bool
                                                , maxLevelChildren :: Int
                                                , maxAlternatives  :: Int
                                                }
-

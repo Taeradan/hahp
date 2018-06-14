@@ -2,7 +2,6 @@
 module HAHP.Sample.SquareMatrixError where
 
 import           Data.Map
-import           HAHP.Data
 import           HAHP.Data.Core
 import           Numeric.LinearAlgebra.HMatrix
 

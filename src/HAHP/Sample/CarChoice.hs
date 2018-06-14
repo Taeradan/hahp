@@ -1,7 +1,6 @@
 module HAHP.Sample.CarChoice where
 
 import           Data.Map
-import           HAHP.Data
 import           HAHP.Data.Core
 import           Numeric.LinearAlgebra.HMatrix
 

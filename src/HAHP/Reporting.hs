@@ -6,7 +6,6 @@ import           Data.Time
 import           HAHP.Data
 import           HAHP.Data.Core
 import           HAHP.Data.Errors
-import           HAHP.Data.Utils
 import           Numeric.LinearAlgebra.HMatrix
 import           Text.Printf
 

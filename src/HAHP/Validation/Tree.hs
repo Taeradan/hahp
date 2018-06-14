@@ -4,7 +4,6 @@ import           Control.Parallel.Strategies
 --import           Data.List.Unique
 import           Data.List                     (group, sort, sortBy)
 import           Data.Maybe
-import           HAHP.Data
 import           HAHP.Data.Core
 import           HAHP.Data.Errors
 import           HAHP.Data.Utils
@@ -154,4 +153,3 @@ unitaryDiagTest ahpTree =
        then Nothing
        else Just NotUnitaryDiagError {ahpTree = ahpTree}
   where diagonalValues = toList . takeDiag . preferenceMatrix $ ahpTree
-

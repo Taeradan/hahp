@@ -5,7 +5,6 @@ module HAHP.Algorithm.PriorityVector
     ) where
 
 import           Control.Parallel.Strategies
-import           HAHP.Data
 import           HAHP.Data.Core
 import           Numeric.LinearAlgebra.HMatrix
 
