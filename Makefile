@@ -5,7 +5,7 @@ QUICKCHECK_TESTS:=20000
 NPROCS:=8
 
 
-EXECUTABLE:=.stack-work/install/x86_64-linux-nix/lts-8.2/8.0.2/bin/hahp-example +RTS -lf -N2 -l
+EXECUTABLE:=.stack-work/install/x86_64-linux-nix/lts-11.13/8.2.2/bin/hahp-example +RTS -lf -N2 -l
 
 run:	build
 	date
@@ -46,4 +46,3 @@ haddock:
 
 sourcegraph:
 	docker run -v $$(pwd):/src --rm taeradan/haskell-sourcegraph hahp.cabal
-
