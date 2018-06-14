@@ -67,30 +67,17 @@ executable hahp-server
   ghc-options:          -rtsopts -eventlog -threaded
   default-extensions:   DeriveGeneric, OverloadedStrings, FlexibleInstances
   build-depends:        base >=4.7 && <5,
-                        base-compat,
                         hahp,
-                        aeson, aeson-pretty, aeson-compat
-                        , attoparsec
-                        , blaze-html, blaze-markup
-                        , bytestring
-                        , containers
-                        , directory
-                        , hmatrix
-                        , http-media, http-types
-                        , js-jquery
-                        , lens
-                        , lucid
-                        , markdown-unlit
-                        , mtl
-                        , random
-                        , servant , servant-server, servant-client, servant-docs , servant-js, servant-swagger, servant-swagger-ui
-                        , string-conversions
-                        , swagger2
-                        , text
-                        , time
-                        , transformers
-                        , wai
-                        , warp
+                        aeson, aeson-pretty,
+                        bytestring,
+                        hmatrix,
+                        lens,
+                        servant , servant-server, servant-swagger, servant-swagger-ui,
+                        swagger2,
+                        warp
+  other-modules:
+    AHP
+    Swagger
 
 -- http://documentup.com/feuerbach/tasty
 test-suite test
