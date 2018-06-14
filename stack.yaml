@@ -67,4 +67,5 @@ extra-package-dbs: []
 #
 nix:
     enable: true
-    packages: [ blas, haskellPackages.hmatrix, openblasCompat, liblapack, zlib ]
+    # gfortran.cc.lib added because of https://github.com/NixOS/nixpkgs/issues/30867
+    packages: [ blas, gfortran.cc.lib, haskellPackages.hmatrix, openblasCompat, liblapack, zlib ]
