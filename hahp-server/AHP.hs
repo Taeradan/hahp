@@ -3,6 +3,7 @@
 
 module AHP (API, server) where
 
+import           Data.List
 import           Servant
 
 import           HAHP.Data.Core
@@ -13,17 +14,24 @@ import           HAHP.Sample.Config3
 import           HAHP.Sample.LeaderChoice
 
 -- | API of a Ahp service.
-type API = "ahp" :> "tree"  :>  Get '[JSON] AHPTree
+type API = "ahp" :> "tree"  :> Capture "name" String :>  Get '[JSON] AHPTree
       :<|> "ahp" :> "trees" :>  Get '[JSON] [AHPTree]
 
 -- | API implementation
 server :: Server API
 server = getTree :<|> getTrees
 
+getTree :: String -> Handler AHPTree
+getTree x = case findTree of
+    (Just tree) -> return tree
+    Nothing -> throwError $ err404 { errReasonPhrase = "No AHP tree found for the name \"" ++ x ++ "\""}
+  where findTree = find (\ tree -> name tree == x) $ exampleTrees
 
-getTree = return leaderChoiceTree
+getTrees :: Handler [AHPTree]
+getTrees = return exampleTrees
 
-getTrees = return [ sampleAHPConfig1
+exampleTrees :: [AHPTree]
+exampleTrees = [ sampleAHPConfig1
                   , sampleAHPConfig2
                   , sampleAHPConfig3
                   , carChoiceTree
